@@ -11,7 +11,6 @@ public class Authors {
     private Long id;
 
     @Column(nullable = false)
-    @Size(min =4,max = 70)
     private String name;
 
     @Column(nullable = false)
