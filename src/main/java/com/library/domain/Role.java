@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name="tbl_role")
+@Table(name="tbl_roles")
 
 public class Role {
 
@@ -23,7 +23,10 @@ public class Role {
     @Column(nullable = false)
     private RoleType name;
 
+<<<<<<< HEAD
     public Role(RoleType name) {
         this.name = name;
     }
+=======
+>>>>>>> cd73304 (v2)
 }
