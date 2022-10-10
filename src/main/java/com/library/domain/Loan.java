@@ -26,19 +26,15 @@ public class Loan {
     @Column(nullable = false)
     private Long bookId;
 
-    @JsonFormat(/*shape= JsonFormat.Shape.STRING,*/pattern="yyyy/MM/dd HH:mm:ss", timezone= "Turkey")
     @Column(nullable = false)
     private LocalDateTime loanDate;
 
-    @JsonFormat(/*shape= JsonFormat.Shape.STRING,*/pattern="yyyy/MM/dd HH:mm:ss", timezone= "Turkey")
     @Column(nullable = false)
     private LocalDateTime expireDate;
 
-    @JsonFormat(/*shape= JsonFormat.Shape.STRING,*/pattern="yyyy/MM/dd HH:mm:ss", timezone= "Turkey")
-    @Column(nullable = true)
+    @Column
     private LocalDateTime returnDate;
 
-    @Column(nullable = true,length = 300)
-    //TODO: Notes for employee or admin
+    @Column(length = 300)
     private String notes;
 }
