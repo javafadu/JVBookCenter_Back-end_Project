@@ -3,6 +3,8 @@ package com.library.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -33,5 +35,9 @@ public class Category {
     @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer sequence;
+
+
+    @OneToMany(mappedBy = "bookCategory")
+    private List<Book> categoryBooks=new ArrayList<>();
 
 }

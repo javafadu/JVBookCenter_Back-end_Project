@@ -1,14 +1,9 @@
 package com.library.domain;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -65,6 +60,19 @@ public class User {
 	
 	@Column(nullable=false)
 	private Boolean builtIn=false;
-	
-	
+
+	@OneToMany(mappedBy = "userLoan")
+	private List<Loan> userBooks=new ArrayList<>();
+
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+			name="tbl_userRoles",
+			joinColumns = @JoinColumn(name="user_id"),
+			inverseJoinColumns = @JoinColumn(name="role_id"))
+	private Set<Role> roles=new HashSet<>();
+
+
+
+
 }
