@@ -37,4 +37,6 @@ public class Loan {
 
     @Column(length = 300)
     private String notes;
+
+    private String test;
 }
