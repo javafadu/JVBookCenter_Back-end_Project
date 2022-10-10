@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_publishers")
@@ -25,4 +27,9 @@ public class Publisher {
 
     @Column(nullable = false)
     Boolean builtIn =false;
+
+
+    @OneToMany(mappedBy = "bookPublisher")
+    private List<Book> publisherBooks=new ArrayList<>();
+
 }

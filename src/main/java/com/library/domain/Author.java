@@ -1,11 +1,12 @@
 package com.library.domain;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_authors")
-public class Authors {
+public class Author {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
@@ -15,4 +16,8 @@ public class Authors {
 
     @Column(nullable = false)
     private Boolean builtIn=false;
+
+    @OneToMany(mappedBy = "bookAuthor")
+    private List<Book> authorBooks=new ArrayList<>();
+
 }
