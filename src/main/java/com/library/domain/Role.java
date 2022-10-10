@@ -23,10 +23,4 @@ public class Role {
     @Column(nullable = false)
     private RoleType name;
 
-<<<<<<< HEAD
-    public Role(RoleType name) {
-        this.name = name;
-    }
-=======
->>>>>>> cd73304 (v2)
 }
