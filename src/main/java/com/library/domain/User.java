@@ -60,6 +60,7 @@ public class User {
 	private String phone;
 	
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy/MM/dd")
+	@Column(nullable=false)
 	private Date birthDate;
 	
 
