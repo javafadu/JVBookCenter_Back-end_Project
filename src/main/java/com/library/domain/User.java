@@ -74,6 +74,7 @@ public class User {
 	
 
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy/MM/dd HH:mm:ss", timezone= "Turkey")
+	@Column(nullable=false)
 	private LocalDateTime createDate;
 	
 	@Column(nullable=false)
