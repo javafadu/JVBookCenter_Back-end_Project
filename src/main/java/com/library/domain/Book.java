@@ -27,7 +27,7 @@ public class Book {
     @Column(length = 17, nullable=false)
     private String isbn;
 
-    @Column(nullable=true)
+    @Column
     private Integer pageCount;
 
     @Column(nullable=false)
@@ -36,13 +36,13 @@ public class Book {
     @Column(nullable=false)
     private Long publisherId;
 
-    @Column(nullable=true)
+    @Column
     private Integer publishDate;
 
     @Column(nullable=false)
     private Long categoryId;
 
-    @Column(nullable=true)
+    @Column
     private File image;
 
     @Column(nullable=false)
