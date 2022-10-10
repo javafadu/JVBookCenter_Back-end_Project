@@ -6,14 +6,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.File;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
-@Table(name="tbl_book")
+@Entity
+@Table(name="tbl_books")
 public class Book {
 
     @Id
@@ -42,7 +43,7 @@ public class Book {
     private Long categoryId;
 
     @Column(nullable=true)
-    private byte[] image;
+    private File image;
 
     @Column(nullable=false)
     private Boolean loanable = true;
