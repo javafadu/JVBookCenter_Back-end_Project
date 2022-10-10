@@ -47,7 +47,7 @@ public class User {
 	@Size(min=-2,max=2,message="Score '${validatedValue}' must be between {min} and {max} chars long")
 	@NotNull(message="Please provide score")
 	@Column(nullable=false)
-	private Integer score=0;
+	private int score=0;
 	
 	@Size(min=10,max=100,message="Address '${validatedValue}' must be between {min} and {max} chars long")
 	@NotNull(message="Please provide your address")
@@ -68,13 +68,20 @@ public class User {
 	@Email(message="Provide valid email")
 	private String email;
 	
+	@Column(nullable=false)
+	//TO DO:Hashed password
 	private String password;
 	
+
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy/MM/dd HH:mm:ss", timezone= "Turkey")
 	private LocalDateTime createDate;
 	
+	@Column(nullable=false)
+	//TO DO:Hashed password
 	private String resetPasswordCode;
 	
-	private Boolean builtIn;
+	@Column(nullable=false)
+	private Boolean builtIn=false;
 	
 	
 }
