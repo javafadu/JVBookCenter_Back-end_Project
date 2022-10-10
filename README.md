@@ -1,4 +1,4 @@
 # libraryapp
 This is a Java Spring Boot Project.
-Entities :
+## Entities :
 Users, Roles, Books, Loans, Authors, Publishers, Categories
