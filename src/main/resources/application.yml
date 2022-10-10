@@ -1,0 +1,20 @@
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: never
+
+spring:
+  datasource:
+    url: jdbc:postgresql://ec2-54-228-125-183.eu-west-1.compute.amazonaws.com:5432/d6qpmshhbuhn9i
+    username: pupbiwxmlkjqfj
+    password: 97a710c02a8fb25a19eb6c8e3a79f991d73ec636490758dcd7af49ca4142171d
+
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      format-sql: true
