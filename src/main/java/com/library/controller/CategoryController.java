@@ -1,6 +1,7 @@
 package com.library.controller;
 
 
+import com.library.domain.Category;
 import com.library.dto.CategoryDTO;
 import com.library.service.CategoryService;
 import lombok.AllArgsConstructor;
@@ -24,10 +25,9 @@ public class CategoryController {
 
     @PostMapping("/add")
     //TO DO: PreAuthorize()admin eklenecek
-    public ResponseEntity<String> saveCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
-        categoryService.saveCategory(categoryDTO);
+    public ResponseEntity<Category> saveCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(categoryService.saveCategory(categoryDTO),HttpStatus.CREATED);
 
     }
 }

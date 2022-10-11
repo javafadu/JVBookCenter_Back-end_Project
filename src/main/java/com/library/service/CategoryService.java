@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class CategoryService {
 
     CategoryRepository categoryRepository;
-    public void saveCategory(CategoryDTO categoryDTO) {
+    public Category saveCategory(CategoryDTO categoryDTO) {
 
         Category category=new Category();
         category.setName(categoryDTO.getName());
@@ -22,6 +22,7 @@ public class CategoryService {
         category.setSequence(1);
         //Sequence manuel ayarlamadan testi geciremedim sebebi sorulacak
         categoryRepository.save(category);
+        return category;
 
     }
 }

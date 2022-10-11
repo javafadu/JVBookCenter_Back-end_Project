@@ -12,12 +12,12 @@ public class PublisherService {
 
     PublisherRepository publisherRepository;
 
-    public void savePublisher(PublisherDTO publisherDTO){
+    public Publisher savePublisher(PublisherDTO publisherDTO){
         Publisher publisher=new Publisher();
         publisher.setName(publisherDTO.getName());
         publisher.setBuiltIn(publisherDTO.getBuiltIn());
         publisherRepository.save(publisher);
-
+        return publisher;
     }
 
 }

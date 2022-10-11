@@ -1,6 +1,7 @@
 package com.library.controller;
 
 
+import com.library.domain.Publisher;
 import com.library.dto.PublisherDTO;
 import com.library.service.PublisherService;
 import lombok.AllArgsConstructor;
@@ -21,10 +22,10 @@ public class PublisherController {
 
     @PostMapping("/add")
     //TO DO: PreAuthorize()admin eklenecek
-    public ResponseEntity<String> savePublisher(@Valid @RequestBody PublisherDTO publisherDTO) {
-        publisherService.savePublisher(publisherDTO);
+    public ResponseEntity<Publisher> savePublisher(@Valid @RequestBody PublisherDTO publisherDTO) {
 
-        return new ResponseEntity<>( HttpStatus.CREATED);
+
+        return new ResponseEntity<>(publisherService.savePublisher(publisherDTO), HttpStatus.CREATED);
 
     }
 

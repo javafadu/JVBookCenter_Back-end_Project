@@ -1,6 +1,7 @@
 package com.library.controller;
 
 
+import com.library.domain.Author;
 import com.library.dto.AuthorDTO;
 import com.library.service.AuthorService;
 import lombok.AllArgsConstructor;
@@ -24,10 +25,9 @@ public class AuthorController {
 
     @PostMapping("/add")
     //TO DO: PreAuthorize()admin eklenecek
-    public ResponseEntity<String> saveAuthor(@Valid @RequestBody AuthorDTO authorDTO) {
-        authorService.saveAuthor(authorDTO);
+    public ResponseEntity<Author> saveAuthor(@Valid @RequestBody AuthorDTO authorDTO) {
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(authorService.saveAuthor(authorDTO),HttpStatus.CREATED);
 
     }
 }
