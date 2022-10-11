@@ -28,7 +28,7 @@ public class Category {
 
 
     @Column(nullable = false)
-    private Boolean builtin=false;
+    private Boolean builtIn=false;
 
 
 
