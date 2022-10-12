@@ -32,11 +32,9 @@ public class Loan {
     @Column(nullable = false)
     private LocalDateTime expireDate;
 
-    @Column
-    private LocalDateTime returnDate;
+
+
 
     @Column(length = 300)
     private String notes;
-
-    private String test;
 }
