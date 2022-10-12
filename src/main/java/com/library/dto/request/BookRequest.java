@@ -41,7 +41,6 @@ public class BookRequest {
     @NotNull(message = "Please provide a Publichser id")
     private Long bookPublisher;
 
-
     private Integer publishDate;
 
     @NotNull(message = "Please provide A Category id")

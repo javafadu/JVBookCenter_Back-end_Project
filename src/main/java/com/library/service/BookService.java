@@ -22,9 +22,13 @@ public class BookService {
 
 
     private BookRepository bookRepository;
+    private AuthorRepository authorRepository;
+    private AuthorService authorService;
+    private PublisherService publisherService;
+    private CategoryService categoryService;
 
 
-    public  Book saveBook(BookRequest bookRequest, byte[] bookImageResponse){
+    public Book saveBook(BookRequest bookRequest, byte[] bookImageResponse) {
 
 
         Book book = new Book();
@@ -33,14 +37,11 @@ public class BookService {
         book.setIsbn(bookRequest.getIsbn());
         book.setPageCount(bookRequest.getPageCount());
 
+        book.setBookAuthor(authorService.getAuthorById(bookRequest.getBookAuthor()));
 
-
-
-
-    //    book.setBookAuthor(bookRequest.getBookAuthor());
-    //    book.setBookPublisher(bookRequest.getBookPublisher());
-    //    book.setPublishDate(bookRequest.getPublishDate());
-    //    book.setBookCategory(bookRequest.getBookCategory());
+        book.setPublishDate(bookRequest.getPublishDate());
+        book.setBookPublisher(publisherService.getPublisherById(bookRequest.getBookPublisher()));
+        book.setBookCategory(categoryService.getCategoryById(bookRequest.getBookCategory()));
 
         book.setBookImage(bookImageResponse);
 
@@ -61,8 +62,6 @@ public class BookService {
         return book;
 
     }
-
-
 
 
 }

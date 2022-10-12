@@ -49,7 +49,7 @@ public class UserService {
         user.setPassword("1234a");
         user.setCreateDate(LocalDateTime.now());
         user.setResetPasswordCode("resetpass");
-        // user.setBuiltIn(false);
+        user.setBuiltIn(false);
         // user.setUserBooks(loans);
         // user.setRole(roles);
 
