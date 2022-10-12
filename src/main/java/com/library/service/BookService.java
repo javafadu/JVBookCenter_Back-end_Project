@@ -36,22 +36,19 @@ public class BookService {
         book.setName(bookRequest.getName());
         book.setIsbn(bookRequest.getIsbn());
         book.setPageCount(bookRequest.getPageCount());
+        book.setPublishDate(bookRequest.getPublishDate());
 
         book.setBookAuthor(authorService.getAuthorById(bookRequest.getBookAuthor()));
-
-        book.setPublishDate(bookRequest.getPublishDate());
         book.setBookPublisher(publisherService.getPublisherById(bookRequest.getBookPublisher()));
         book.setBookCategory(categoryService.getCategoryById(bookRequest.getBookCategory()));
 
         book.setBookImage(bookImageResponse);
-
         book.setLoanable(true);
         book.setShelfCode(bookRequest.getShelfCode());
         book.setActive(true);
         book.setFeatured(bookRequest.getFeatured());
 
         LocalDateTime today = LocalDateTime.now();
-
         book.setCreateDate(today);
 
         book.setBuiltIn(false);
