@@ -32,7 +32,7 @@ public class BookDTO {
     private String name;
 
     @NotNull(message = "Please provide isbn")
-    @Size(min = 17, max = 17)
+    @Size(max = 17)
     @Pattern(regexp = "^\\d{3}-\\d{2}-\\d{5}-\\d{2}-\\d$",
             message = "Please provide valid isbn number")
     private String isbn;
@@ -52,11 +52,12 @@ public class BookDTO {
     @NotNull(message = "Please provide A Category id")
     private Category bookCategory;
 
-    private File image;
+   // private File image;
+   // private byte[] bookImage;
 
 
     @NotNull(message = "Please provide shelf Code")
-    @Size(min = 6, max = 6)
+    @Size(max = 6)
     @Pattern(regexp = "^[A-Z]{2}-\\d{3}$",
             message = "Please provide a valid shelf Code")
     private String shelfCode;

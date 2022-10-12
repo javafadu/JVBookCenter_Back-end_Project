@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +46,8 @@ public class Book {
     @JoinColumn(name="categoryId", nullable=false)
     private Category bookCategory;
 
-    @Column
-    private File image;
+   // @Column
+   // private File image;
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
