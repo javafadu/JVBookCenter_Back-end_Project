@@ -55,7 +55,6 @@ public class BookDTO {
     private File image;
 
 
-
     @NotNull(message = "Please provide shelf Code")
     @Size(max = 6)
     @Pattern(regexp = "^[A-Z]{2}-\\d{3}$",

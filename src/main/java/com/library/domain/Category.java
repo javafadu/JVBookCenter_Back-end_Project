@@ -17,6 +17,8 @@ import java.util.List;
 @Entity
 public class Category {
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 
@@ -28,12 +30,11 @@ public class Category {
 
 
     @Column(nullable = false)
-    private Boolean builtin=false;
+    private Boolean builtIn=false;
 
 
 
     @Column(nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer sequence;
 
 

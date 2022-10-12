@@ -28,7 +28,7 @@ public class BookService {
     private CategoryService categoryService;
 
 
-    public Book saveBook(BookRequest bookRequest, byte[] bookImageResponse) {
+    public Book saveBook(BookRequest bookRequest) {
 
 
         Book book = new Book();
