@@ -17,7 +17,7 @@ public class AuthorService {
 
     public Author getAuthorById(Long id) {
 
-        return authorRepository.findById(id).orElseThrow(null);
+        return authorRepository.findById(id).orElseThrow(()-> new RuntimeException("Not Found"));
 
     }
 

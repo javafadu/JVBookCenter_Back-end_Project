@@ -42,13 +42,13 @@ public class BookService {
         book.setBookPublisher(publisherService.getPublisherById(bookRequest.getBookPublisher()));
         book.setBookCategory(categoryService.getCategoryById(bookRequest.getBookCategory()));
 
-
         book.setLoanable(true);
         book.setShelfCode(bookRequest.getShelfCode());
         book.setActive(true);
         book.setFeatured(bookRequest.getFeatured());
 
         LocalDateTime today = LocalDateTime.now();
+
         book.setCreateDate(today);
 
         book.setBuiltIn(false);
