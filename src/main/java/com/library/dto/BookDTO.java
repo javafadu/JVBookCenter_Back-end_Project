@@ -3,12 +3,14 @@ package com.library.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.library.domain.Author;
 import com.library.domain.Category;
+import com.library.domain.Loan;
 import com.library.domain.Publisher;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;

@@ -4,22 +4,20 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
+
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Component
 @Entity
 @Table(name = "tbl_users")
 public class User {
@@ -68,11 +66,27 @@ public class User {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name="tbl_userRoles",
-			joinColumns = @JoinColumn(name="user_id"),
-			inverseJoinColumns = @JoinColumn(name="role_id"))
+			joinColumns = @JoinColumn(name="userId"),
+			inverseJoinColumns = @JoinColumn(name="roleId"))
 	private Set<Role> roles=new HashSet<>();
 
+/*
+	public User(String firstName, String lastName, Integer score, String address, String phone, Date birthDate, String email, String password, LocalDateTime createDate, String resetPasswordCode, Boolean builtIn, List<Loan> userBooks, Set<Role> roles) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.score = score;
+		this.address = address;
+		this.phone = phone;
+		this.birthDate = birthDate;
+		this.email = email;
+		this.password = password;
+		this.createDate = createDate;
+		this.resetPasswordCode = resetPasswordCode;
+		this.builtIn = builtIn;
+		this.userBooks = userBooks;
+		this.roles = roles;
 
 
 
+	}*/
 }
