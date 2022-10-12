@@ -25,4 +25,9 @@ public class CategoryService {
         return category;
 
     }
+
+    public Category getCategoryById(Long id) {
+
+        return categoryRepository.findById(id).orElseThrow(()-> new RuntimeException("Not Found"));
+    }
 }

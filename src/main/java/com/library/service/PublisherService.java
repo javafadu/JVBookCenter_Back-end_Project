@@ -20,4 +20,7 @@ public class PublisherService {
         return publisher;
     }
 
+    public Publisher getPublisherById(Long id) {
+        return publisherRepository.findById(id).orElseThrow(()->new RuntimeException("Not Found"));
+    }
 }
