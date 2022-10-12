@@ -27,12 +27,8 @@ public class BookController {
     byte[] bookImageResponse;
 
     @PostMapping("/add")
-    public ResponseEntity<Map<String, String>> createBook(@Valid
-                                                              @RequestParam("file") MultipartFile file, BookRequest bookRequest) throws IOException {
+    public ResponseEntity<Map<String, String>> createBook(@Valid @RequestBody BookRequest bookRequest)  {
 
-        if (!file.isEmpty()) {
-            bookImageResponse = file.getBytes();
-        }
 
         bookService.saveBook(bookRequest, bookImageResponse);
 

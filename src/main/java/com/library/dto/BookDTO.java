@@ -52,8 +52,8 @@ public class BookDTO {
     @NotNull(message = "Please provide A Category id")
     private Category bookCategory;
 
-   // private File image;
-   // private byte[] bookImage;
+    private File image;
+
 
 
     @NotNull(message = "Please provide shelf Code")

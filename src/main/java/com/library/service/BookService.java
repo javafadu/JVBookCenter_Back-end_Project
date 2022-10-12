@@ -42,7 +42,7 @@ public class BookService {
         book.setBookPublisher(publisherService.getPublisherById(bookRequest.getBookPublisher()));
         book.setBookCategory(categoryService.getCategoryById(bookRequest.getBookCategory()));
 
-        book.setBookImage(bookImageResponse);
+
         book.setLoanable(true);
         book.setShelfCode(bookRequest.getShelfCode());
         book.setActive(true);
