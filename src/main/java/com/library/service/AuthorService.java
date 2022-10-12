@@ -1,23 +1,23 @@
 package com.library.service;
 
 import com.library.domain.Author;
+import com.library.dto.AuthorDTO;
 import com.library.repository.AuthorRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-
-@AllArgsConstructor
 @Service
+@AllArgsConstructor
 public class AuthorService {
 
-    @Autowired
-    private AuthorRepository authorRepository;
+    AuthorRepository authorRepository;
 
-    public Author getAuthorById(Long id) {
-
-        return authorRepository.findById(id).orElseThrow(()-> new RuntimeException("Not Found"));
+    public Author saveAuthor(AuthorDTO authorDTO){
+        Author author=new Author();
+        author.setName(authorDTO.getName());
+        author.setBuiltIn(authorDTO.getBuiltIn());
+        authorRepository.save(author);
+        return author;
 
     }
 

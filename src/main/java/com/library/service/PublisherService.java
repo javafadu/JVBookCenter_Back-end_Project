@@ -1,24 +1,23 @@
 package com.library.service;
 
-import com.library.domain.Author;
 import com.library.domain.Publisher;
-import com.library.repository.AuthorRepository;
+import com.library.dto.PublisherDTO;
 import com.library.repository.PublisherRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@AllArgsConstructor
 @Service
+@AllArgsConstructor
 public class PublisherService {
 
-    @Autowired
-    private PublisherRepository publisherRepository;
+    PublisherRepository publisherRepository;
 
-    public Publisher getPublisherById(Long id) {
-
-        return publisherRepository.findById(id).orElseThrow(()-> new RuntimeException("Not Found"));
-
+    public Publisher savePublisher(PublisherDTO publisherDTO){
+        Publisher publisher=new Publisher();
+        publisher.setName(publisherDTO.getName());
+        publisher.setBuiltIn(publisherDTO.getBuiltIn());
+        publisherRepository.save(publisher);
+        return publisher;
     }
 
 }
