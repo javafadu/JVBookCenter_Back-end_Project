@@ -27,8 +27,6 @@ import java.util.List;
 public class BookDTO {
 
 
-    private Long id;
-
     @Size(min = 2,max = 80,message="Size is exceeded")
     @NotNull(message = "Please provide book name")
     private String name;
@@ -42,50 +40,58 @@ public class BookDTO {
 
     private Integer pageCount;
 
-    @NotNull(message = "Please provide bookAuthor")
+    @NotNull(message = "Please provide a Author id")
     private Author bookAuthor;
 
-    @NotNull(message = "Please provide bookPublisher")
+    @NotNull(message = "Please provide a Publichser id")
     private Publisher bookPublisher;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =
-            "yyyy", timezone = "Turkey")
-    @NotNull(message = "Please provide publishDate")
+
     private Integer publishDate;
 
-    @NotNull(message = "Please provide bookCategory")
+    @NotNull(message = "Please provide A Category id")
     private Category bookCategory;
 
-
-    //notnull
-    private Boolean loanable = true;
+    private File image;
 
 
-    @NotNull(message = "Please provide shelfCode")
+    @NotNull(message = "Please provide shelf Code")
     @Size(min = 6, max = 6)
     @Pattern(regexp = "^[A-Z]{2}-\\d{3}$",
-            message = "Please provide a shelfCode")
+            message = "Please provide a valid shelf Code")
     private String shelfCode;
 
-    //notnull
+    @NotNull(message = "Please provide shelf Code")
+    private Boolean featured = false;
+
+
+
+    // BELOW variables are not requested from client
+    // they will have default value or starter value
+
+    @NotNull(message = "Please provide active value true or false")
     private Boolean active = true;
 
-    //notnull
-    private Boolean featured = false;
+    @NotNull(message = "Please provide builtIn value true or false")
+    private Boolean builtIn =false;
+
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =
             "MM/dd/yyyy HH:mm:ss", timezone = "Turkey")
     @NotNull(message = "Please provide createDate")
     private LocalDateTime createDate;
 
-    //notnull
-    private Boolean builtIn =false;
+    @NotNull(message = "Please provide loanable value true or false")
+    private Boolean loanable = true;
 
-    //TODO
-    private File image;
 
-    //TODO
-    private List<Loan> loanedBooks=new ArrayList<>();
+    // The missing variables
+
+    /*
+        private Long id;
+        private List<Loan> loanedBooks=new ArrayList<>();
+
+     */
 
 
 

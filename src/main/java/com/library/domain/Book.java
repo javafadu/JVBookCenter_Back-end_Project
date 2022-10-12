@@ -32,29 +32,27 @@ public class Book {
     @Column
     private Integer pageCount;
 
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="authorId", nullable=false)
     private Author bookAuthor;
-
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="publisherId", nullable=false)
     private Publisher bookPublisher;
 
-
     @Column
     private Integer publishDate;
-
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="categoryId", nullable=false)
     private Category bookCategory;
 
-
-
     @Column
     private File image;
+
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] bookImage;
 
     @Column(nullable=false)
     private Boolean loanable = true;
@@ -73,6 +71,8 @@ public class Book {
 
     @Column(nullable=false)
     private Boolean builtIn =false;
+
+
 
     @OneToMany(mappedBy = "loanedBooks")
     private List<Loan> loanedBooks=new ArrayList<>();

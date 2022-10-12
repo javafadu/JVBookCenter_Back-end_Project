@@ -10,18 +10,14 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class BookService {
 
-    @Autowired
+
     private BookRepository bookRepository;
 
 
-    //deneme icin manuel bir Long tipinde veri olusturmaya calistim
-    Long  imageId = 1l;
 
 
     public  void saveBook(BookDTO bookDTO){
 
-        //imageId gerekecek, image kisminida yapmamiz gerek :(
-        //bookRepository.save();
 
 
     }
