@@ -40,22 +40,22 @@ public class User {
 
 	@Column(nullable=false)
 	private String phone;
-	
+
 	@Column
 	private Date birthDate;
 
 	@Column(length = 80, nullable = false, unique = true)
 	private String email;
-	
+
 	@Column(nullable=false)
 	private String password;
-	
+
 	@Column(nullable=false)
 	private LocalDateTime createDate;
-	
+
 	@Column
 	private String resetPasswordCode;
-	
+
 	@Column(nullable=false)
 	private Boolean builtIn=false;
 
@@ -70,23 +70,4 @@ public class User {
 			inverseJoinColumns = @JoinColumn(name="roleId"))
 	private Set<Role> roles=new HashSet<>();
 
-/*
-	public User(String firstName, String lastName, Integer score, String address, String phone, Date birthDate, String email, String password, LocalDateTime createDate, String resetPasswordCode, Boolean builtIn, List<Loan> userBooks, Set<Role> roles) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.score = score;
-		this.address = address;
-		this.phone = phone;
-		this.birthDate = birthDate;
-		this.email = email;
-		this.password = password;
-		this.createDate = createDate;
-		this.resetPasswordCode = resetPasswordCode;
-		this.builtIn = builtIn;
-		this.userBooks = userBooks;
-		this.roles = roles;
-
-
-
-	}*/
 }

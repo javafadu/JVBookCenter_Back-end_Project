@@ -18,4 +18,11 @@ public class CategoryService {
 
     }
 
+    public void createCategory(String name) {
+
+        Category category = new Category();
+        category.setName(name);
+        category.setSequence(categoryRepository.countDistinctBy()+1);
+    }
+
 }
