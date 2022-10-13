@@ -1,6 +1,5 @@
 package com.library.dto.response;
 
-import com.library.domain.Book;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class LoanResponse {
+public class LoanSaveResponse {
 
 
     private Long userId;
