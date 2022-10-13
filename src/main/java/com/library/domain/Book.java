@@ -8,6 +8,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.File;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,7 +20,7 @@ import java.time.LocalDateTime;
 public class Book {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
     @Column(length = 80, nullable=false)
@@ -30,20 +32,23 @@ public class Book {
     @Column
     private Integer pageCount;
 
-    @Column(nullable=false)
-    private Long authorId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name="authorId", nullable=false)
+    private Author bookAuthor;
 
-    @Column(nullable=false)
-    private Long publisherId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name="publisherId", nullable=false)
+    private Publisher bookPublisher;
 
     @Column
     private Integer publishDate;
 
-    @Column(nullable=false)
-    private Long categoryId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name="categoryId", nullable=false)
+    private Category bookCategory;
 
-    @Column
-    private File image;
+   @Column
+   private File image;
 
     @Column(nullable=false)
     private Boolean loanable = true;
@@ -62,6 +67,16 @@ public class Book {
 
     @Column(nullable=false)
     private Boolean builtIn =false;
+
+
+
+    @OneToMany(mappedBy = "loanedBooks")
+    private List<Loan> loanedBooks=new ArrayList<>();
+
+
+
+
+
 
 
 }

@@ -3,6 +3,8 @@ package com.library.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -15,8 +17,10 @@ import javax.persistence.*;
 @Entity
 public class Category {
 
+
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
 
     private Long id;
 
@@ -26,12 +30,15 @@ public class Category {
 
 
     @Column(nullable = false)
-    private Boolean builtin=false;
+    private Boolean builtIn=false;
 
 
 
     @Column(nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer sequence;
+
+
+    @OneToMany(mappedBy = "bookCategory")
+    private List<Book> categoryBooks=new ArrayList<>();
 
 }

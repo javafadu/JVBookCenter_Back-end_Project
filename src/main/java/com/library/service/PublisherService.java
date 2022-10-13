@@ -1,0 +1,26 @@
+package com.library.service;
+
+import com.library.domain.Publisher;
+import com.library.dto.PublisherDTO;
+import com.library.repository.PublisherRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@AllArgsConstructor
+public class PublisherService {
+
+    PublisherRepository publisherRepository;
+
+    public Publisher savePublisher(PublisherDTO publisherDTO){
+        Publisher publisher=new Publisher();
+        publisher.setName(publisherDTO.getName());
+        publisher.setBuiltIn(publisherDTO.getBuiltIn());
+        publisherRepository.save(publisher);
+        return publisher;
+    }
+
+    public Publisher getPublisherById(Long id) {
+        return publisherRepository.findById(id).orElseThrow(()->new RuntimeException("Not Found"));
+    }
+}
