@@ -33,6 +33,7 @@ public class BookService {
 
         Book book = new Book();
 
+
         book.setName(bookRequest.getName());
         book.setIsbn(bookRequest.getIsbn());
         book.setPageCount(bookRequest.getPageCount());
@@ -46,18 +47,18 @@ public class BookService {
         book.setShelfCode(bookRequest.getShelfCode());
         book.setActive(true);
         book.setFeatured(bookRequest.getFeatured());
-
         LocalDateTime today = LocalDateTime.now();
-
         book.setCreateDate(today);
-
         book.setBuiltIn(false);
-
 
         bookRepository.save(book);
 
         return book;
 
+    }
+
+    public Book getBookById(Long id) {
+        return bookRepository.findById(id).orElseThrow(()-> new RuntimeException("Not found"));
     }
 
 

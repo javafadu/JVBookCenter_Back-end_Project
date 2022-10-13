@@ -1,10 +1,12 @@
 package com.library.controller;
 
 import com.library.domain.Book;
+import com.library.domain.Loan;
 import com.library.domain.User;
 import com.library.dto.LoanDTO;
 import com.library.dto.request.BookRequest;
 import com.library.dto.request.LoanRequest;
+import com.library.dto.response.LoanResponse;
 import com.library.service.LoanService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,16 +29,16 @@ public class LoanController {
 
     private LoanService loanService;
 
-    @PostMapping
-    public ResponseEntity<Map<String, String>> createLoan(@Valid @RequestBody LoanRequest loanRequest) {
 
-        loanService.saveLoan(loanRequest);
+    @PostMapping("/add")
+    public ResponseEntity<LoanResponse> createLoan(@Valid @RequestBody LoanRequest loanRequest) {
 
-        Map<String, String> map = new HashMap<>();
-        map.put("message", "Loan Successfully Created");
-        map.put("status", "true");
+        LoanResponse loanResponse = new LoanResponse();
+        loanResponse = loanService.saveLoan(loanRequest);
 
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
+
+
+        return new ResponseEntity<>(loanResponse, HttpStatus.CREATED);
 
 
     }

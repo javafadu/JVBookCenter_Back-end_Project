@@ -20,10 +20,10 @@ public class LoanRequest {
 
 
         @NotNull(message = "Please provide userId")
-        private User userId;
+        private Long userId;
 
         @NotNull(message = "Please provide bookId")
-        private Book bookId;
+        private Long bookId;
 
         @Size(max = 300)
         private String notes;

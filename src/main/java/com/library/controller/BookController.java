@@ -1,6 +1,7 @@
 package com.library.controller;
 
 
+import com.library.domain.Book;
 import com.library.dto.request.BookRequest;
 import com.library.service.BookService;
 import lombok.AllArgsConstructor;
@@ -22,15 +23,16 @@ public class BookController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<Map<String, String>> createBook(@Valid @RequestBody BookRequest bookRequest)  {
+    public ResponseEntity<Book> createBook(@Valid @RequestBody BookRequest bookRequest)  {
 
-        bookService.saveBook(bookRequest);
+        Book book = bookService.saveBook(bookRequest);
 
         Map<String,String> map=new HashMap<>();
         map.put("message", "Book Successfully Created");
         map.put("status","true");
+        map.put("result", "OK");
 
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
+        return new ResponseEntity<>(book, HttpStatus.CREATED);
 
     }
 
