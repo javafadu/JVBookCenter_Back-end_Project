@@ -81,7 +81,7 @@ public class LoanService {
         LoanSaveResponse loanSaveResponse = new LoanSaveResponse();
 
         loanSaveResponse.setLoanDate(today);
-        loanSaveResponse.setLoanedBookName(book.getName());
+        loanSaveResponse.setLoanedBook(bookService.getBookById(loanSaveRequest.getBookId()));
         loanSaveResponse.setNotes(loanSaveRequest.getNotes());
         loanSaveResponse.setExpireDate(today.plusDays(expireDays));
         loanSaveResponse.setUserId(loanSaveRequest.getUserId());

@@ -28,13 +28,13 @@ public class BookRegisterResponse {
 
     private Integer pageCount;
 
-    private Long bookAuthor;
+    private Author bookAuthor;
 
-    private Long bookPublisher;
+    private Publisher bookPublisher;
 
     private Integer publishDate;
 
-    private Long bookCategory;
+    private Category bookCategory;
 
     private File image;
 

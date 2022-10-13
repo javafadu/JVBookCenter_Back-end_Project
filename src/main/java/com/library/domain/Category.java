@@ -1,5 +1,6 @@
 package com.library.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,11 +34,10 @@ public class Category {
     private Boolean builtIn=false;
 
 
-
     @Column(nullable = false)
     private Integer sequence;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "bookCategory")
     private List<Book> categoryBooks=new ArrayList<>();
 

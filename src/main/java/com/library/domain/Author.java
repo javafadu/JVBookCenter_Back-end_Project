@@ -1,6 +1,9 @@
 package com.library.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,6 +13,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "tbl_authors")
 public class Author {
     @Id
@@ -22,6 +27,7 @@ public class Author {
     @Column(nullable = false)
     private Boolean builtIn=false;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "bookAuthor")
     private List<Book> authorBooks=new ArrayList<>();
 

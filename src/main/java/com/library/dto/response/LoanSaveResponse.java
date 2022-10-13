@@ -1,5 +1,6 @@
 package com.library.dto.response;
 
+import com.library.domain.Book;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,8 @@ public class LoanSaveResponse {
 
     private Long userId;
 
-    private String loanedBookName;
+
+    private Book loanedBook;
 
     private LocalDateTime loanDate;
 

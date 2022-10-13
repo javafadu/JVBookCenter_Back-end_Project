@@ -53,10 +53,10 @@ public class BookService {
         bookRegisterResponse.setName(bookRegisterRequest.getName());
         bookRegisterResponse.setIsbn(bookRegisterRequest.getIsbn());
         bookRegisterResponse.setPageCount(bookRegisterRequest.getPageCount());
-        bookRegisterResponse.setBookAuthor(bookRegisterRequest.getBookAuthor());
-        bookRegisterResponse.setBookPublisher(bookRegisterRequest.getBookPublisher());
+        bookRegisterResponse.setBookAuthor(authorService.getAuthorById(bookRegisterRequest.getBookAuthor()));
+        bookRegisterResponse.setBookPublisher(publisherService.getPublisherById(bookRegisterRequest.getBookPublisher()));
         bookRegisterResponse.setPublishDate(bookRegisterRequest.getPublishDate());
-        bookRegisterResponse.setBookCategory(bookRegisterRequest.getBookCategory());
+        bookRegisterResponse.setBookCategory(categoryService.getCategoryById(bookRegisterRequest.getBookCategory()));
         bookRegisterResponse.setImage(bookRegisterRequest.getImage());
         bookRegisterResponse.setLoanable(true);
         bookRegisterResponse.setShelfCode(bookRegisterRequest.getShelfCode());

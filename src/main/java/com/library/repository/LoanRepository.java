@@ -14,12 +14,9 @@ import java.util.List;
 public interface LoanRepository extends JpaRepository<Loan, Long> {
 
 
- //   @Query(
- //           value = "SELECT Count(*) FROM tbl_loans l WHERE l.return_date is null and t.user_id=userId",
- //           nativeQuery = true)
- //   Integer findUnReturnedLoansNumber(Long userId);
-
-
-
+   @Query(
+            value = "SELECT Count(*) FROM tbl_loans l WHERE l.return_date is null and t.user_id=?1",
+            nativeQuery = true)
+            Integer findUnReturnedLoansNumber(Long userId);
 
 }
