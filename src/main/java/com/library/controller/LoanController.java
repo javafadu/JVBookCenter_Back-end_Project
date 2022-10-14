@@ -1,12 +1,7 @@
 package com.library.controller;
 
-import com.library.domain.Book;
-import com.library.domain.Loan;
-import com.library.domain.User;
-import com.library.dto.LoanDTO;
-import com.library.dto.request.BookRequest;
-import com.library.dto.request.LoanRequest;
-import com.library.dto.response.LoanResponse;
+import com.library.dto.request.LoanSaveRequest;
+import com.library.dto.response.LoanSaveResponse;
 import com.library.service.LoanService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
 
 
 @RestController
@@ -31,14 +24,14 @@ public class LoanController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<LoanResponse> createLoan(@Valid @RequestBody LoanRequest loanRequest) {
+    public ResponseEntity<LoanSaveResponse> createLoan(@Valid @RequestBody LoanSaveRequest loanSaveRequest) {
 
-        LoanResponse loanResponse = new LoanResponse();
-        loanResponse = loanService.saveLoan(loanRequest);
+        LoanSaveResponse loanSaveResponse = new LoanSaveResponse();
+        loanSaveResponse = loanService.saveLoan(loanSaveRequest);
 
 
 
-        return new ResponseEntity<>(loanResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(loanSaveResponse, HttpStatus.CREATED);
 
 
     }

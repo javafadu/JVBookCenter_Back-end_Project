@@ -7,7 +7,6 @@ import com.library.domain.Loan;
 import com.library.domain.User;
 import com.library.dto.request.LoanRequest;
 import com.library.dto.response.LoanResponse;
-import com.library.repository.BookRepository;
 import com.library.repository.LoanRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,7 @@ public class LoanService {
     LoanRepository loanRepository;
     UserService userService;
     BookService bookService;
-BookRepository bookRepository;
+
 
     public LoanResponse saveLoan(LoanRequest loanRequest){
 
@@ -98,12 +97,5 @@ BookRepository bookRepository;
         return null;
 
     }
-
-    public Boolean loanedBookIsActive(Long id) {
-
-     Boolean status=bookRepository.findIsActive(id).getActive();
-     return status;
-    }
-
 
 }

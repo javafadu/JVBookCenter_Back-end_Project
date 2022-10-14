@@ -13,12 +13,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class LoanResponse {
+public class LoanSaveResponse {
 
 
     private Long userId;
 
-    private String loanedBookName;
+    private Book loanedBook;
 
     private LocalDateTime loanDate;
 
