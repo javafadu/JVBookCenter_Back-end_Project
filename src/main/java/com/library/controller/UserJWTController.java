@@ -4,10 +4,12 @@ package com.library.controller;
 import com.library.dto.request.RegisterRequest;
 import com.library.dto.response.LResponse;
 import com.library.dto.response.ResponseMessages;
+import com.library.security.jwt.JwtUtils;
 import com.library.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,7 @@ import javax.validation.Valid;
 public class UserJWTController {
 
     private UserService userService;
+
 
     @PostMapping("/register")
     public ResponseEntity<LResponse> register(@Valid @RequestBody RegisterRequest registerRequest){

@@ -70,26 +70,32 @@ public class LoanService {
         //       throw new RuntimeException("Not found");
         //   }
 
-        if (book.getActive() == true) {
+        LoanSaveResponse loanSaveResponse = new LoanSaveResponse();
+
+        if (book.getActive() == true ) {
             loanRepository.save(loan);
+
+
+
+            loanSaveResponse.setLoanDate(today);
+            loanSaveResponse.setLoanedBook(bookService.getBookById(loanSaveRequest.getBookId()));
+            loanSaveResponse.setNotes(loanSaveRequest.getNotes());
+            loanSaveResponse.setExpireDate(today.plusDays(expireDays));
+            loanSaveResponse.setUserId(loanSaveRequest.getUserId());
+
+
+
 
 
         } else {
             //TODO burasi revize edilecek yeni method da
         }
 
-        LoanSaveResponse loanSaveResponse = new LoanSaveResponse();
 
-        loanSaveResponse.setLoanDate(today);
-        loanSaveResponse.setLoanedBook(bookService.getBookById(loanSaveRequest.getBookId()));
-        loanSaveResponse.setNotes(loanSaveRequest.getNotes());
-        loanSaveResponse.setExpireDate(today.plusDays(expireDays));
-        loanSaveResponse.setUserId(loanSaveRequest.getUserId());
-        loanSaveResponse.setNotes(loanSaveRequest.getNotes());
+
 
 
         return loanSaveResponse;
-
 
     }
 
