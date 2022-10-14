@@ -23,7 +23,7 @@ public class BookRegisterRequest {
 
     @NotNull(message = "Please provide isbn")
     @Size(max = 17)
-    @Pattern(regexp = "^\\d{3}-\\d{2}-\\d{5}-\\d{2}$",
+    @Pattern(regexp = "^\\d{3}-\\d{2}-\\d{5}-\\d{2}-\\d$",
             message = "Please provide valid isbn number")
     private String isbn;
 
