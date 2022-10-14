@@ -1,10 +1,6 @@
 package com.library.dto.request;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.library.domain.Author;
-import com.library.domain.Category;
-import com.library.domain.Publisher;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,14 +10,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.File;
-import java.time.LocalDateTime;
-import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookRequest {
+public class BookRegisterRequest {
 
     @Size(min = 2,max = 80,message="Size is exceeded")
     @NotNull(message = "Please provide book name")
@@ -46,7 +40,7 @@ public class BookRequest {
     @NotNull(message = "Please provide A Category id")
     private Long bookCategory;
 
-    private File image;
+    private String image;
 
 
     @NotNull(message = "Please provide shelf Code")

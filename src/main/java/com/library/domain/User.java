@@ -6,6 +6,7 @@ import java.util.*;
 import javax.persistence.*;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,6 +43,7 @@ public class User {
 	private String phone;
 
 	@Column
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date birthDate;
 
 	@Column(length = 80, nullable = false, unique = true)

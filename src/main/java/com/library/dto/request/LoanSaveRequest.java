@@ -1,7 +1,5 @@
 package com.library.dto.request;
 
-import com.library.domain.Book;
-import com.library.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,14 +7,13 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
 
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoanRequest {
+public class LoanSaveRequest {
 
 
         @NotNull(message = "Please provide userId")
