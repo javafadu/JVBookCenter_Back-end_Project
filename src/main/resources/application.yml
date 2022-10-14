@@ -19,3 +19,8 @@ spring:
       ddl-auto: update
     properties:
       format-sql: true
+
+library:
+  app:
+    jwtSecret: javanarlarLibrary@8
+    jwtExpirationMs: 86400000

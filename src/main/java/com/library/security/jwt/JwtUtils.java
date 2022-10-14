@@ -12,10 +12,10 @@ import java.util.Date;
 public class JwtUtils {
 
 
-    @Value("${greenrent.app.jwtSecret}") // yml dosyasindan value injection edildi
+    @Value("${library.app.jwtSecret}") // yml dosyasindan value injection edildi
     private String jwtSecret;
 
-    @Value("${greenrent.app.jwtExpirationMs}")  // yml dosyasindan value injection edildi
+    @Value("${library.app.jwtExpirationMs}")  // yml dosyasindan value injection edildi
     private long jwtExpirationMs;
 
     public String generateJwtToken(Authentication authentication) {

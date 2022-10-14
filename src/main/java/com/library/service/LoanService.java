@@ -20,7 +20,6 @@ public class LoanService {
     UserService userService;
     BookService bookService;
 
-    LoanSaveResponse loanSaveResponse = new LoanSaveResponse();
 
     public LoanSaveResponse saveLoan(LoanSaveRequest loanSaveRequest) {
 
@@ -70,6 +69,8 @@ public class LoanService {
         //   if(bookRights>=loanedBookCount) {
         //       throw new RuntimeException("Not found");
         //   }
+
+        LoanSaveResponse loanSaveResponse = new LoanSaveResponse();
 
         if (book.getActive() == true ) {
             loanRepository.save(loan);
