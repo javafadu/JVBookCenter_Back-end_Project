@@ -18,7 +18,6 @@ public class LoanSaveResponse {
 
     private Long userId;
 
-
     private Book loanedBook;
 
     private LocalDateTime loanDate;
