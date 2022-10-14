@@ -15,13 +15,17 @@ public class CategoryService {
 
         Category category=new Category();
         category.setName(categoryDTO.getName());
-        category.setBuiltIn(categoryDTO.getBuiltIn());
+        category.setBuiltIn(false);
 
-        //category.setSequence(categoryDTO.getSequence()); //CategoryDTO Sequence kapali
+        Integer sequenceNumber=0;
+        if(categoryRepository.count()!=0) {
+            sequenceNumber=categoryRepository.findMaxSequence();
+        }
 
-        category.setSequence(1);
+        category.setSequence(sequenceNumber+1);
         //Sequence manuel ayarlamadan testi geciremedim sebebi sorulacak
         categoryRepository.save(category);
+
         return category;
 
     }

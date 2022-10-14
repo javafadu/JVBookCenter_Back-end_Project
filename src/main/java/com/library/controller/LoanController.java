@@ -26,10 +26,7 @@ public class LoanController {
     @PostMapping("/add")
     public ResponseEntity<LoanSaveResponse> createLoan(@Valid @RequestBody LoanSaveRequest loanSaveRequest) {
 
-        LoanSaveResponse loanSaveResponse = new LoanSaveResponse();
-        loanSaveResponse = loanService.saveLoan(loanSaveRequest);
-
-
+        LoanSaveResponse loanSaveResponse = loanService.saveLoan(loanSaveRequest);
 
         return new ResponseEntity<>(loanSaveResponse, HttpStatus.CREATED);
 

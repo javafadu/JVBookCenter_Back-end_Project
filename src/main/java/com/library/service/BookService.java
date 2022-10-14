@@ -57,7 +57,7 @@ public class BookService {
         bookRegisterResponse.setBookPublisher(publisherService.getPublisherById(bookRegisterRequest.getBookPublisher()));
         bookRegisterResponse.setPublishDate(bookRegisterRequest.getPublishDate());
         bookRegisterResponse.setBookCategory(categoryService.getCategoryById(bookRegisterRequest.getBookCategory()));
-        bookRegisterResponse.setImage(bookRegisterRequest.getImage());
+        bookRegisterResponse.setImage("images/books/"+bookRegisterResponse.getBookCategory().toString()+"/"+bookRegisterRequest.getImage());
         bookRegisterResponse.setLoanable(true);
         bookRegisterResponse.setShelfCode(bookRegisterRequest.getShelfCode());
         bookRegisterResponse.setActive(true);

@@ -1,5 +1,6 @@
 package com.library.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.library.domain.Book;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
