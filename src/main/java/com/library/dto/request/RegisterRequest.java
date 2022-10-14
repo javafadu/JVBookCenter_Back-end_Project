@@ -1,22 +1,19 @@
 package com.library.dto.request;
 
-import com.library.domain.Loan;
-import com.library.domain.Role;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
-import java.util.*;
+
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -36,12 +33,14 @@ public class RegisterRequest {
     @NotNull(message = "Please provide your address")
     private String address;
 
-    @Pattern(regexp = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$")
+    @Pattern(regexp = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4}$",message = "Please provide valid phone number")
     @NotNull(message = "Please provide phone number")
     private String phone;
 
-    @Pattern(regexp = "^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$")
-    private Date birthDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =
+            "MM/dd/yyyy", timezone = "Turkey")
+    @NotNull(message = "Please provide birthdate")
+    private LocalDate birthDate;
 
     @Email()
     @Size(min = 10, max = 80, message = "Your email '${validatedValue}' must be between {min} and {max} chars long")

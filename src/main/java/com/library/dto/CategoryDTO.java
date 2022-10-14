@@ -23,13 +23,6 @@ public class CategoryDTO {
     private String name;
 
 
-    @NotNull(message="Please provide BuiltIn")
-    private Boolean builtIn=false;
-
-
-   // @Id
-   // @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    //private Integer sequence;
 
 
 

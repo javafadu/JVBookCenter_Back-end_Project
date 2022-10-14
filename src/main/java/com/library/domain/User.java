@@ -1,12 +1,12 @@
 package com.library.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
 import javax.persistence.*;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(length = 30,nullable=false)
@@ -42,9 +42,8 @@ public class User {
 	@Column(nullable=false)
 	private String phone;
 
-	@Column
-	@JsonFormat(pattern="yyyy-MM-dd")
-	private Date birthDate;
+	@Column(nullable = true)
+	private LocalDate birthDate;
 
 	@Column(length = 80, nullable = false, unique = true)
 	private String email;

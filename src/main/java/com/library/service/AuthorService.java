@@ -15,7 +15,8 @@ public class AuthorService {
     public Author saveAuthor(AuthorDTO authorDTO){
         Author author=new Author();
         author.setName(authorDTO.getName());
-        author.setBuiltIn(authorDTO.getBuiltIn());
+        author.setBuiltIn(false);
+
         authorRepository.save(author);
         return author;
 

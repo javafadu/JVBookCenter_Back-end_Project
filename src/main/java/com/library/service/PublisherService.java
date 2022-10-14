@@ -15,7 +15,7 @@ public class PublisherService {
     public Publisher savePublisher(PublisherDTO publisherDTO){
         Publisher publisher=new Publisher();
         publisher.setName(publisherDTO.getName());
-        publisher.setBuiltIn(publisherDTO.getBuiltIn());
+        publisher.setBuiltIn(false);
         publisherRepository.save(publisher);
         return publisher;
     }
