@@ -10,11 +10,13 @@ import org.springframework.stereotype.Repository;
 public interface LoanRepository extends JpaRepository<Loan, Long> {
 
 
+    //TODO where in içine expire_date>today eklenecek
    @Query(
             value = "SELECT Count(*) FROM tbl_loans l WHERE (l.return_date IS NULL  and l.user_id= :id)",
             nativeQuery = true)
             Integer findUnreturnedLoansStillHaveTime(@Param("id") Long id);
 
+    //TODO where içine expire_date<today eklenecek
     @Query(
             value = "SELECT Count(*) FROM tbl_loans l WHERE (l.return_date IS NULL  and l.user_id= :id)",
             nativeQuery = true)
