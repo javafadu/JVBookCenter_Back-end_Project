@@ -7,6 +7,7 @@ import com.library.dto.mapper.UserMapper;
 import com.library.dto.request.RegisterRequest;
 
 import com.library.dto.response.UserRegisterResponse;
+import com.library.exception.message.ErrorMessage;
 import com.library.repository.RoleRepository;
 import com.library.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -51,12 +52,13 @@ public class UserService {
 
     public UserRegisterResponse register(RegisterRequest registerRequest){
         if (userRepository.existsByEmail(registerRequest.getEmail())){
-            throw new RuntimeException("Email is already exist");
+            throw new RuntimeException(String.format(ErrorMessage.EMAIL_ALREADY_EXIST, registerRequest.getEmail()));
         }
 
         String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
 
-        Role role = roleRepository.findByName(RoleType.ROLE_MEMBER).orElseThrow(() -> new RuntimeException("Not Found"));
+        Role role = roleRepository.findByName(RoleType.ROLE_MEMBER).orElseThrow(() -> new RuntimeException(
+                String.format(ErrorMessage.ROLE_NOT_FOUND_MESSAGE,RoleType.ROLE_MEMBER.name())));
 
         Set<Role> roles = new HashSet<>();
 
@@ -84,6 +86,6 @@ public class UserService {
     }
 
     public User getUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(()-> new RuntimeException("Not found"));
+        return userRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE, id)));
     }
 }

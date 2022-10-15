@@ -2,6 +2,7 @@ package com.library.service;
 
 import com.library.domain.Category;
 import com.library.dto.CategoryDTO;
+import com.library.exception.message.ErrorMessage;
 import com.library.repository.CategoryRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,7 @@ public class CategoryService {
 
     public Category getCategoryById(Long id) {
 
-        return categoryRepository.findById(id).orElseThrow(()-> new RuntimeException("Not Found"));
+        return categoryRepository.findById(id).orElseThrow(()-> new RuntimeException(
+                String.format(ErrorMessage.CATEGORY_NOT_FOUND_MESSAGE,id )));
     }
 }
