@@ -1,5 +1,6 @@
 package com.library.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -23,7 +24,7 @@ import org.springframework.stereotype.Component;
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(length = 30,nullable=false)
@@ -41,8 +42,8 @@ public class User {
 	@Column(nullable=false)
 	private String phone;
 
-	@Column
-	private Date birthDate;
+	@Column(nullable = true)
+	private LocalDate birthDate;
 
 	@Column(length = 80, nullable = false, unique = true)
 	private String email;

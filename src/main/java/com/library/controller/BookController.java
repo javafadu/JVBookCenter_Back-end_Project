@@ -1,7 +1,9 @@
 package com.library.controller;
 
 
-import com.library.dto.request.BookRequest;
+import com.library.domain.Book;
+import com.library.dto.request.BookRegisterRequest;
+import com.library.dto.response.BookRegisterResponse;
 import com.library.service.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/books")
@@ -22,15 +22,12 @@ public class BookController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<Map<String, String>> createBook(@Valid @RequestBody BookRequest bookRequest)  {
+    public ResponseEntity<BookRegisterResponse> createBook(@Valid @RequestBody BookRegisterRequest bookRegisterRequest)  {
 
-        bookService.saveBook(bookRequest);
+        BookRegisterResponse book = bookService.saveBook(bookRegisterRequest);
 
-        Map<String,String> map=new HashMap<>();
-        map.put("message", "Book Successfully Created");
-        map.put("status","true");
 
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
+        return new ResponseEntity<>(book, HttpStatus.CREATED);
 
     }
 
