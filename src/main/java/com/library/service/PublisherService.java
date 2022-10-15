@@ -22,6 +22,6 @@ public class PublisherService {
     }
 
     public Publisher getPublisherById(Long id) {
-        return publisherRepository.findById(id).orElseThrow(()->new RuntimeException(String.format(ErrorMessage.PUBLISCHER_NOT_FOUND_MESSAGE,id)));
+        return publisherRepository.findById(id).orElseThrow(()->new RuntimeException(String.format(ErrorMessage.PUBLISHER_NOT_FOUND_MESSAGE,id)));
     }
 }
