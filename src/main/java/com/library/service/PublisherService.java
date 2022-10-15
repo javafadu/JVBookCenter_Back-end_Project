@@ -2,6 +2,7 @@ package com.library.service;
 
 import com.library.domain.Publisher;
 import com.library.dto.PublisherDTO;
+import com.library.exception.message.ErrorMessage;
 import com.library.repository.PublisherRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,6 @@ public class PublisherService {
     }
 
     public Publisher getPublisherById(Long id) {
-        return publisherRepository.findById(id).orElseThrow(()->new RuntimeException("Not Found"));
+        return publisherRepository.findById(id).orElseThrow(()->new RuntimeException(String.format(ErrorMessage.PUBLISCHER_NOT_FOUND_MESSAGE,id)));
     }
 }

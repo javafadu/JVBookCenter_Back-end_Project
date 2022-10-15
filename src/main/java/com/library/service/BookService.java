@@ -3,6 +3,7 @@ package com.library.service;
 import com.library.domain.Book;
 import com.library.dto.request.BookRegisterRequest;
 import com.library.dto.response.BookRegisterResponse;
+import com.library.exception.message.ErrorMessage;
 import com.library.repository.AuthorRepository;
 import com.library.repository.BookRepository;
 import lombok.AllArgsConstructor;
@@ -71,7 +72,7 @@ public class BookService {
     }
 
     public Book getBookById(Long id) {
-        return bookRepository.findById(id).orElseThrow(()-> new RuntimeException("Not found"));
+        return bookRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
     }
 
 

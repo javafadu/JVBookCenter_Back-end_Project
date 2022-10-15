@@ -2,6 +2,7 @@ package com.library.service;
 
 import com.library.domain.Author;
 import com.library.dto.AuthorDTO;
+import com.library.exception.message.ErrorMessage;
 import com.library.repository.AuthorRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class AuthorService {
 
     public Author getAuthorById(Long id) {
 
-        return authorRepository.findById(id).orElseThrow(()-> new RuntimeException("No Found"));
+        return authorRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
 
     }
 }
