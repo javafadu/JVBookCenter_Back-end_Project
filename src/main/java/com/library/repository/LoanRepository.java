@@ -6,17 +6,18 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
-
 @Repository
 public interface LoanRepository extends JpaRepository<Loan, Long> {
 
 
    @Query(
-            value = "SELECT Count(*) FROM tbl_loans l WHERE l.return_date is null and t.user_id=?1",
+            value = "SELECT Count(*) FROM tbl_loans l WHERE (l.return_date IS NULL  and l.user_id= :id)",
             nativeQuery = true)
-            Integer findUnReturnedLoansNumber(Long userId);
+            Integer findUnreturnedLoansStillHaveTime(@Param("id") Long id);
+
+    @Query(
+            value = "SELECT Count(*) FROM tbl_loans l WHERE (l.return_date IS NULL  and l.user_id= :id)",
+            nativeQuery = true)
+    Integer findNotReturnedInTime(@Param("id") Long id);
 
 }

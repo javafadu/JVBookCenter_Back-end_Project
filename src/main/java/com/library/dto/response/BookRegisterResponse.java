@@ -36,7 +36,7 @@ public class BookRegisterResponse {
 
     private Category bookCategory;
 
-    private String image;
+    private String imageLink;
 
     private Boolean loanable = true;
 

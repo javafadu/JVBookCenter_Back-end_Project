@@ -57,7 +57,7 @@ public class BookService {
         bookRegisterResponse.setBookPublisher(publisherService.getPublisherById(bookRegisterRequest.getBookPublisher()));
         bookRegisterResponse.setPublishDate(bookRegisterRequest.getPublishDate());
         bookRegisterResponse.setBookCategory(categoryService.getCategoryById(bookRegisterRequest.getBookCategory()));
-        bookRegisterResponse.setImage("images/books/"+bookRegisterResponse.getBookCategory().toString()+"/"+bookRegisterRequest.getImage());
+        bookRegisterResponse.setImageLink("images/books/"+bookRegisterResponse.getBookCategory().getId()+"/"+bookRegisterRequest.getImageLink());
         bookRegisterResponse.setLoanable(true);
         bookRegisterResponse.setShelfCode(bookRegisterRequest.getShelfCode());
         bookRegisterResponse.setActive(true);
@@ -72,6 +72,14 @@ public class BookService {
 
     public Book getBookById(Long id) {
         return bookRepository.findById(id).orElseThrow(()-> new RuntimeException("Not found"));
+    }
+
+    public void updateBookLoanable(Long id) {
+
+        Book bookUpdated = getBookById(id);
+        bookUpdated.setLoanable(false);
+        bookRepository.save(bookUpdated);
+
     }
 
 

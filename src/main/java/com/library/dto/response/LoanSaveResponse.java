@@ -29,5 +29,7 @@ public class LoanSaveResponse {
 
     private String notes;
 
+    private String resultMessage;
+
 
 }

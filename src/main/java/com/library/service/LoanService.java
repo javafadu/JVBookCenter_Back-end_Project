@@ -23,6 +23,20 @@ public class LoanService {
 
     public LoanSaveResponse saveLoan(LoanSaveRequest loanSaveRequest) {
 
+        // CONTROLS
+
+        // 1- Book loanable or not
+        // 2- Any book not returned in time (zamanında getirilmeyen kitap varsa)
+        // 3- Not returned loans (which have still time to expire)
+
+
+
+
+
+        // RESULTS
+
+
+
         Loan loan = new Loan();
 
         User user = new User();
@@ -72,27 +86,28 @@ public class LoanService {
 
         LoanSaveResponse loanSaveResponse = new LoanSaveResponse();
 
-        if (book.getActive() == true ) {
-            loanRepository.save(loan);
+        if(!book.getLoanable()) {
+            throw new RuntimeException(book.getName()+"is already booked by someone");
+        } else if (loanRepository.findNotReturnedInTime(user.getId())>0) {
 
+            throw new RuntimeException(user.getFirstName()+" "+user.getLastName()+" has not returned a book / books in time");
+        }
+        else if (loanRepository.findUnreturnedLoansStillHaveTime(user.getId())>=bookRights) {
+            throw new RuntimeException(user.getFirstName()+" "+user.getLastName()+" has not right to loan a new book");
 
-
+        } else
+        {
+            loanSaveResponse.setResultMessage(book.getName()+" has been reserved by "+user.getFirstName()+" "+user.getLastName() );
             loanSaveResponse.setLoanDate(today);
-            loanSaveResponse.setLoanedBook(bookService.getBookById(loanSaveRequest.getBookId()));
+            loanSaveResponse.setLoanedBook(book);
             loanSaveResponse.setNotes(loanSaveRequest.getNotes());
             loanSaveResponse.setExpireDate(today.plusDays(expireDays));
             loanSaveResponse.setUserId(loanSaveRequest.getUserId());
 
+            loanRepository.save(loan);
 
-
-
-
-        } else {
-            //TODO burasi revize edilecek yeni method da
+            bookService.updateBookLoanable(book.getId());
         }
-
-
-
 
 
         return loanSaveResponse;
