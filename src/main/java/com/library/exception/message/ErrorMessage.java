@@ -15,6 +15,10 @@ public class ErrorMessage {
 
     public final static String ROLE_NOT_FOUND_MESSAGE="Role with name %s not found";
 
+    public final static String THERE_ARE_EXPIRED_BOOKS_FOR_THIS_USER="There are %d book/books by %s that are not returned in time";
+
+    public final static String HAS_NOT_RIGHT_TO_LOAN_BOOK="%s user has not right to loan a new book ";
+
     public final static String NOT_PERMITTED_METHOD_MESSAGE="You dont have any permission to change this value";
 
     public final static String PASSWORD_NOT_MATCHED="Your password are not matched";

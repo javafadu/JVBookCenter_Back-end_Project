@@ -6,6 +6,7 @@ import com.library.domain.Loan;
 import com.library.domain.User;
 import com.library.dto.request.LoanSaveRequest;
 import com.library.dto.response.LoanSaveResponse;
+import com.library.exception.message.ErrorMessage;
 import com.library.repository.LoanRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,15 +27,11 @@ public class LoanService {
         // CONTROLS
 
         // 1- Book loanable or not
-        // 2- Any book not returned in time (zamanında getirilmeyen kitap varsa)
-        // 3- Not returned loans (which have still time to expire)
-
-
-
+        // 2- Any book not returned in time (is there any book expired status in loans and not returned yet)
+        // 3- User has right to loan new book (bookRights>not returned loaned books(not expired yet))
 
 
         // RESULTS
-
 
 
         Loan loan = new Loan();
@@ -86,18 +83,15 @@ public class LoanService {
 
         LoanSaveResponse loanSaveResponse = new LoanSaveResponse();
 
-        if(!book.getLoanable()) {
-            throw new RuntimeException(book.getName()+"is already booked by someone");
-        } else if (loanRepository.findNotReturnedInTime(user.getId())>0) {
+        if (!book.getLoanable()) {
+            throw new RuntimeException(book.getName() + "is already booked by someone");
+        } else if (loanRepository.findNotReturnedInTime(user.getId()) > 0) {
+            throw new RuntimeException(String.format(ErrorMessage.THERE_ARE_EXPIRED_BOOKS_FOR_THIS_USER, loanRepository.findNotReturnedInTime(user.getId()), user.getFirstName() + " " + user.getLastName()));
+        } else if (loanRepository.findUnreturnedLoansStillHaveTime(user.getId()) >= bookRights) {
+            throw new RuntimeException(String.format(ErrorMessage.HAS_NOT_RIGHT_TO_LOAN_BOOK, user.getFirstName() + " " + user.getLastName()));
 
-            throw new RuntimeException(user.getFirstName()+" "+user.getLastName()+" has not returned a book / books in time");
-        }
-        else if (loanRepository.findUnreturnedLoansStillHaveTime(user.getId())>=bookRights) {
-            throw new RuntimeException(user.getFirstName()+" "+user.getLastName()+" has not right to loan a new book");
-
-        } else
-        {
-            loanSaveResponse.setResultMessage(book.getName()+" has been reserved by "+user.getFirstName()+" "+user.getLastName() );
+        } else {
+            loanSaveResponse.setResultMessage(book.getName() + " has been reserved by " + user.getFirstName() + " " + user.getLastName());
             loanSaveResponse.setLoanDate(today);
             loanSaveResponse.setLoanedBook(book);
             loanSaveResponse.setNotes(loanSaveRequest.getNotes());
@@ -109,7 +103,6 @@ public class LoanService {
             bookService.updateBookLoanable(book.getId());
         }
 
-        //TODO yukardkiler için exception handler sistemi uyarlanacak
 
         return loanSaveResponse;
 

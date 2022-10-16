@@ -45,6 +45,7 @@ public class BookService {
         LocalDateTime today = LocalDateTime.now();
         book.setCreateDate(today);
         book.setBuiltIn(false);
+        book.setImageLink(bookRegisterRequest.getImageLink());
 
         bookRepository.save(book);
 
