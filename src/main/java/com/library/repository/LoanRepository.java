@@ -1,5 +1,6 @@
 package com.library.repository;
 
+import com.library.domain.Book;
 import com.library.domain.Loan;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LoanRepository extends JpaRepository<Loan, Long> {
 
+    boolean existsByLoanedBooks(Book book);
 
     //TODO where in içine expire_date>today eklenecek
    @Query(
