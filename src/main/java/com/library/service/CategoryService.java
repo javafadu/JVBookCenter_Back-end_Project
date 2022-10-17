@@ -24,7 +24,6 @@ public class CategoryService {
         }
 
         category.setSequence(sequenceNumber+1);
-        //Sequence manuel ayarlamadan testi geciremedim sebebi sorulacak
         categoryRepository.save(category);
 
         return category;
@@ -36,4 +35,14 @@ public class CategoryService {
         return categoryRepository.findById(id).orElseThrow(()-> new RuntimeException(
                 String.format(ErrorMessage.CATEGORY_NOT_FOUND_MESSAGE,id )));
     }
+
+    public Category deleteCategoryById(Long id){
+
+        Category deletingCategory=categoryRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.CATEGORY_NOT_FOUND_MESSAGE)));
+        if(deletingCategory.getCategoryBooks().isEmpty()){
+            categoryRepository.deleteById(deletingCategory.getId());
+            return deletingCategory;
+        } else throw new RuntimeException(String.format(ErrorMessage.CATEGORY_HAS_RELATED_RECORDS_MESSAGE));
+    }
+
 }
