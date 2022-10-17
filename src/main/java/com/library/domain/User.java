@@ -1,36 +1,30 @@
 package com.library.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
+
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Component
 @Entity
 @Table(name = "tbl_users")
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(length = 30,nullable=false)
@@ -47,24 +41,34 @@ public class User {
 
 	@Column(nullable=false)
 	private String phone;
-	
-	@Column
-	private Date birthDate;
+
+	@Column(nullable = true)
+	private LocalDate birthDate;
 
 	@Column(length = 80, nullable = false, unique = true)
 	private String email;
-	
+
 	@Column(nullable=false)
 	private String password;
-	
+
 	@Column(nullable=false)
 	private LocalDateTime createDate;
-	
+
 	@Column
 	private String resetPasswordCode;
-	
+
 	@Column(nullable=false)
 	private Boolean builtIn=false;
-	
-	
+
+	@OneToMany(mappedBy = "userLoan")
+	private List<Loan> userBooks=new ArrayList<>();
+
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+			name="tbl_userRoles",
+			joinColumns = @JoinColumn(name="userId"),
+			inverseJoinColumns = @JoinColumn(name="roleId"))
+	private Set<Role> roles=new HashSet<>();
+
 }

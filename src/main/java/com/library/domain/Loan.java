@@ -17,14 +17,19 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Loan {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long userId;
 
-    @Column(nullable = false)
-    private Long bookId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name="userId", nullable=false)
+    private User userLoan;
+
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name="bookId", nullable=false)
+    private Book loanedBooks;
+
 
     @Column(nullable = false)
     private LocalDateTime loanDate;
