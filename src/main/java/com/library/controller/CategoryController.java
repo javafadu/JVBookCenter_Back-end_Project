@@ -30,6 +30,8 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
+    //TODO : Login islevsel hale geldiginde antMatch yapilacak.
+    //TODO : Response icin DAO olusturulacak
     public ResponseEntity<Category> getCategoryById(Long id){
         Category categoryResponse=categoryService.getCategoryById(id);
 

@@ -29,6 +29,8 @@ public class AuthorController {
 
     }
     @GetMapping("/{id}")
+    //TODO : Login islevsel hale geldiginde antMatch yapilacak.
+    //TODO : Response icin DAO olusturulacak
     public ResponseEntity<Author> getAuthorById(Author author){
        Author authorResponse=authorService.getAuthorById(author.getId());
 
