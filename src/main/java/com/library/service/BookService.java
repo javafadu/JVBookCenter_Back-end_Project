@@ -17,29 +17,17 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
 @Service
-
 public class BookService {
 
-    @Autowired
+
     private BookRepository bookRepository;
-
-    @Autowired
     private AuthorRepository authorRepository;
-
-    @Autowired
     private AuthorService authorService;
-
-    @Autowired
     private PublisherService publisherService;
-
-    @Autowired
     private CategoryService categoryService;
-
-    @Autowired
     private LoanRepository loanRepository;
-
-    @Autowired
     private BookMapper bookMapper;
 
 
