@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Loan {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 
@@ -37,8 +37,8 @@ public class Loan {
     @Column(nullable = false)
     private LocalDateTime expireDate;
 
-    @Column
-    private LocalDateTime returnDate;
+
+
 
     @Column(length = 300)
     private String notes;

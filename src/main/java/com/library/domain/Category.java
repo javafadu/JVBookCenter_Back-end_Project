@@ -1,6 +1,7 @@
 package com.library.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,12 +17,13 @@ import java.util.List;
 
 @Table(name = "tbl_categories")
 @Entity
+@JsonIgnoreProperties(value= {"handler","hibernateLazyInitializer","FieldHandler"})
 public class Category {
 
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id;
 

@@ -1,10 +1,16 @@
 package com.library.service;
 
 import com.library.domain.Book;
+import com.library.dto.mapper.BookMapper;
+import com.library.dto.mapper.UserMapper;
 import com.library.dto.request.BookRegisterRequest;
 import com.library.dto.response.BookRegisterResponse;
+import com.library.exception.BadRequestException;
+import com.library.exception.ResourceNotFoundException;
+import com.library.exception.message.ErrorMessage;
 import com.library.repository.AuthorRepository;
 import com.library.repository.BookRepository;
+import com.library.repository.LoanRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +26,10 @@ public class BookService {
     private AuthorService authorService;
     private PublisherService publisherService;
     private CategoryService categoryService;
+
+    private LoanRepository loanRepository;
+
+    private BookMapper bookMapper;
 
 
     public BookRegisterResponse saveBook(BookRegisterRequest bookRegisterRequest) {
@@ -44,6 +54,7 @@ public class BookService {
         LocalDateTime today = LocalDateTime.now();
         book.setCreateDate(today);
         book.setBuiltIn(false);
+        book.setImageLink(bookRegisterRequest.getImageLink());
 
         bookRepository.save(book);
 
@@ -57,7 +68,7 @@ public class BookService {
         bookRegisterResponse.setBookPublisher(publisherService.getPublisherById(bookRegisterRequest.getBookPublisher()));
         bookRegisterResponse.setPublishDate(bookRegisterRequest.getPublishDate());
         bookRegisterResponse.setBookCategory(categoryService.getCategoryById(bookRegisterRequest.getBookCategory()));
-        bookRegisterResponse.setImage(bookRegisterRequest.getImage());
+        bookRegisterResponse.setImageLink("images/books/"+bookRegisterResponse.getBookCategory().getId()+"/"+bookRegisterRequest.getImageLink());
         bookRegisterResponse.setLoanable(true);
         bookRegisterResponse.setShelfCode(bookRegisterRequest.getShelfCode());
         bookRegisterResponse.setActive(true);
@@ -70,8 +81,35 @@ public class BookService {
 
     }
 
+    public BookRegisterResponse deleteBookById(Long id){
+
+        Book book =getBookById(id);
+
+        BookRegisterResponse bookRegisterResponse= bookMapper.BookToBookRegisterResponse(book);
+
+        boolean exists=loanRepository.existsByLoanedBooks(book);
+        if (exists){
+           throw new BadRequestException(ErrorMessage.BOOK_USED_BY_RESERVATION_MESSAGE);
+        }
+
+
+
+        bookRepository.delete(book);
+
+        return bookRegisterResponse;
+    }
+
+
     public Book getBookById(Long id) {
-        return bookRepository.findById(id).orElseThrow(()-> new RuntimeException("Not found"));
+        return bookRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
+    }
+
+    public void updateBookLoanable(Long id) {
+
+        Book bookUpdated = getBookById(id);
+        bookUpdated.setLoanable(false);
+        bookRepository.save(bookUpdated);
+
     }
 
 

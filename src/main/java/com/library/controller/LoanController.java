@@ -6,6 +6,7 @@ import com.library.service.LoanService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,13 +24,11 @@ public class LoanController {
     private LoanService loanService;
 
 
-    @PostMapping("/add")
+    @PostMapping()
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF') or hasRole('MEMBER')")
     public ResponseEntity<LoanSaveResponse> createLoan(@Valid @RequestBody LoanSaveRequest loanSaveRequest) {
 
-        LoanSaveResponse loanSaveResponse = new LoanSaveResponse();
-        loanSaveResponse = loanService.saveLoan(loanSaveRequest);
-
-
+        LoanSaveResponse loanSaveResponse = loanService.saveLoan(loanSaveRequest);
 
         return new ResponseEntity<>(loanSaveResponse, HttpStatus.CREATED);
 
