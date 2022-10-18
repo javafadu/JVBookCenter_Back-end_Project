@@ -5,11 +5,17 @@ import com.library.domain.Book;
 import com.library.domain.Loan;
 import com.library.domain.User;
 import com.library.dto.request.LoanSaveRequest;
+import com.library.dto.response.LoanAuthPagesResponse;
 import com.library.dto.response.LoanSaveResponse;
+
+import com.library.exception.ResourceNotFoundException;
 import com.library.exception.message.ErrorMessage;
 import com.library.repository.LoanRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -22,6 +28,7 @@ public class LoanService {
     BookService bookService;
 
 
+    // 1- SAVE LOAN WITH a bookId FOR A MEMBER (userId)
     public LoanSaveResponse saveLoan(LoanSaveRequest loanSaveRequest) {
 
         // CONTROLS
@@ -75,8 +82,6 @@ public class LoanService {
         loan.setNotes(loanSaveRequest.getNotes());
 
 
-        Integer loanedBookCount = loanedBookByUser(loanSaveRequest.getUserId());
-
         //   if(bookRights>=loanedBookCount) {
         //       throw new RuntimeException("Not found");
         //   }
@@ -108,15 +113,16 @@ public class LoanService {
 
     }
 
+    // 2- GET ALL OWN LOANS of AUTH USER
+    @Transactional
+    public Page<LoanAuthPagesResponse> getLoansAuthWithPages(Long userId, Pageable pageable ) {
+        User user= userService.getUserById(userId);
+        Page<LoanAuthPagesResponse> authLoansWithPage = loanRepository.getAuthUserLoansWithPage(userId,pageable);
 
-    public Integer loanedBookByUser(Long id) {
+        if(authLoansWithPage.isEmpty()) throw new ResourceNotFoundException("Not found");
 
-        //   return loanRepository.findUnReturnedLoansNumber(id);
-
-        return null;
-
+        return authLoansWithPage;
     }
-
 
 
 }

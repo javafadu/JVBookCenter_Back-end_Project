@@ -61,7 +61,7 @@ public class UserDTO {
             } else if (r.getName().equals(RoleType.ROLE_ADMIN)) {
                 rolesStr.add("Administrator");
             } else {
-                rolesStr.add("Undefined");
+                rolesStr.add("Anonymous");
             }
         }
 

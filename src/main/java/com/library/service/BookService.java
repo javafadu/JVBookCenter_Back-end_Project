@@ -12,23 +12,34 @@ import com.library.repository.AuthorRepository;
 import com.library.repository.BookRepository;
 import com.library.repository.LoanRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 @Service
-@AllArgsConstructor
+
 public class BookService {
 
-
+    @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
     private AuthorRepository authorRepository;
+
+    @Autowired
     private AuthorService authorService;
+
+    @Autowired
     private PublisherService publisherService;
+
+    @Autowired
     private CategoryService categoryService;
 
+    @Autowired
     private LoanRepository loanRepository;
 
+    @Autowired
     private BookMapper bookMapper;
 
 
