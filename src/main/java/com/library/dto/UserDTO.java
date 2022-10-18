@@ -47,21 +47,25 @@ public class UserDTO {
 
     private Set<String> roles;
 
-    public void setRoles(Set<Role> roles){
+
+    // Converting Set<Role> roles in DB to Set<String> roles as dto
+    public void setRoles(Set<Role> roles) {
         Set<String> rolesStr = new HashSet<>();
 
-        roles.forEach(r -> {
-            if (r.getName().equals(RoleType.ROLE_ADMIN)) {
-                rolesStr.add("Administrator");
-            } else if (r.getName().equals(RoleType.ROLE_MEMBER)) {
+        for (Role r:roles
+        ) {
+            if(r.getName().equals(RoleType.ROLE_MEMBER)) {
                 rolesStr.add("Member");
-            } else {
+            } else if (r.getName().equals(RoleType.ROLE_STAFF)) {
                 rolesStr.add("Staff");
+            } else if (r.getName().equals(RoleType.ROLE_ADMIN)) {
+                rolesStr.add("Administrator");
+            } else {
+                rolesStr.add("Undefined");
             }
+        }
 
-        });
-
-        this.roles = rolesStr;
+        this.roles=rolesStr;
 
     }
 
