@@ -1,11 +1,16 @@
 package com.library.service;
 
 import com.library.domain.Book;
+import com.library.dto.mapper.BookMapper;
+import com.library.dto.mapper.UserMapper;
 import com.library.dto.request.BookRegisterRequest;
 import com.library.dto.response.BookRegisterResponse;
+import com.library.exception.BadRequestException;
+import com.library.exception.ResourceNotFoundException;
 import com.library.exception.message.ErrorMessage;
 import com.library.repository.AuthorRepository;
 import com.library.repository.BookRepository;
+import com.library.repository.LoanRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +26,10 @@ public class BookService {
     private AuthorService authorService;
     private PublisherService publisherService;
     private CategoryService categoryService;
+
+    private LoanRepository loanRepository;
+
+    private BookMapper bookMapper;
 
 
     public BookRegisterResponse saveBook(BookRegisterRequest bookRegisterRequest) {
@@ -71,6 +80,25 @@ public class BookService {
         return bookRegisterResponse;
 
     }
+
+    public BookRegisterResponse deleteBookById(Long id){
+
+        Book book =getBookById(id);
+
+        BookRegisterResponse bookRegisterResponse= bookMapper.BookToBookRegisterResponse(book);
+
+        boolean exists=loanRepository.existsByLoanedBooks(book);
+        if (exists){
+           throw new BadRequestException(ErrorMessage.BOOK_USED_BY_RESERVATION_MESSAGE);
+        }
+
+
+
+        bookRepository.delete(book);
+
+        return bookRegisterResponse;
+    }
+
 
     public Book getBookById(Long id) {
         return bookRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
