@@ -95,9 +95,9 @@ public class LoanService {
 
         if (!book.getLoanable()) {
             throw new RuntimeException(book.getName() + "is already booked by someone");
-        } else if (loanRepository.findNotReturnedInTime(user.getId()) > 0) {
-            throw new RuntimeException(String.format(ErrorMessage.THERE_ARE_EXPIRED_BOOKS_FOR_THIS_USER, loanRepository.findNotReturnedInTime(user.getId()), user.getFirstName() + " " + user.getLastName()));
-        } else if (loanRepository.findUnreturnedLoansStillHaveTime(user.getId()) >= bookRights) {
+        } else if (loanRepository.expiredBookNumbersOfUser(user.getId()) > 0) {
+            throw new RuntimeException(String.format(ErrorMessage.THERE_ARE_EXPIRED_BOOKS_FOR_THIS_USER, loanRepository.expiredBookNumbersOfUser(user.getId()), user.getFirstName() + " " + user.getLastName()));
+        } else if (loanRepository.unreturnedBookNumbersOfUser(user.getId()) >= bookRights) {
             throw new RuntimeException(String.format(ErrorMessage.HAS_NOT_RIGHT_TO_LOAN_BOOK, user.getFirstName() + " " + user.getLastName()));
 
         } else {

@@ -71,7 +71,7 @@ public class BookService {
         bookRegisterResponse.setBookPublisher(publisherService.getPublisherById(bookRegisterRequest.getBookPublisher()));
         bookRegisterResponse.setPublishDate(bookRegisterRequest.getPublishDate());
         bookRegisterResponse.setBookCategory(categoryService.getCategoryById(bookRegisterRequest.getBookCategory()));
-        bookRegisterResponse.setImageLink("images/books/"+bookRegisterResponse.getBookCategory().getId()+"/"+bookRegisterRequest.getImageLink());
+        bookRegisterResponse.setImageLink("images/books/" + bookRegisterResponse.getBookCategory().getId() + "/" + bookRegisterRequest.getImageLink());
         bookRegisterResponse.setLoanable(true);
         bookRegisterResponse.setShelfCode(bookRegisterRequest.getShelfCode());
         bookRegisterResponse.setActive(true);
@@ -85,37 +85,33 @@ public class BookService {
     }
 
 
-
-
-
-
     public Book getBookById(Long id) {
-        return bookRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
+        return bookRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
     }
 
 
-    public BookRegisterResponse findBookById(Long id){
-        Book book =bookRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
+    public BookRegisterResponse findBookById(Long id) {
+        Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
         BookRegisterResponse bookResponse = bookMapper.BookToBookRegisterResponse(book);
         return bookResponse;
 
     }
 
-    public Page<BookRegisterResponse> findAllWithPage(Pageable pageable){
+    public Page<BookRegisterResponse> findAllWithPage(Pageable pageable) {
 
         return bookRepository.findAllBookWithPage(pageable);
     }
 
 
     @Transactional
-    public Book updateBook(Long id, BookDTO bookDTO){
+    public Book updateBook(Long id, BookDTO bookDTO) {
 
-        Book foundBook =bookRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
-        if (foundBook.getBuiltIn()){
+        Book foundBook = bookRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
+        if (foundBook.getBuiltIn()) {
             throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
         }
 
-        Book book=new Book();
+        Book book = new Book();
         book.setId(foundBook.getId());
         book.setName(bookDTO.getName());
         book.setIsbn(bookDTO.getIsbn());
@@ -124,7 +120,7 @@ public class BookService {
         book.setBookPublisher(publisherService.getPublisherById(bookDTO.getBookPublisher()));
         book.setPublishDate(bookDTO.getPublishDate());
         book.setBookCategory(categoryService.getCategoryById(bookDTO.getBookCategory()));
-        book.setImageLink("images/books/"+bookDTO.getBookCategory()+"/"+bookDTO.getImageLink());
+        book.setImageLink("images/books/" + bookDTO.getBookCategory() + "/" + bookDTO.getImageLink());
         book.setLoanable(foundBook.getLoanable());
         book.setShelfCode(bookDTO.getShelfCode());
         book.setActive(bookDTO.getActive());
@@ -133,26 +129,20 @@ public class BookService {
         book.setBuiltIn(foundBook.getBuiltIn());
 
 
-
-
-
         bookRepository.save(book);
         return book;
 
     }
 
 
+    public BookRegisterResponse deleteBookById(Long id) {
 
+        Book book = getBookById(id);
 
+        BookRegisterResponse bookRegisterResponse = bookMapper.BookToBookRegisterResponse(book);
 
-    public BookRegisterResponse deleteBookById(Long id){
-
-        Book book =getBookById(id);
-
-        BookRegisterResponse bookRegisterResponse= bookMapper.BookToBookRegisterResponse(book);
-
-        boolean exists=loanRepository.existsByLoanedBooks(book);
-        if (exists){
+        boolean exists = loanRepository.existsByLoanedBooks(book);
+        if (exists) {
             throw new BadRequestException(ErrorMessage.BOOK_USED_BY_RESERVATION_MESSAGE);
         }
 
@@ -167,7 +157,6 @@ public class BookService {
         bookRepository.save(bookUpdated);
 
     }
-
 
 
 }
