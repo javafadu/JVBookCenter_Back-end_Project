@@ -18,6 +18,7 @@ import javax.validation.constraints.Size;
 @Setter
 public class CategoryDTO {
 
+    Long id;
 
     @NotNull(message="Please Provide Category Name")
     @Size(min=2,max=80,message="Category Name '${validatedValue}' must be between {min} and {max} chars long")

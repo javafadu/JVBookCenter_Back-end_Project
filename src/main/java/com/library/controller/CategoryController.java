@@ -54,11 +54,11 @@ public class CategoryController {
     }
 
 
-    @PutMapping("{id}")
-    public ResponseEntity<CategoryDTO> updateCategoryById(@RequestParam("id") Long id, @Valid @RequestBody CategoryDTO categoryDTO) {
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<CategoryDTO> updateCategoryById(@Valid @RequestBody CategoryDTO categoryDTO) {
 
-        categoryService.updateCategoryWithId(id,categoryDTO);
-        return ResponseEntity.ok(categoryDTO);
+        return ResponseEntity.ok(categoryService.updateCategoryWithId(categoryDTO));
     }
 
     @DeleteMapping("/{id}")

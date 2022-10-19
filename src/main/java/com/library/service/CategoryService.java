@@ -67,9 +67,11 @@ public class CategoryService {
     }
 
     @Transactional
-    public void updateCategoryWithId(Long id, CategoryDTO categoryDTO) {
-        Category category = categoryRepository.findById(id).orElseThrow(()->new RuntimeException(String.format(ErrorMessage.CATEGORY_NOT_FOUND_MESSAGE)));
+    public CategoryDTO updateCategoryWithId(CategoryDTO categoryDTO) {
+        Category category = categoryRepository.findById(categoryDTO.getId()).orElseThrow(()->new RuntimeException(String.format(ErrorMessage.CATEGORY_NOT_FOUND_MESSAGE)));
         category.setName(categoryDTO.getName());
         categoryRepository.save(category);
+        categoryDTO.setSequence(category.getSequence());
+        return categoryDTO;
     }
 }

@@ -41,12 +41,18 @@ public class AuthorController {
 
         return ResponseEntity.ok(authorResponse);
     }
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<AuthorDTO> updateAuthoryById(@Valid @RequestBody AuthorDTO authorDTO) {
+
+        return ResponseEntity.ok(authorService.updateAuthorWithId(authorDTO));
+    }
 
     @GetMapping
     public ResponseEntity<Page<AuthorDTO>> getAllAuthorsByPage(@RequestParam(required = false, value = "page", defaultValue = "0") int page,
                                                                @RequestParam(required = false,value = "size", defaultValue = "20") int size,
                                                                @RequestParam(required = false,value = "sort", defaultValue = "name") String prop,
-                                                               @RequestParam(required = false,value = "direction", defaultValue = "ASC") Sort.Direction direction
+                                                               @RequestParam(required = false,value = "type", defaultValue = "ASC") Sort.Direction direction
     ){
         Pageable pageable = PageRequest.of(page,size,Sort.by(direction,prop));
         Page<AuthorDTO> authorDTOPage = authorService.getAuthorPage(pageable);

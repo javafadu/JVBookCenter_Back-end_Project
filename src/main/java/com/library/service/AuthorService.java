@@ -58,4 +58,11 @@ public class AuthorService {
 //        });
         return authors;
     }
+
+    public AuthorDTO updateAuthorWithId(AuthorDTO authorDTO) {
+        Author author = authorRepository.findById(authorDTO.getId()).orElseThrow(()->new RuntimeException(String.format(ErrorMessage.AUTHOR_NOT_FOUND_MESSAGE)));
+        author.setName(authorDTO.getName());
+        authorRepository.save(author);
+        return authorDTO;
+    }
 }
