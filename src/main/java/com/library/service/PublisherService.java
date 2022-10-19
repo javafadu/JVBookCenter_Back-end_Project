@@ -1,15 +1,14 @@
 package com.library.service;
 
 import com.library.domain.Publisher;
-import com.library.domain.User;
 import com.library.dto.PublisherDTO;
-
 import com.library.exception.ResourceNotFoundException;
 import com.library.exception.message.ErrorMessage;
 import com.library.repository.PublisherRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -57,5 +56,23 @@ public class PublisherService {
         return responsePublisherDelete;
 
     }
+
+    public PublisherDTO updatePublisher(Long id, PublisherDTO publisherDTO) {
+        Publisher publisher = publisherRepository.findById(id).orElseThrow(() -> new RuntimeException("Id not found"));
+        if (publisher.getBuiltIn() == false) throw new IllegalArgumentException("Publisher is not in builtin");
+        publisher.setId(id);
+        publisher.setName(publisherDTO.getName());
+
+        publisherRepository.save(publisher);
+
+        PublisherDTO responsePublisherUpdated=new PublisherDTO();
+        responsePublisherUpdated.setId(id);
+        responsePublisherUpdated.setName(publisher.getName());
+
+
+        return responsePublisherUpdated;
+
+    }
+
 
 }

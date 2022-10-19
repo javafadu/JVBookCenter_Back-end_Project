@@ -59,11 +59,22 @@ public class PublisherController {
         return ResponseEntity.ok(publishersWithId);
     }
 
-    @DeleteMapping("/admin/{id}/auth")
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PublisherDTO> deletePublisher(@PathVariable Long id){
         PublisherDTO deletePublisher=publisherService.deletePublisherWithId(id);
 
         return ResponseEntity.ok(deletePublisher);
     }
+
+    @PostMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<PublisherDTO> updatePublisher(@PathVariable Long id,@RequestBody PublisherDTO publisherDTO){
+        PublisherDTO updatePublisher=publisherService.updatePublisher(id,publisherDTO);
+
+        return ResponseEntity.ok(updatePublisher);
+
+    }
+
 
 }
