@@ -1,6 +1,7 @@
 package com.library.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(value= {"handler","hibernateLazyInitializer","FieldHandler"})
 public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

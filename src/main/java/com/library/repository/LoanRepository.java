@@ -10,6 +10,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface LoanRepository extends JpaRepository<Loan, Long> {
 
@@ -27,9 +29,10 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
             nativeQuery = true)
     Integer findNotReturnedInTime(@Param("id") Long id);
 
-    // All loans for any user with pages
-    @Query("select new com.library.dto.response.LoanAuthPagesResponse(l.id, l.userLoan.id, l.loanedBooks.id,  l.loanDate, l.expireDate,l.returnDate, l.loanedBooks) from Loan l where l.userLoan.id = ?1")
+
+    @Query("SELECT new com.library.dto.response.LoanAuthPagesResponse(l)  FROM Loan l where l.userLoan.id=?1")
     Page<LoanAuthPagesResponse> getAuthUserLoansWithPage(Long id, Pageable pageable);
+
 
 
 }
