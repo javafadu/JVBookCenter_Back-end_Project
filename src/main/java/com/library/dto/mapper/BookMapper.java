@@ -11,7 +11,6 @@ public interface BookMapper {
 
     BookRegisterResponse BookToBookRegisterResponse(Book book);
 
-    Book BookDTOToBook(BookDTO bookDTO);
 
 
 

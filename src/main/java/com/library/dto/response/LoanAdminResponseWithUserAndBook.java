@@ -3,6 +3,7 @@ package com.library.dto.response;
 
 import com.library.domain.Book;
 import com.library.domain.Loan;
+import com.library.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,12 +15,13 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoanAdminPagesResponse {
+public class LoanAdminResponseWithUserAndBook {
 
 
     private Long id;
     private Long userId;
     private Long bookId;
+    private User user;
     private Book book;
     private LocalDateTime loanDate;
     private LocalDateTime expireDate;
@@ -29,13 +31,14 @@ public class LoanAdminPagesResponse {
 
 
     // MEMBERS CAN NOT SEE THE Notes
-    public LoanAdminPagesResponse(Loan loan) {
+    public LoanAdminResponseWithUserAndBook(Loan loan) {
         this.id = loan.getId();
         this.userId = loan.getUserLoan().getId();
         this.bookId = loan.getLoanedBooks().getId();
         this.loanDate = loan.getLoanDate();
         this.expireDate = loan.getExpireDate();
         this.returnDate = loan.getReturnDate();
+        this.user = loan.getUserLoan();
         this.book = loan.getLoanedBooks();
         this.notes = loan.getNotes();
     }

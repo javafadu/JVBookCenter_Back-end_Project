@@ -163,10 +163,11 @@ public class BookService {
     public void updateBookLoanable(Long id) {
 
         Book bookUpdated = getBookById(id);
-        bookUpdated.setLoanable(false);
+        bookUpdated.setLoanable(!bookUpdated.getLoanable());
         bookRepository.save(bookUpdated);
 
     }
+
 
 
 }

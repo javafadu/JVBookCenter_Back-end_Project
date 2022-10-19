@@ -37,4 +37,5 @@ public class ErrorMessage {
     public final static String USER_USED_BY_LOAN_MESSAGE="User couldn't be deleted. User is used by a loan";
     public static final String AUTHOR_NOT_FOUND_MESSAGE ="Author with id %d not found" ;
     public static final String AUTHOR_HAS_RELATED_RECORDS_MESSAGE = "Author is can not be deleted. The Author has related records in books.";
+    public static final String LOAN_NOT_FOUND_MESSAGE = "Selected Loan Is Not Found";
 }
