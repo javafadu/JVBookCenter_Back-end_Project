@@ -7,6 +7,8 @@ import java.util.*;
 import javax.persistence.*;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 @Table(name = "tbl_users")
+@JsonIgnoreProperties(value= {"handler","hibernateLazyInitializer","FieldHandler"})
 public class User {
 
 	@Id
@@ -60,6 +63,7 @@ public class User {
 	@Column(nullable=false)
 	private Boolean builtIn=false;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "userLoan")
 	private List<Loan> userBooks=new ArrayList<>();
 
