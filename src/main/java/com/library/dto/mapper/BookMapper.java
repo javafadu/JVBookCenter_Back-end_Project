@@ -2,6 +2,7 @@ package com.library.dto.mapper;
 
 
 import com.library.domain.Book;
+import com.library.dto.BookDTO;
 import com.library.dto.response.BookRegisterResponse;
 import org.mapstruct.Mapper;
 
@@ -9,6 +10,8 @@ import org.mapstruct.Mapper;
 public interface BookMapper {
 
     BookRegisterResponse BookToBookRegisterResponse(Book book);
+
+    Book BookDTOToBook(BookDTO bookDTO);
 
 
 

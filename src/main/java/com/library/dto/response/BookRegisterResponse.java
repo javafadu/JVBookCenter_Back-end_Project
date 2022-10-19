@@ -1,6 +1,7 @@
 package com.library.dto.response;
 
 import com.library.domain.Author;
+import com.library.domain.Book;
 import com.library.domain.Category;
 import com.library.domain.Publisher;
 import lombok.AllArgsConstructor;
@@ -49,6 +50,26 @@ public class BookRegisterResponse {
     private LocalDateTime createDate;
 
     private Boolean builtIn =false;
+
+    public BookRegisterResponse(Book book){
+
+        this.name=book.getName();
+        this.isbn=book.getIsbn();
+        this.pageCount=book.getPageCount();
+        this.bookAuthor=book.getBookAuthor();
+        this.bookPublisher=book.getBookPublisher();
+        this.publishDate=book.getPublishDate();
+        this.bookCategory=book.getBookCategory();
+        this.imageLink=book.getImageLink();
+        this.loanable=book.getLoanable();
+        this.shelfCode=book.getShelfCode();
+        this.active=book.getActive();
+        this.featured=book.getFeatured();
+        this.createDate=book.getCreateDate();
+        this.builtIn=book.getBuiltIn();
+
+
+    }
 
 
 }

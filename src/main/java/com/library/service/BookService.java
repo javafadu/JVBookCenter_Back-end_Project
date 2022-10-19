@@ -1,6 +1,7 @@
 package com.library.service;
 
 import com.library.domain.Book;
+import com.library.dto.BookDTO;
 import com.library.dto.mapper.BookMapper;
 import com.library.dto.mapper.UserMapper;
 import com.library.dto.request.BookRegisterRequest;
@@ -13,7 +14,10 @@ import com.library.repository.BookRepository;
 import com.library.repository.LoanRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -80,6 +84,52 @@ public class BookService {
 
     }
 
+
+
+
+
+
+    public Book getBookById(Long id) {
+        return bookRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
+    }
+
+
+    public BookRegisterResponse findBookById(Long id){
+        Book book =bookRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
+        BookRegisterResponse bookResponse = bookMapper.BookToBookRegisterResponse(book);
+        return bookResponse;
+
+    }
+
+    public Page<BookRegisterResponse> findAllWithPage(Pageable pageable){
+
+        return bookRepository.findAllBookWithPage(pageable);
+    }
+
+
+    @Transactional
+    public Book updateBook(Long id, BookDTO bookDTO){
+
+        Book updatedBook =bookRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
+        if (updatedBook.getBuiltIn()){
+            throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
+        }
+
+        Book book= bookMapper.BookDTOToBook(bookDTO);
+
+        book.setId(updatedBook.getId());
+
+
+
+        bookRepository.save(book);
+        return updatedBook;
+
+    }
+
+
+
+
+
     public BookRegisterResponse deleteBookById(Long id){
 
         Book book =getBookById(id);
@@ -88,19 +138,11 @@ public class BookService {
 
         boolean exists=loanRepository.existsByLoanedBooks(book);
         if (exists){
-           throw new BadRequestException(ErrorMessage.BOOK_USED_BY_RESERVATION_MESSAGE);
+            throw new BadRequestException(ErrorMessage.BOOK_USED_BY_RESERVATION_MESSAGE);
         }
 
-
-
         bookRepository.delete(book);
-
         return bookRegisterResponse;
-    }
-
-
-    public Book getBookById(Long id) {
-        return bookRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
     }
 
     public void updateBookLoanable(Long id) {
