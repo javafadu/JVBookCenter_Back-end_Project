@@ -1,5 +1,6 @@
 package com.library.dto;
 
+import com.library.domain.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,8 +23,12 @@ public class CategoryDTO {
     @Size(min=2,max=80,message="Category Name '${validatedValue}' must be between {min} and {max} chars long")
     private String name;
 
+    private Integer sequence;
 
-
+    public CategoryDTO(Category category){
+        this.name = category.getName();
+        this.sequence = category.getSequence();
+    }
 
 
 }

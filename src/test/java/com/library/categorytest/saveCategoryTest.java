@@ -18,7 +18,7 @@ public class saveCategoryTest {
  public void saveCategoryT(){
   CategoryDTO categoryDTO = new CategoryDTO();
   categoryDTO.setName("Selami");
-  categoryDTO.setBuiltIn(true);
+  //categoryDTO.setBuiltIn(true);
   categoryService.saveCategory(categoryDTO);
 
  }

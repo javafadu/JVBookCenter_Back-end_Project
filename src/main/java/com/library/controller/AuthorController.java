@@ -3,8 +3,13 @@ package com.library.controller;
 
 import com.library.domain.Author;
 import com.library.dto.AuthorDTO;
+import com.library.dto.CategoryDTO;
 import com.library.service.AuthorService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,7 +42,16 @@ public class AuthorController {
         return ResponseEntity.ok(authorResponse);
     }
 
-
+    @GetMapping
+    public ResponseEntity<Page<AuthorDTO>> getAllAuthorsByPage(@RequestParam(required = false, value = "page", defaultValue = "0") int page,
+                                                               @RequestParam(required = false,value = "size", defaultValue = "20") int size,
+                                                               @RequestParam(required = false,value = "sort", defaultValue = "name") String prop,
+                                                               @RequestParam(required = false,value = "direction", defaultValue = "ASC") Sort.Direction direction
+    ){
+        Pageable pageable = PageRequest.of(page,size,Sort.by(direction,prop));
+        Page<AuthorDTO> authorDTOPage = authorService.getAuthorPage(pageable);
+        return ResponseEntity.ok(authorDTOPage);
+    }
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Author> deleteAuthoryById(Long id ){
