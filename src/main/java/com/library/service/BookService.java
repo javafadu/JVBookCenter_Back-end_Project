@@ -110,19 +110,34 @@ public class BookService {
     @Transactional
     public Book updateBook(Long id, BookDTO bookDTO){
 
-        Book updatedBook =bookRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
-        if (updatedBook.getBuiltIn()){
+        Book foundBook =bookRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
+        if (foundBook.getBuiltIn()){
             throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
         }
 
-        Book book= bookMapper.BookDTOToBook(bookDTO);
+        Book book=new Book();
+        book.setId(foundBook.getId());
+        book.setName(bookDTO.getName());
+        book.setIsbn(bookDTO.getIsbn());
+        book.setPageCount(bookDTO.getPageCount());
+        book.setBookAuthor(authorService.getAuthorById(bookDTO.getBookAuthor()));
+        book.setBookPublisher(publisherService.getPublisherById(bookDTO.getBookPublisher()));
+        book.setPublishDate(bookDTO.getPublishDate());
+        book.setBookCategory(categoryService.getCategoryById(bookDTO.getBookCategory()));
+        book.setImageLink("images/books/"+bookDTO.getBookCategory()+"/"+bookDTO.getImageLink());
+        book.setLoanable(foundBook.getLoanable());
+        book.setShelfCode(bookDTO.getShelfCode());
+        book.setActive(foundBook.getActive());
+        book.setFeatured(bookDTO.getFeatured());
+        book.setCreateDate(foundBook.getCreateDate());
+        book.setBuiltIn(foundBook.getBuiltIn());
 
-        book.setId(updatedBook.getId());
+
 
 
 
         bookRepository.save(book);
-        return updatedBook;
+        return book;
 
     }
 

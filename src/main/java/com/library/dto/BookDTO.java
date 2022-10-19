@@ -31,12 +31,12 @@ public class BookDTO {
 
     private Integer pageCount;
 
-    private Author bookAuthor;
+    private Long bookAuthor;
 
-    private Publisher bookPublisher;
+    private Long bookPublisher;
     private Integer publishDate;
 
-    private Category bookCategory;
+    private Long bookCategory;
     private String imageLink;
 
     private Boolean loanable = true;
