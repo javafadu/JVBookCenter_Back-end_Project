@@ -12,6 +12,7 @@ import com.library.exception.BadRequestException;
 import com.library.exception.ResourceNotFoundException;
 import com.library.exception.message.ErrorMessage;
 import com.library.repository.LoanRepository;
+import com.library.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,7 @@ public class LoanService {
     LoanRepository loanRepository;
     UserService userService;
     BookService bookService;
+    UserRepository userRepository;
 
 
 
@@ -181,7 +183,7 @@ public class LoanService {
         if(loanUpdateRequest==null) throw new BadRequestException("The updated body is null");
 
         Book book = getBookInfoInLoan(loanId);
-
+        User user = getUserInfoInLoan(loanId);
 
 
         if(loanUpdateRequest.getReturnDate()!=null) {
@@ -191,8 +193,22 @@ public class LoanService {
             loan.setExpireDate(loanUpdateRequest.getExpireDate());
             loan.setReturnDate(loanUpdateRequest.getReturnDate());
 
+            // update save loan
             loanRepository.save(loan);
+            // change book loanable status from false to true
             bookService.updateBookLoanable(book.getId());
+            // increase or decrease user score
+            LocalDateTime  addedReturnDate = loanUpdateRequest.getReturnDate();
+            LocalDateTime  addedExpireDate = loanUpdateRequest.getExpireDate();
+            int diff = addedExpireDate.compareTo(addedExpireDate);
+            if(diff>0) {
+                user.setId(user.getId());
+                user.setScore(user.getScore()+1);
+            } else {
+                user.setId(user.getId());
+                user.setScore(user.getScore()-1);
+            }
+            userRepository.save(user);
 
         } else {
             loan.setId(loan.getId());
@@ -226,6 +242,17 @@ public class LoanService {
         if(book == null) throw new ResourceNotFoundException("The loaned book is not found");
 
         return book;
+
+    }
+
+    // GET USER OBJECT from Related Loan
+    public User getUserInfoInLoan (Long id) {
+        Loan loan = loanRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
+
+        User user = loan.getUserLoan();
+        if(user == null) throw new ResourceNotFoundException("The loaned user is not found");
+
+        return user;
 
     }
 
