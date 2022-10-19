@@ -127,7 +127,7 @@ public class BookService {
         book.setImageLink("images/books/"+bookDTO.getBookCategory()+"/"+bookDTO.getImageLink());
         book.setLoanable(foundBook.getLoanable());
         book.setShelfCode(bookDTO.getShelfCode());
-        book.setActive(foundBook.getActive());
+        book.setActive(bookDTO.getActive());
         book.setFeatured(bookDTO.getFeatured());
         book.setCreateDate(foundBook.getCreateDate());
         book.setBuiltIn(foundBook.getBuiltIn());
