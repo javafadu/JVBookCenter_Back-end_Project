@@ -1,10 +1,10 @@
 package com.library.controller;
 
-import com.library.domain.User;
-import com.library.dto.UserDTO;
+
 import com.library.dto.request.UpdateUserRequest;
-import com.library.dto.response.LResponse;
+import com.library.dto.response.LoanAuthResponseWithBook;
 import com.library.dto.response.UserResponse;
+import com.library.service.LoanService;
 import com.library.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,14 +21,15 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping()
 @AllArgsConstructor
 public class UserController {
 
     private UserService userService;
+    private LoanService loanService;
 
 
-    @GetMapping()
+    @GetMapping("/users")
     @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
     public ResponseEntity<Page<UserResponse>> getAllUsersByPage(@RequestParam("page") int page,
                                                            @RequestParam("size") int size,
@@ -41,7 +42,7 @@ public class UserController {
         return  ResponseEntity.ok(usersWithPage);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/users/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
     public ResponseEntity<UserResponse> getUserById(@PathVariable Long id){
         UserResponse user = userService.findById(id);
@@ -49,7 +50,7 @@ public class UserController {
     }
 
 
-    @PutMapping("/{id}")
+    @PutMapping("/users/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF') ")
     public ResponseEntity<UserResponse> updateUser (HttpServletRequest httpServletRequest,@Valid @PathVariable Long id, @RequestBody UpdateUserRequest updateUserRequest){
         Long updaterId =(Long) httpServletRequest.getAttribute("id");
@@ -60,7 +61,7 @@ public class UserController {
 
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/users/{id}")
     @PreAuthorize("hasRole('ADMIN') ")
     public ResponseEntity<UserResponse> deleteUser ( @PathVariable Long id){
 
@@ -69,4 +70,29 @@ public class UserController {
         return ResponseEntity.ok(userResponse);
 
     }
+
+    @GetMapping("/user")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF') or hasRole('MEMBER')")
+    public ResponseEntity<UserResponse> getAuthUser(HttpServletRequest httpServletRequest){
+        Long id = (Long) httpServletRequest.getAttribute("id");
+        UserResponse user = userService.findById(id);
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/user/loans")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF') or hasRole('MEMBER')")
+    public ResponseEntity<Page<LoanAuthResponseWithBook>> getAuthLoansWithPage (HttpServletRequest httpServletRequest,
+                                                                                @RequestParam(required = false, value = "page", defaultValue = "0") int page,
+                                                                                @RequestParam(required = false,value = "size", defaultValue = "3") int size,
+                                                                                @RequestParam(required = false,value = "sort", defaultValue = "loanDate") String prop,
+                                                                                @RequestParam(required = false,value = "direction", defaultValue = "DESC") Sort.Direction direction) {
+        Pageable pageable = PageRequest.of(page,size,Sort.by(direction,prop));
+        Long userId = (Long) httpServletRequest.getAttribute("id");
+        Page<LoanAuthResponseWithBook> authLoans = loanService.getLoansAuthWithPages(userId, pageable);
+
+        return ResponseEntity.ok(authLoans);
+    }
+
+
+
 }

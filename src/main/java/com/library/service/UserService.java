@@ -167,8 +167,20 @@ public class UserService {
 
     public UserResponse deleteUser(Long id) {
 
+        User user = userRepository.findById(id).orElseThrow(()->new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
 
-        loanRepository.e
+        if(loanRepository.existsByUserLoan(user)){
+            throw new ConflictException("This User has  loaned books so You can not delete it");
+        }
+
+        // BuiltIn kontrollu
+        if (user.getBuiltIn()){
+            throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
+        }
+
+        userRepository.delete(user);
+      return userMapper.userToUserResponse(user);
 
     }
+
 }
