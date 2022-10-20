@@ -34,13 +34,12 @@ public class AuthorController {
 
     }
     @GetMapping("/{id}")
-    //TODO : Login islevsel hale geldiginde antMatch yapilacak.
-    //TODO : Response icin DAO olusturulacak
     public ResponseEntity<Author> getAuthorById(Author author){
        Author authorResponse=authorService.getAuthorById(author.getId());
 
         return ResponseEntity.ok(authorResponse);
     }
+
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<AuthorDTO> updateAuthoryById(@Valid @RequestBody AuthorDTO authorDTO) {
@@ -60,7 +59,7 @@ public class AuthorController {
     }
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Author> deleteAuthoryById(Long id ){
+    public ResponseEntity<Author> deleteAuthoryById(@PathVariable Long id ){
         Author deletedAuthor=authorService.deleteAuthorById(id);
 
         return ResponseEntity.ok(deletedAuthor);

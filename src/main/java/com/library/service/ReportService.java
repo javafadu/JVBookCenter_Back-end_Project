@@ -47,6 +47,7 @@ public class ReportService {
 
     public List mostPopularBooks(Integer amount, Pageable pageable) {
        List<Object[]> popularBooks = loanRepository.mostPopularBooks(amount, pageable);
+       //TODO pageable.stream yaparak limitleyebiliyoruz.
 
         return popularBooks;
     }
