@@ -20,8 +20,6 @@ public class savePublisherTest {
 void savePublisher() {
     PublisherDTO publisherDTO = new PublisherDTO();
     publisherDTO.setName("Selami");
-    publisherDTO.setBuiltIn(false);
-
     publisherService.savePublisher(publisherDTO);
 }
 }

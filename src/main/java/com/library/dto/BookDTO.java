@@ -1,10 +1,8 @@
 package com.library.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.library.domain.Author;
-import com.library.domain.Category;
-import com.library.domain.Loan;
-import com.library.domain.Publisher;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.library.domain.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,73 +25,33 @@ import java.util.List;
 public class BookDTO {
 
 
-    @Size(min = 2,max = 80,message="Size is exceeded")
-    @NotNull(message = "Please provide book name")
+    private Long id;
     private String name;
-
-    @NotNull(message = "Please provide isbn")
-    @Size(max = 17)
-    @Pattern(regexp = "^\\d{3}-\\d{2}-\\d{5}-\\d{2}-\\d$",
-            message = "Please provide valid isbn number")
     private String isbn;
-
 
     private Integer pageCount;
 
-    @NotNull(message = "Please provide a Author id")
-    private Author bookAuthor;
+    private Long bookAuthor;
 
-    @NotNull(message = "Please provide a Publichser id")
-    private Publisher bookPublisher;
-
-
+    private Long bookPublisher;
     private Integer publishDate;
 
-    @NotNull(message = "Please provide A Category id")
-    private Category bookCategory;
-
+    private Long bookCategory;
     private String imageLink;
 
-
-    @NotNull(message = "Please provide shelf Code")
-    @Size(max = 6)
-    @Pattern(regexp = "^[A-Z]{2}-\\d{3}$",
-            message = "Please provide a valid shelf Code")
-    private String shelfCode;
-
-    @NotNull(message = "Please provide shelf Code")
-    private Boolean featured = false;
-
-
-
-    // BELOW variables are not requested from client
-    // they will have default value or starter value
-
-    @NotNull(message = "Please provide active value true or false")
-    private Boolean active = true;
-
-    @NotNull(message = "Please provide builtIn value true or false")
-    private Boolean builtIn =false;
-
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =
-            "MM/dd/yyyy HH:mm:ss", timezone = "Turkey")
-    @NotNull(message = "Please provide createDate")
-    private LocalDateTime createDate;
-
-    @NotNull(message = "Please provide loanable value true or false")
     private Boolean loanable = true;
 
+    private String shelfCode;
 
-    // The missing variables
+    private Boolean active = true;
 
-    /*
-        private Long id;
-        private List<Loan> loanedBooks=new ArrayList<>();
+    private Boolean featured = false;
 
-     */
+    private LocalDateTime createDate;
 
+    private Boolean builtIn = false;
 
+    private List<Loan> loanedBooks = new ArrayList<>();
 
 
 

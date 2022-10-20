@@ -1,9 +1,10 @@
 package com.library.controller;
 
 
+import com.library.domain.Loan;
 import com.library.dto.request.LoanSaveRequest;
-import com.library.dto.response.LoanAuthPagesResponse;
-import com.library.dto.response.LoanSaveResponse;
+import com.library.dto.request.LoanUpdateRequest;
+import com.library.dto.response.*;
 import com.library.service.LoanService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 
 @RestController
@@ -48,28 +50,89 @@ public class LoanController {
 
     }
 
-    // 1- GET OWN Loans of authenticated user
+    // 2- GET OWN Loans of authenticated user
     // endpoint: [{server_url}/loans
-    /* Json body
-    {
-    "userId": 3,
-    "bookId": 4,
-    "notes": "Ahmet reserved Jane Eyre"
-    }
-     */
 
     @GetMapping()
     @PreAuthorize("hasRole('MEMBER')")
-    public ResponseEntity<Page<LoanAuthPagesResponse>> getAuthLoansWithPage (HttpServletRequest request,
-                                                                             @RequestParam(required = false, value = "page", defaultValue = "0") int page,
-                                                                             @RequestParam(required = false,value = "size", defaultValue = "3") int size,
-                                                                             @RequestParam(required = false,value = "sort", defaultValue = "loanDate") String prop,
-                                                                             @RequestParam(required = false,value = "direction", defaultValue = "DESC") Sort.Direction direction) {
+    public ResponseEntity<Page<LoanAuthResponseWithBook>> getAuthLoansWithPage (HttpServletRequest request,
+                                                                                @RequestParam(required = false, value = "page", defaultValue = "0") int page,
+                                                                                @RequestParam(required = false,value = "size", defaultValue = "3") int size,
+                                                                                @RequestParam(required = false,value = "sort", defaultValue = "loanDate") String prop,
+                                                                                @RequestParam(required = false,value = "direction", defaultValue = "DESC") Sort.Direction direction) {
         Pageable pageable = PageRequest.of(page,size,Sort.by(direction,prop));
         Long userId = (Long) request.getAttribute("id");
-        Page<LoanAuthPagesResponse> authLoans = loanService.getLoansAuthWithPages(userId, pageable);
+        Page<LoanAuthResponseWithBook> authLoans = loanService.getLoansAuthWithPages(userId, pageable);
 
         return ResponseEntity.ok(authLoans);
     }
+
+
+    // 3- GET OWN any loan details of authenticated user
+    // endpoint: [{server_url}/loans/{id}
+    @GetMapping("/{loanId}")
+    @PreAuthorize("hasRole('MEMBER')")
+    public ResponseEntity<LoanAuthResponseWithBook> getAuthLoansWithPage (HttpServletRequest request, @PathVariable Long loanId) {
+        Long userId = (Long) request.getAttribute("id");
+        LoanAuthResponseWithBook authLoanWithId = loanService.getLoanAuthWithId(userId,loanId);
+        return ResponseEntity.ok(authLoanWithId);
+    }
+
+    // 4- GET LOANS of SPECIFIED userId
+    // endpoint: [{server_url}/loans/user/{id}
+    @GetMapping("/user/{userId}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+    public ResponseEntity<Page<LoanAdminResponseWithBook>> getUserLoansWithPage (@PathVariable Long userId,
+                                                                                 @RequestParam(required = false, value = "page", defaultValue = "0") int page,
+                                                                                 @RequestParam(required = false,value = "size", defaultValue = "3") int size,
+                                                                                 @RequestParam(required = false,value = "sort", defaultValue = "loanDate") String prop,
+                                                                                 @RequestParam(required = false,value = "direction", defaultValue = "DESC") Sort.Direction direction) {
+        Pageable pageable = PageRequest.of(page,size,Sort.by(direction,prop));
+        Page<LoanAdminResponseWithBook> userLoans = loanService.getUserLoansWithPages(userId, pageable);
+
+        return ResponseEntity.ok(userLoans);
+    }
+
+
+    // 5- GET LOANS of SPECIFIED bookId
+    // endpoint: [{server_url}/loans/book/{id}
+    @GetMapping("/book/{bookId}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+    public ResponseEntity<Page<LoanAdminResponseWithUser>> getBookLoansWithPage (@PathVariable Long bookId,
+                                                                                 @RequestParam(required = false, value = "page", defaultValue = "0") int page,
+                                                                                 @RequestParam(required = false,value = "size", defaultValue = "3") int size,
+                                                                                 @RequestParam(required = false,value = "sort", defaultValue = "loanDate") String prop,
+                                                                                 @RequestParam(required = false,value = "direction", defaultValue = "DESC") Sort.Direction direction) {
+        Pageable pageable = PageRequest.of(page,size,Sort.by(direction,prop));
+        Page<LoanAdminResponseWithUser> bookLoans = loanService.getBookLoansWithPages(bookId, pageable);
+
+        return ResponseEntity.ok(bookLoans);
+    }
+
+    // 6- GET specified LOAN details including book and user objest
+    // endpoint: [{server_url}/loans/auth/{id}
+    @GetMapping("/auth/{loanId}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+    public ResponseEntity<LoanAdminResponseWithUserAndBook> getLoanDetailsWithPage (@PathVariable Long loanId) {
+
+        LoanAdminResponseWithUserAndBook loanDetails = loanService.getLoanDetailsWithPage(loanId);
+
+        return ResponseEntity.ok(loanDetails);
+    }
+
+    // 7- UPDATE a the selected loan
+    // endpoint: [{server_url}/loans/{id}
+    @PutMapping("/{loanId}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+    public ResponseEntity<LoanUpdateResponse> updateLoan(@Valid @PathVariable Long loanId, @RequestBody LoanUpdateRequest loanUpdateRequest) {
+
+        LoanUpdateResponse loanUpdateResponse = loanService.updateLoan(loanId, loanUpdateRequest);
+
+        return new ResponseEntity<>(loanUpdateResponse, HttpStatus.CREATED);
+
+    }
+
+
+
 
 }

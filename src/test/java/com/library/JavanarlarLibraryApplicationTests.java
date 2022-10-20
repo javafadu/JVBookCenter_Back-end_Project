@@ -16,7 +16,7 @@ class JavanarlarLibraryApplicationTests {
     @Test
     void contextLoads() {
         // UserService userService = new UserService();
-        userService.saveUserService();
+        // userService.saveUserService();
     }
 
 

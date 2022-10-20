@@ -18,7 +18,6 @@ public class saveAuthorTest {
  public void saveAuthorT(){
   AuthorDTO authorDTO = new AuthorDTO();
   authorDTO.setName("Selami");
-  authorDTO.setBuiltIn(true);
   authorService.saveAuthor(authorDTO);
 
  }
