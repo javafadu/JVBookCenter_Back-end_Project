@@ -22,8 +22,8 @@ public class AuthorService {
     AuthorRepository authorRepository;
     AuthorMapper authorMapper;
 
-    public Author saveAuthor(AuthorDTO authorDTO){
-        Author author=new Author();
+    public Author saveAuthor(AuthorDTO authorDTO) {
+        Author author = new Author();
         author.setName(authorDTO.getName());
         author.setBuiltIn(false);
 
@@ -34,15 +34,15 @@ public class AuthorService {
 
     public Author getAuthorById(Long id) {
 
-        return authorRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
+        return authorRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
 
     }
 
 
-    public Author deleteAuthorById(Long id){
+    public Author deleteAuthorById(Long id) {
 
-        Author deletingAuthor=authorRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.AUTHOR_NOT_FOUND_MESSAGE,id)));
-        if(deletingAuthor.getAuthorBooks().isEmpty()){
+        Author deletingAuthor = authorRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format(ErrorMessage.AUTHOR_NOT_FOUND_MESSAGE, id)));
+        if (deletingAuthor.getAuthorBooks().isEmpty()) {
             authorRepository.deleteById(deletingAuthor.getId());
             return deletingAuthor;
         } else throw new RuntimeException(String.format(ErrorMessage.AUTHOR_HAS_RELATED_RECORDS_MESSAGE));

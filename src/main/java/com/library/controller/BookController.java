@@ -6,6 +6,7 @@ import com.library.dto.BookDTO;
 import com.library.dto.request.BookRegisterRequest;
 import com.library.dto.response.BookRegisterResponse;
 
+import com.library.dto.response.BookUpdateResponse;
 import com.library.service.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -67,10 +68,10 @@ public class BookController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF') or hasRole('MEMBER')")
 
-    public ResponseEntity<Book> updateBook(@PathVariable("id") Long id,
-                                           @RequestBody BookDTO bookDTO) {
+    public ResponseEntity<BookUpdateResponse> updateBook(@PathVariable("id") Long id,
+                                                         @RequestBody BookDTO bookDTO) {
 
-        Book bookDTOResponse = bookService.updateBook(id,bookDTO);
+        BookUpdateResponse bookDTOResponse = bookService.updateBook(id,bookDTO);
 
 
         return new ResponseEntity<>(bookDTOResponse, HttpStatus.CREATED);

@@ -6,6 +6,7 @@ import com.library.dto.mapper.BookMapper;
 import com.library.dto.mapper.UserMapper;
 import com.library.dto.request.BookRegisterRequest;
 import com.library.dto.response.BookRegisterResponse;
+import com.library.dto.response.BookUpdateResponse;
 import com.library.exception.BadRequestException;
 import com.library.exception.ResourceNotFoundException;
 import com.library.exception.message.ErrorMessage;
@@ -50,6 +51,8 @@ public class BookService {
         book.setBookPublisher(publisherService.getPublisherById(bookRegisterRequest.getBookPublisher()));
         book.setBookCategory(categoryService.getCategoryById(bookRegisterRequest.getBookCategory()));
 
+
+        book.setImageLink("images/books/"+bookRegisterRequest.getBookCategory()+"/"+bookRegisterRequest.getImageLink());
         book.setLoanable(true);
         book.setShelfCode(bookRegisterRequest.getShelfCode());
         book.setActive(true);
@@ -57,61 +60,50 @@ public class BookService {
         LocalDateTime today = LocalDateTime.now();
         book.setCreateDate(today);
         book.setBuiltIn(false);
-        book.setImageLink(bookRegisterRequest.getImageLink());
 
         bookRepository.save(book);
 
 
         BookRegisterResponse bookRegisterResponse = new BookRegisterResponse();
 
-        bookRegisterResponse.setName(bookRegisterRequest.getName());
-        bookRegisterResponse.setIsbn(bookRegisterRequest.getIsbn());
-        bookRegisterResponse.setPageCount(bookRegisterRequest.getPageCount());
-        bookRegisterResponse.setBookAuthor(authorService.getAuthorById(bookRegisterRequest.getBookAuthor()));
-        bookRegisterResponse.setBookPublisher(publisherService.getPublisherById(bookRegisterRequest.getBookPublisher()));
-        bookRegisterResponse.setPublishDate(bookRegisterRequest.getPublishDate());
-        bookRegisterResponse.setBookCategory(categoryService.getCategoryById(bookRegisterRequest.getBookCategory()));
-        bookRegisterResponse.setImageLink("images/books/" + bookRegisterResponse.getBookCategory().getId() + "/" + bookRegisterRequest.getImageLink());
-        bookRegisterResponse.setLoanable(true);
-        bookRegisterResponse.setShelfCode(bookRegisterRequest.getShelfCode());
-        bookRegisterResponse.setActive(true);
-        bookRegisterResponse.setFeatured(bookRegisterRequest.getFeatured());
-        bookRegisterResponse.setCreateDate(today);
-        bookRegisterResponse.setBuiltIn(false);
-
+        bookRegisterResponse=bookMapper.BookToBookRegisterResponse(book);
 
         return bookRegisterResponse;
 
     }
 
 
+
+
+
+
     public Book getBookById(Long id) {
-        return bookRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
+        return bookRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
     }
 
 
-    public BookRegisterResponse findBookById(Long id) {
-        Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
+    public BookRegisterResponse findBookById(Long id){
+        Book book =bookRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
         BookRegisterResponse bookResponse = bookMapper.BookToBookRegisterResponse(book);
         return bookResponse;
 
     }
 
-    public Page<BookRegisterResponse> findAllWithPage(Pageable pageable) {
+    public Page<BookRegisterResponse> findAllWithPage(Pageable pageable){
 
         return bookRepository.findAllBookWithPage(pageable);
     }
 
 
     @Transactional
-    public Book updateBook(Long id, BookDTO bookDTO) {
+    public BookUpdateResponse updateBook(Long id, BookDTO bookDTO){
 
-        Book foundBook = bookRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
-        if (foundBook.getBuiltIn()) {
+        Book foundBook =bookRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
+        if (foundBook.getBuiltIn()){
             throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
         }
 
-        Book book = new Book();
+        Book book=new Book();
         book.setId(foundBook.getId());
         book.setName(bookDTO.getName());
         book.setIsbn(bookDTO.getIsbn());
@@ -120,7 +112,7 @@ public class BookService {
         book.setBookPublisher(publisherService.getPublisherById(bookDTO.getBookPublisher()));
         book.setPublishDate(bookDTO.getPublishDate());
         book.setBookCategory(categoryService.getCategoryById(bookDTO.getBookCategory()));
-        book.setImageLink("images/books/" + bookDTO.getBookCategory() + "/" + bookDTO.getImageLink());
+        book.setImageLink("images/books/"+bookDTO.getBookCategory()+"/"+bookDTO.getImageLink());
         book.setLoanable(foundBook.getLoanable());
         book.setShelfCode(bookDTO.getShelfCode());
         book.setActive(bookDTO.getActive());
@@ -128,21 +120,27 @@ public class BookService {
         book.setCreateDate(foundBook.getCreateDate());
         book.setBuiltIn(foundBook.getBuiltIn());
 
-
         bookRepository.save(book);
-        return book;
+
+
+        BookUpdateResponse bookUpdateResponse = bookMapper.BookToBookUpdateResponse(book);
+
+        return bookUpdateResponse;
 
     }
 
 
-    public BookRegisterResponse deleteBookById(Long id) {
 
-        Book book = getBookById(id);
 
-        BookRegisterResponse bookRegisterResponse = bookMapper.BookToBookRegisterResponse(book);
 
-        boolean exists = loanRepository.existsByLoanedBooks(book);
-        if (exists) {
+    public BookRegisterResponse deleteBookById(Long id){
+
+        Book book =getBookById(id);
+
+        BookRegisterResponse bookRegisterResponse= bookMapper.BookToBookRegisterResponse(book);
+
+        boolean exists=loanRepository.existsByLoanedBooks(book);
+        if (exists){
             throw new BadRequestException(ErrorMessage.BOOK_USED_BY_RESERVATION_MESSAGE);
         }
 
@@ -157,6 +155,7 @@ public class BookService {
         bookRepository.save(bookUpdated);
 
     }
+
 
 
 }
