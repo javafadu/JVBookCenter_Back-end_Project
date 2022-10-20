@@ -2,7 +2,6 @@ package com.library.repository;
 
 import com.library.domain.Book;
 import com.library.domain.Loan;
-import com.library.dto.request.MostPopularBooksRequest;
 import com.library.dto.response.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +10,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -62,11 +63,16 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
     LoanAdminResponseWithUserAndBook getLoanDetails(Long loanId);
 
 
-    @Query("SELECT l.loanedBooks.id, l.loanedBooks.name, l.loanedBooks.isbn, COUNT(l.loanedBooks.id) as sumLoan FROM Loan AS l GROUP BY l.loanedBooks.id, l.loanedBooks.name, l.loanedBooks.isbn ORDER BY sumLoan DESC")
+    @Query("SELECT l.loanedBooks.id, l.loanedBooks.name, l.loanedBooks.isbn, COUNT(l.loanedBooks.id) as sumLoan FROM Loan AS l GROUP BY l.loanedBooks.id, l.loanedBooks.name, l.loanedBooks.isbn ORDER BY sumLoan DESC ")
     List<Object[]> mostPopularBooks(Integer amount, Pageable pageable);
 
 
+    @Query("SELECT new com.library.dto.response.ReportBookResponse(l) FROM Loan AS l WHERE l.returnDate IS NULL ")
+    Page<ReportBookResponse> unReturnedBooks(Pageable pageable);
 
+    @Query("SELECT new com.library.dto.response.ReportBookResponse(l) FROM Loan AS l WHERE l.returnDate IS NULL and l.expireDate > :today ")
+    Page<ReportBookResponse> expiredBooks(@Param("today") LocalDateTime today, Pageable pageable);
 
-
+    @Query("SELECT l.userLoan.id, l.userLoan.firstName,l.userLoan.lastName, COUNT(l.userLoan.id) as sumLoan FROM Loan AS l GROUP BY l.userLoan.id, l.userLoan.firstName,l.userLoan.lastName ORDER BY sumLoan DESC ")
+    List<Object[]> mostBorrowers(Pageable pageable);
 }
