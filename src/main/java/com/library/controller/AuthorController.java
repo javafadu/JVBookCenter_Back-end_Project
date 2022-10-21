@@ -34,7 +34,7 @@ public class AuthorController {
      */
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Author> saveAuthor(@Valid @RequestBody AuthorDTO authorDTO) {
+    public ResponseEntity<AuthorDTO> saveAuthor(@Valid @RequestBody AuthorDTO authorDTO) {
 
         return new ResponseEntity<>(authorService.saveAuthor(authorDTO),HttpStatus.CREATED);
 

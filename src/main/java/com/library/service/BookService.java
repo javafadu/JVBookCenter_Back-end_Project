@@ -2,6 +2,7 @@ package com.library.service;
 
 import com.library.domain.Author;
 import com.library.domain.Book;
+import com.library.domain.Category;
 import com.library.dto.BookDTO;
 import com.library.dto.mapper.BookMapper;
 import com.library.dto.mapper.UserMapper;
@@ -13,6 +14,7 @@ import com.library.exception.ResourceNotFoundException;
 import com.library.exception.message.ErrorMessage;
 import com.library.repository.AuthorRepository;
 import com.library.repository.BookRepository;
+import com.library.repository.CategoryRepository;
 import com.library.repository.LoanRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,7 @@ public class BookService {
     private AuthorService authorService;
     private PublisherService publisherService;
     private CategoryService categoryService;
+    private CategoryRepository categoryRepository;
     private LoanRepository loanRepository;
     private BookMapper bookMapper;
 
@@ -52,7 +55,10 @@ public class BookService {
 
         book.setBookAuthor(authorOfBook);
         book.setBookPublisher(publisherService.getPublisherById(bookRegisterRequest.getBookPublisher()));
-        book.setBookCategory(categoryService.getCategoryById(bookRegisterRequest.getBookCategory()));
+
+        Category categoryOfBook = categoryRepository.findById(bookRegisterRequest.getBookAuthor()).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,bookRegisterRequest.getBookAuthor())));
+
+        book.setBookCategory(categoryOfBook);
 
 
         book.setImageLink("images/books/"+bookRegisterRequest.getBookCategory()+"/"+bookRegisterRequest.getImageLink());
@@ -117,7 +123,10 @@ public class BookService {
         book.setBookAuthor(authorOfBook);
         book.setBookPublisher(publisherService.getPublisherById(bookDTO.getBookPublisher()));
         book.setPublishDate(bookDTO.getPublishDate());
-        book.setBookCategory(categoryService.getCategoryById(bookDTO.getBookCategory()));
+
+        Category categoryOfBook = categoryRepository.findById(bookDTO.getBookAuthor()).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,bookDTO.getBookAuthor())));
+
+        book.setBookCategory(categoryOfBook);
         book.setImageLink("images/books/"+bookDTO.getBookCategory()+"/"+bookDTO.getImageLink());
         book.setLoanable(foundBook.getLoanable());
         book.setShelfCode(bookDTO.getShelfCode());

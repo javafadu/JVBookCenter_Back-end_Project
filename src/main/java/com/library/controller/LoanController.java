@@ -72,7 +72,7 @@ public class LoanController {
     // endpoint: [{server_url}/loans/{id}
     @GetMapping("/{loanId}")
     @PreAuthorize("hasRole('MEMBER')")
-    public ResponseEntity<LoanAuthResponseWithBook> getAuthLoansWithPage (HttpServletRequest request, @PathVariable Long loanId) {
+    public ResponseEntity<LoanAuthResponseWithBook> getAuthLoanWithId (HttpServletRequest request, @PathVariable Long loanId) {
         Long userId = (Long) request.getAttribute("id");
         LoanAuthResponseWithBook authLoanWithId = loanService.getLoanAuthWithId(userId,loanId);
         return ResponseEntity.ok(authLoanWithId);

@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.lang.reflect.Type;
+
 
 @RestController
 @RequestMapping("/categories")
@@ -25,7 +25,13 @@ public class CategoryController {
 
     CategoryService categoryService;
 
-
+    // 1- CREATE a Category
+    // endpoint: [{server_url}/categories
+    /* Json body:
+    {
+    "name": "Horror"
+    }
+     */
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CategoryDTO> saveCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
@@ -34,15 +40,16 @@ public class CategoryController {
 
     }
 
+    // 2- Get a Category with Id
+    // endpoint: [{server_url}/categories/{id}
     @GetMapping("/{id}")
-    //TODO : Login islevsel hale geldiginde antMatch yapilacak.
-    //TODO : Response icin DAO olusturulacak
-    public ResponseEntity<Category> getCategoryById(Long id) {
-        Category categoryResponse = categoryService.getCategoryById(id);
-
+    public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable Long id) {
+        CategoryDTO categoryResponse = categoryService.getCategoryById(id);
         return ResponseEntity.ok(categoryResponse);
     }
 
+    // 4- Get all Categories with paging
+    // endpoint: [{server_url}/categories
     @GetMapping
     public ResponseEntity<Page<CategoryDTO>> getAllCategoriesByPage(@RequestParam(required = false, value = "page", defaultValue = "0") int page,
                                                                     @RequestParam(required = false, value = "size", defaultValue = "20") int size,
@@ -53,18 +60,26 @@ public class CategoryController {
         return ResponseEntity.ok(categoryDTOPage);
     }
 
-
+    // 5- Update a category
+    // endpoint: [{server_url}/categories/{id}
+        /* Json body:
+    {
+    "name": "Horror",
+    "builtIn": "false"
+    }
+     */
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<CategoryDTO> updateCategoryById(@Valid @RequestBody CategoryDTO categoryDTO) {
-
-        return ResponseEntity.ok(categoryService.updateCategoryWithId(categoryDTO));
+    public ResponseEntity<CategoryDTO> updateCategoryById(@Valid @PathVariable Long id, @RequestBody CategoryDTO categoryDTO) {
+        return ResponseEntity.ok(categoryService.updateCategoryWithId(id,categoryDTO));
     }
 
+    // 6- Delete a category
+    // endpoint: [{server_url}/categories/{id}
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Category> deleteCategoryById(Long id) {
-        Category deletedCategory = categoryService.deleteCategoryById(id);
+    public ResponseEntity<CategoryDTO> deleteCategoryById(@PathVariable Long id) {
+        CategoryDTO deletedCategory = categoryService.deleteCategoryById(id);
 
         return ResponseEntity.ok(deletedCategory);
     }

@@ -22,13 +22,13 @@ public class AuthorService {
     AuthorRepository authorRepository;
     AuthorMapper authorMapper;
 
-    public Author saveAuthor(AuthorDTO authorDTO) {
+    public AuthorDTO saveAuthor(AuthorDTO authorDTO) {
         Author author = new Author();
         author.setName(authorDTO.getName());
         author.setBuiltIn(false);
 
         authorRepository.save(author);
-        return author;
+        return authorMapper.authorToAuthorDTO(author);
 
     }
 
@@ -53,6 +53,7 @@ public class AuthorService {
         authorRepository.deleteById(deletingAuthor.getId());
         return authorMapper.authorToAuthorDTO(deletingAuthor);
     }
+
     public Page<AuthorDTO> getAuthorPage(Pageable pageable) {
         Page<AuthorDTO> authors = authorRepository.findAllAuthorsWithPage(pageable);
 
