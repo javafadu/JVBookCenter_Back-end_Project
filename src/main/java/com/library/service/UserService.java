@@ -148,7 +148,12 @@ public class UserService {
         }
 
         user.setId(id);
-        user.setFirstName(updateUserRequest.getFirstName());
+        if (updateUserRequest.getFirstName()==null) {
+            user.setFirstName(user.getFirstName());
+        } else {
+            user.setFirstName(updateUserRequest.getFirstName());
+        }
+
         user.setLastName(updaterUser.getLastName());
         user.setScore(updateUserRequest.getScore());
         user.setAddress(updateUserRequest.getAddress());
