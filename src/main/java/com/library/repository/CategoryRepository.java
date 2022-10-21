@@ -16,6 +16,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
             value = "SELECT max(c.sequence) FROM tbl_categories c",
             nativeQuery = true)
     Integer findMaxSequence();
+
     @Query("SELECT new com.library.dto.CategoryDTO(category) FROM Category category")
     Page<CategoryDTO> findAllCategoryWithPage(Pageable page);
 

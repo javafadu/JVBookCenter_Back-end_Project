@@ -13,4 +13,5 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
 
 @Query("SELECT new com.library.dto.AuthorDTO(author) FROM Author author")
     Page<AuthorDTO> findAllAuthorsWithPage(Pageable page);
+
 }

@@ -32,37 +32,40 @@ public class AuthorService {
 
     }
 
-    public Author getAuthorById(Long id) {
+    public AuthorDTO getAuthorById(Long id) {
 
-        return authorRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
+        Author author = authorRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
 
+        return authorMapper.authorToAuthorDTO(author);
     }
 
 
-    public Author deleteAuthorById(Long id) {
-
+    public AuthorDTO deleteAuthorById(Long id) {
+        // get author with id and check it it is exist or not
         Author deletingAuthor = authorRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format(ErrorMessage.AUTHOR_NOT_FOUND_MESSAGE, id)));
-        if (deletingAuthor.getAuthorBooks().isEmpty()) {
-            authorRepository.deleteById(deletingAuthor.getId());
-            return deletingAuthor;
-        } else throw new RuntimeException(String.format(ErrorMessage.AUTHOR_HAS_RELATED_RECORDS_MESSAGE));
+        // check Does the author have any registered books?
+        if (!deletingAuthor.getAuthorBooks().isEmpty()) {
+            throw new RuntimeException(String.format(ErrorMessage.AUTHOR_HAS_RELATED_RECORDS_MESSAGE));
+        }
+        // check the author is builtIn or not
+        if(deletingAuthor.getBuiltIn()) throw new RuntimeException(String.format(ErrorMessage.BUILTIN_DELETE_ERROR_MESSAGE,id));
+
+        authorRepository.deleteById(deletingAuthor.getId());
+        return authorMapper.authorToAuthorDTO(deletingAuthor);
     }
     public Page<AuthorDTO> getAuthorPage(Pageable pageable) {
         Page<AuthorDTO> authors = authorRepository.findAllAuthorsWithPage(pageable);
-//        Page<AuthorDTO> dtoPage = authors.map(new Function<Author, AuthorDTO>() {
-//
-//            @Override
-//            public AuthorDTO apply(Author author) {
-//                return authorMapper.authorToAuthorDTO(author);
-//            }
-//        });
+
         return authors;
     }
 
-    public AuthorDTO updateAuthorWithId(AuthorDTO authorDTO) {
-        Author author = authorRepository.findById(authorDTO.getId()).orElseThrow(()->new RuntimeException(String.format(ErrorMessage.AUTHOR_NOT_FOUND_MESSAGE)));
+    public AuthorDTO updateAuthorWithId(Long id, AuthorDTO authorDTO) {
+        Author author = authorRepository.findById(id).orElseThrow(()->new RuntimeException(String.format(ErrorMessage.AUTHOR_NOT_FOUND_MESSAGE)));
+        author.setId(id);
         author.setName(authorDTO.getName());
+        author.setBuiltIn(authorDTO.getBuiltIn());
         authorRepository.save(author);
+        authorDTO.setId(id);
         return authorDTO;
     }
 }

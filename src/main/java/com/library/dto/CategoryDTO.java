@@ -24,11 +24,15 @@ public class CategoryDTO {
     @Size(min=2,max=80,message="Category Name '${validatedValue}' must be between {min} and {max} chars long")
     private String name;
 
+    private Boolean builtIn;
+
     private Integer sequence;
 
     public CategoryDTO(Category category){
         this.name = category.getName();
+        this.id=category.getId();
         this.sequence = category.getSequence();
+        this.builtIn=category.getBuiltIn();
     }
 
 

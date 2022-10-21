@@ -25,7 +25,13 @@ public class AuthorController {
     AuthorService authorService;
 
 
-
+    // 1- CREATE an AUTHOR
+    // endpoint: [{server_url}/authors
+    /* Json body:
+    {
+    "name": "Dan Brown"
+    }
+     */
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Author> saveAuthor(@Valid @RequestBody AuthorDTO authorDTO) {
@@ -33,20 +39,27 @@ public class AuthorController {
         return new ResponseEntity<>(authorService.saveAuthor(authorDTO),HttpStatus.CREATED);
 
     }
+
+    // 2- GET an AUTHOR with Id
+    // endpoint: [{server_url}/authors/{id}
     @GetMapping("/{id}")
-    public ResponseEntity<Author> getAuthorById(Author author){
-       Author authorResponse=authorService.getAuthorById(author.getId());
+    public ResponseEntity<AuthorDTO> getAuthorById(@PathVariable Long id){
+       AuthorDTO authorResponse=authorService.getAuthorById(id);
 
         return ResponseEntity.ok(authorResponse);
     }
 
+    // 3- UPDATE an AUTHOR with Id (@Path) and author info (json body)
+    // endpoint: [{server_url}/authors/{id}
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<AuthorDTO> updateAuthoryById(@Valid @RequestBody AuthorDTO authorDTO) {
+    public ResponseEntity<AuthorDTO> updateAuthoryById(@Valid @PathVariable Long id, @RequestBody AuthorDTO authorDTO) {
 
-        return ResponseEntity.ok(authorService.updateAuthorWithId(authorDTO));
+        return ResponseEntity.ok(authorService.updateAuthorWithId(id,authorDTO));
     }
 
+    // 4- Get all Athors with paging
+    // endpoint: [{server_url}/authors
     @GetMapping
     public ResponseEntity<Page<AuthorDTO>> getAllAuthorsByPage(@RequestParam(required = false, value = "page", defaultValue = "0") int page,
                                                                @RequestParam(required = false,value = "size", defaultValue = "20") int size,
@@ -57,10 +70,13 @@ public class AuthorController {
         Page<AuthorDTO> authorDTOPage = authorService.getAuthorPage(pageable);
         return ResponseEntity.ok(authorDTOPage);
     }
+
+    // 5- DELETE a LOAN with an id
+    // endpoint: [{server_url}/authors/{id}
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Author> deleteAuthoryById(@PathVariable Long id ){
-        Author deletedAuthor=authorService.deleteAuthorById(id);
+    public ResponseEntity<AuthorDTO> deleteAuthoryById(@PathVariable Long id ){
+        AuthorDTO deletedAuthor=authorService.deleteAuthorById(id);
 
         return ResponseEntity.ok(deletedAuthor);
     }

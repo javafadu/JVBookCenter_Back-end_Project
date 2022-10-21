@@ -40,5 +40,7 @@ public class ErrorMessage {
     public static final String LOAN_NOT_FOUND_MESSAGE = "Selected Loan Is Not Found";
     public static final String UNRETURNED_BOOK_NOT_FOUND_MESSAGE = "There are no unreturned book";
     public static final String EXPIRED_BOOK_NOT_FOUND_MESSAGE = "There are no expired book";
+    public static final String BUILTIN_DELETE_ERROR_MESSAGE = "The item to be deleted (with id %d) has a built-in feature, it cannot be deleted.";
+
 
 }

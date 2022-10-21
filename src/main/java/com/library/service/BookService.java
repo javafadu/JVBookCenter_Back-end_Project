@@ -1,5 +1,6 @@
 package com.library.service;
 
+import com.library.domain.Author;
 import com.library.domain.Book;
 import com.library.dto.BookDTO;
 import com.library.dto.mapper.BookMapper;
@@ -47,7 +48,9 @@ public class BookService {
         book.setPageCount(bookRegisterRequest.getPageCount());
         book.setPublishDate(bookRegisterRequest.getPublishDate());
 
-        book.setBookAuthor(authorService.getAuthorById(bookRegisterRequest.getBookAuthor()));
+        Author authorOfBook = authorRepository.findById(bookRegisterRequest.getBookAuthor()).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,bookRegisterRequest.getBookAuthor())));
+
+        book.setBookAuthor(authorOfBook);
         book.setBookPublisher(publisherService.getPublisherById(bookRegisterRequest.getBookPublisher()));
         book.setBookCategory(categoryService.getCategoryById(bookRegisterRequest.getBookCategory()));
 
@@ -108,7 +111,10 @@ public class BookService {
         book.setName(bookDTO.getName());
         book.setIsbn(bookDTO.getIsbn());
         book.setPageCount(bookDTO.getPageCount());
-        book.setBookAuthor(authorService.getAuthorById(bookDTO.getBookAuthor()));
+
+        Author authorOfBook = authorRepository.findById(bookDTO.getBookAuthor()).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,bookDTO.getBookAuthor())));
+
+        book.setBookAuthor(authorOfBook);
         book.setBookPublisher(publisherService.getPublisherById(bookDTO.getBookPublisher()));
         book.setPublishDate(bookDTO.getPublishDate());
         book.setBookCategory(categoryService.getCategoryById(bookDTO.getBookCategory()));

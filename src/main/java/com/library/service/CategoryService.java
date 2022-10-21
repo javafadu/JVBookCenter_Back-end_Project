@@ -18,10 +18,9 @@ import java.util.function.Function;
 public class CategoryService {
 
     CategoryRepository categoryRepository;
-
     CategoryMapper categoryMapper;
 
-    public Category saveCategory(CategoryDTO categoryDTO) {
+    public CategoryDTO saveCategory(CategoryDTO categoryDTO) {
 
         Category category = new Category();
         category.setName(categoryDTO.getName());
@@ -35,7 +34,7 @@ public class CategoryService {
         category.setSequence(sequenceNumber + 1);
         categoryRepository.save(category);
 
-        return category;
+        return categoryMapper.categoryToCategoryDTO(category);
 
     }
 
