@@ -20,11 +20,9 @@ public class UpdateUserRequest {
 
 
     @Size(min = 2, max = 30, message = "Your first name '${validatedValue}' must be between {min} and {max} chars long")
-    @NotNull(message = "Please provide your first name")
     private String firstName;
 
     @Size(min = 2, max = 30, message = "Your last name '${validatedValue}' must be between {min} and {max} chars long")
-    @NotNull(message = "Please provide your last name")
     private String lastName;
 
     @Size(min = 10, max = 100, message = "Your address '${validatedValue}' must be between {min} and {max} chars long")
