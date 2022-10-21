@@ -120,7 +120,7 @@ public class LoanController {
         return ResponseEntity.ok(loanDetails);
     }
 
-    // 7- UPDATE a the selected loan
+    // 7- UPDATE the selected loan
     // endpoint: [{server_url}/loans/{id}
     @PutMapping("/{loanId}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")

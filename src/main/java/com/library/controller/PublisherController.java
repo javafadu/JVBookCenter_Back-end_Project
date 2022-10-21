@@ -25,19 +25,18 @@ public class PublisherController {
 
     PublisherService publisherService;
 
-
-
-
+    // 1- Create a Publisher
+    // endpoint: [{server_url}/publishers
     @PostMapping()
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Publisher> savePublisher(@Valid @RequestBody PublisherDTO publisherDTO) {
-
+    public ResponseEntity<PublisherDTO> savePublisher(@Valid @RequestBody PublisherDTO publisherDTO) {
 
         return new ResponseEntity<>(publisherService.savePublisher(publisherDTO), HttpStatus.CREATED);
 
     }
 
-
+    // 2- Get all Publishers with paging
+    // endpoint: [{server_url}/publishers
     @GetMapping()
     public ResponseEntity<Page<PublisherDTO>> getPublishersWithPage (
                                                                              @RequestParam(required = false, value = "page", defaultValue = "0") int page,
@@ -51,6 +50,8 @@ public class PublisherController {
         return ResponseEntity.ok(publisherDTO);
     }
 
+    // 3- Get a Publisher with Id
+    // endpoint: [{server_url}/publishers/{id}
     @GetMapping("/{id}")
     public ResponseEntity<PublisherDTO> getPublisherWithId(@PathVariable Long id){
         PublisherDTO publishersWithId=publisherService.getPublisherWithId(id);
@@ -58,6 +59,8 @@ public class PublisherController {
         return ResponseEntity.ok(publishersWithId);
     }
 
+    // 4- Delete a Publisher with Id
+    // endpoint: [{server_url}/publishers/{id}
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PublisherDTO> deletePublisher(@PathVariable Long id){
@@ -66,7 +69,15 @@ public class PublisherController {
         return ResponseEntity.ok(deletePublisher);
     }
 
-    @PostMapping("/{id}")
+    // 5- Update a publisher
+    // endpoint: [{server_url}/publishers/{id}
+        /* Json body:
+    {
+    "name": "IsBankasi Yayinlari",
+    "builtIn": "true"
+    }
+     */
+    @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PublisherDTO> updatePublisher(@PathVariable Long id,@RequestBody PublisherDTO publisherDTO){
         PublisherDTO updatePublisher=publisherService.updatePublisher(id,publisherDTO);

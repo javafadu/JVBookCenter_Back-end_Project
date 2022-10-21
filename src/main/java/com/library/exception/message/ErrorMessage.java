@@ -41,6 +41,8 @@ public class ErrorMessage {
     public static final String UNRETURNED_BOOK_NOT_FOUND_MESSAGE = "There are no unreturned book";
     public static final String EXPIRED_BOOK_NOT_FOUND_MESSAGE = "There are no expired book";
     public static final String BUILTIN_DELETE_ERROR_MESSAGE = "The item to be deleted (with id %d) has a built-in feature, it cannot be deleted.";
+    public static final String NO_DATA_IN_DB_TABLE_MESSAGE = "There is no data in %s table";
+    public static final String PUBLISHER_HAS_RELATED_RECORDS_MESSAGE = "Publisher is can not be deleted. The Publisher has related records in books.";
 
 
 }

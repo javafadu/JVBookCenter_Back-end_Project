@@ -22,6 +22,4 @@ public interface PublisherRepository extends JpaRepository<Publisher, Long> {
     PublisherDTO getPublisherwithId(Long id);
 
 
-    @Query(" DELETE FROM Publisher p WHERE p.id =?1 ")
-    PublisherDTO deletePublisherWithById(Long id);
 }

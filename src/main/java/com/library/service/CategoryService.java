@@ -5,6 +5,7 @@ import com.library.domain.Category;
 import com.library.dto.AuthorDTO;
 import com.library.dto.CategoryDTO;
 import com.library.dto.mapper.CategoryMapper;
+import com.library.exception.ResourceNotFoundException;
 import com.library.exception.message.ErrorMessage;
 import com.library.repository.CategoryRepository;
 import lombok.AllArgsConstructor;
@@ -81,7 +82,9 @@ public class CategoryService {
 
     @Transactional
     public CategoryDTO updateCategoryWithId(Long id, CategoryDTO categoryDTO) {
-        Category category = categoryRepository.findById(id).orElseThrow(()->new RuntimeException(String.format(ErrorMessage.CATEGORY_NOT_FOUND_MESSAGE)));
+        Category category = categoryRepository.findById(id).orElseThrow(()->new ResourceNotFoundException(String.format(ErrorMessage.CATEGORY_NOT_FOUND_MESSAGE)));
+
+        category.setId(id);
         category.setName(categoryDTO.getName());
         category.setBuiltIn(categoryDTO.getBuiltIn());
         categoryRepository.save(category);
