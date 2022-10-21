@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().
                 sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().
                 authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll().and().
-                authorizeRequests().antMatchers("/addroles","/register", "/login","/publishers","/publishers/**","/authors","/authors/**","/books/**","/categories", "/categories/**").permitAll().
+                authorizeRequests().antMatchers("/addroles","/register", "/login","/publishers","/publishers/**","/authors","/authors/**","/books","/books/**","/categories", "/categories/**").permitAll().
                 anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

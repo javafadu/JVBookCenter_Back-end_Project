@@ -5,19 +5,13 @@ import com.library.domain.Book;
 import com.library.domain.Category;
 import com.library.dto.BookDTO;
 import com.library.dto.mapper.BookMapper;
-import com.library.dto.mapper.UserMapper;
 import com.library.dto.request.BookRegisterRequest;
 import com.library.dto.response.BookRegisterResponse;
 import com.library.dto.response.BookUpdateResponse;
 import com.library.exception.BadRequestException;
-import com.library.exception.ResourceNotFoundException;
 import com.library.exception.message.ErrorMessage;
-import com.library.repository.AuthorRepository;
-import com.library.repository.BookRepository;
-import com.library.repository.CategoryRepository;
-import com.library.repository.LoanRepository;
+import com.library.repository.*;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -32,6 +26,7 @@ public class BookService {
 
     private BookRepository bookRepository;
     private AuthorRepository authorRepository;
+    private UserRepository userRepository;
     private AuthorService authorService;
     private PublisherService publisherService;
     private CategoryService categoryService;
@@ -98,9 +93,42 @@ public class BookService {
 
     }
 
-    public Page<BookRegisterResponse> findAllWithPage(Pageable pageable){
+    public Page<BookRegisterResponse> findAllWithPage(String q, Long cat, Long author, Long publisher, Pageable pageable){
 
-        return bookRepository.findAllBookWithPage(pageable);
+        Page<BookRegisterResponse> booksPage = null;
+        if(!q.isEmpty()) {
+            booksPage = bookRepository.getAllBooksWithQ(q,pageable);
+        } else if (cat!=null) {
+            booksPage = bookRepository.getAllBooksWithCat(cat,pageable);
+        } else if (author!=null) {
+            booksPage = bookRepository.getAllBooksWithAuthor(author,pageable);
+        }
+        else if (publisher!=null) {
+            booksPage = bookRepository.getAllBooksWithPublisher(publisher,pageable);
+        }
+
+        return booksPage;
+
+    }
+
+
+
+    public Page<BookRegisterResponse> findAllWithPageAdmin(String q, Long cat, Long author, Long publisher, Pageable pageable){
+
+        Page<BookRegisterResponse> booksPage = null;
+        if(!q.isEmpty()) {
+            booksPage = bookRepository.getAllBooksWithQAdmin(q,pageable);
+        } else if (cat!=null) {
+            booksPage = bookRepository.getAllBooksWithCatAdmin(cat,pageable);
+        } else if (author!=null) {
+            booksPage = bookRepository.getAllBooksWithAuthorAdmin(author,pageable);
+        }
+        else if (publisher!=null) {
+            booksPage = bookRepository.getAllBooksWithPublisherAdmin(publisher,pageable);
+        }
+
+        return booksPage;
+
     }
 
 
@@ -174,7 +202,5 @@ public class BookService {
         bookRepository.save(bookUpdated);
 
     }
-
-
 
 }

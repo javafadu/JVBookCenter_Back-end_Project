@@ -7,6 +7,8 @@ import com.library.dto.request.BookRegisterRequest;
 import com.library.dto.response.BookRegisterResponse;
 
 import com.library.dto.response.BookUpdateResponse;
+import com.library.exception.BadRequestException;
+import com.library.exception.message.ErrorMessage;
 import com.library.service.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -52,16 +54,60 @@ public class BookController {
     }
 
     @GetMapping()
-    public ResponseEntity<Page<BookRegisterResponse>> getBooksWithPage (HttpServletRequest request,
+    public ResponseEntity<Page<BookRegisterResponse>> getBooksWithPage (
+
+                                                                        @RequestParam(required = false, value = "q", defaultValue = "") String q,
+                                                                        @RequestParam(required = false, value = "cat", defaultValue = "") Long cat,
+                                                                        @RequestParam(required = false, value = "author", defaultValue = "") Long author,
+                                                                        @RequestParam(required = false, value = "publisher", defaultValue = "") Long publisher,
+
                                                                              @RequestParam(required = false, value = "page", defaultValue = "0") int page,
                                                                              @RequestParam(required = false,value = "size", defaultValue = "5") int size,
                                                                              @RequestParam(required = false,value = "sort", defaultValue = "name") String prop,
-                                                                             @RequestParam(required = false,value = "direction", defaultValue = "DESC") Sort.Direction direction) {
-        Pageable pageable = PageRequest.of(page,size,Sort.by(direction,prop));
-        Page<BookRegisterResponse> bookRegisterResponses = bookService.findAllWithPage(pageable);
+                                                                             @RequestParam(required = false,value = "direction", defaultValue = "ASC") Sort.Direction direction) {
 
-        return new ResponseEntity<>(bookRegisterResponses, HttpStatus.CREATED);
+
+
+        Pageable pageable = PageRequest.of(page,size,Sort.by(direction,prop));
+
+        if(q.isEmpty() && cat==null && author==null && publisher==null)
+        {
+            throw new BadRequestException(String.format(ErrorMessage.GET_ALL_BOOKS_PARAMETERS_NULL_MESSAGE));
+        }
+             Page<BookRegisterResponse> books = bookService.findAllWithPage(q,cat,author,publisher,pageable);
+
+        return ResponseEntity.ok(books);
     }
+
+
+
+    @GetMapping("/pages")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Page<BookRegisterResponse>> getBooksWithPageAdmin (
+
+            @RequestParam(required = false, value = "q", defaultValue = "") String q,
+            @RequestParam(required = false, value = "cat", defaultValue = "") Long cat,
+            @RequestParam(required = false, value = "author", defaultValue = "") Long author,
+            @RequestParam(required = false, value = "publisher", defaultValue = "") Long publisher,
+
+            @RequestParam(required = false, value = "page", defaultValue = "0") int page,
+            @RequestParam(required = false,value = "size", defaultValue = "5") int size,
+            @RequestParam(required = false,value = "sort", defaultValue = "name") String prop,
+            @RequestParam(required = false,value = "direction", defaultValue = "ASC") Sort.Direction direction) {
+
+
+
+        Pageable pageable = PageRequest.of(page,size,Sort.by(direction,prop));
+
+        if(q.isEmpty() && cat==null && author==null && publisher==null)
+        {
+            throw new BadRequestException(String.format(ErrorMessage.GET_ALL_BOOKS_PARAMETERS_NULL_MESSAGE));
+        }
+        Page<BookRegisterResponse> books = bookService.findAllWithPageAdmin(q,cat,author,publisher,pageable);
+
+        return ResponseEntity.ok(books);
+    }
+
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
@@ -84,10 +130,6 @@ public class BookController {
 
         return new ResponseEntity<>(bookResponse, HttpStatus.CREATED);
     }
-
-
-
-
 
 
 

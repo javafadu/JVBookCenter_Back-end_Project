@@ -43,6 +43,7 @@ public class ErrorMessage {
     public static final String BUILTIN_DELETE_ERROR_MESSAGE = "The item to be deleted (with id %d) has a built-in feature, it cannot be deleted.";
     public static final String NO_DATA_IN_DB_TABLE_MESSAGE = "There is no data in %s table";
     public static final String PUBLISHER_HAS_RELATED_RECORDS_MESSAGE = "Publisher is can not be deleted. The Publisher has related records in books.";
+    public static final String GET_ALL_BOOKS_PARAMETERS_NULL_MESSAGE = "At least one of the fields (q, category, author, publisher) is required";
 
 
 }
