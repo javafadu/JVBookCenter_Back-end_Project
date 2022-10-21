@@ -50,7 +50,7 @@ public class LoanController {
 
     }
 
-    // 2- GET OWN Loans of authenticated user
+    // 2- GET OWN Loans of authenticated user (return related book object)
     // endpoint: [{server_url}/loans
 
     @GetMapping()
@@ -109,7 +109,7 @@ public class LoanController {
         return ResponseEntity.ok(bookLoans);
     }
 
-    // 6- GET specified LOAN details including book and user objest
+    // 6- GET specified LOAN details including book and user objects
     // endpoint: [{server_url}/loans/auth/{id}
     @GetMapping("/auth/{loanId}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")

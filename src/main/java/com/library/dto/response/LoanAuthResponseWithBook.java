@@ -26,16 +26,6 @@ public class LoanAuthResponseWithBook {
     private LocalDateTime returnDate;
 
 
-    // ADMIN and STAFF CAN SEE Notes
- //  public LoanAuthPagesResponse(Long id, Long userId, Long bookId, LocalDateTime loanDate, LocalDateTime expireDate, LocalDateTime returnDate, String notes) {
- //      this.id = id;
- //      this.userId = userId;
- //      this.bookId = bookId;
- //      this.loanDate = loanDate;
- //      this.expireDate = expireDate;
- //      this.returnDate = returnDate;
- //      this.notes = notes;
- //  }
 
     // MEMBERS CAN NOT SEE THE Notes
     public LoanAuthResponseWithBook(Loan loan) {
