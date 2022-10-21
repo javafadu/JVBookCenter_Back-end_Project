@@ -23,26 +23,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/books")
+@RequestMapping()
 @AllArgsConstructor
 public class BookController {
 
     private BookService bookService;
 
 
-    @PostMapping("/add")
+    @PostMapping("/admin/books/add")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<BookRegisterResponse> createBook(@Valid @RequestBody BookRegisterRequest bookRegisterRequest)  {
 
-        BookRegisterResponse book = bookService.saveBook(bookRegisterRequest);
+        BookRegisterResponse bookRegisterResponse = bookService.saveBook(bookRegisterRequest);
 
 
-        return new ResponseEntity<>(book, HttpStatus.CREATED);
+        return new ResponseEntity<>(bookRegisterResponse, HttpStatus.CREATED);
 
     }
 
-    @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF') or hasRole('MEMBER')")
+    @GetMapping("/books/{id}")
 
     public ResponseEntity<BookRegisterResponse> getBookById(@PathVariable Long id) {
         BookRegisterResponse bookResponse = bookService.findBookById(id);
@@ -52,8 +51,7 @@ public class BookController {
 
     }
 
-    @GetMapping()
-    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF') or hasRole('MEMBER')")
+    @GetMapping("/books")
     public ResponseEntity<Page<BookRegisterResponse>> getBooksWithPage (HttpServletRequest request,
                                                                              @RequestParam(required = false, value = "page", defaultValue = "0") int page,
                                                                              @RequestParam(required = false,value = "size", defaultValue = "5") int size,
@@ -65,8 +63,8 @@ public class BookController {
         return new ResponseEntity<>(bookRegisterResponses, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF') or hasRole('MEMBER')")
+    @PutMapping("/admin/books/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
 
     public ResponseEntity<BookUpdateResponse> updateBook(@PathVariable("id") Long id,
                                                          @RequestBody BookDTO bookDTO) {
@@ -79,7 +77,7 @@ public class BookController {
     }
 
 
-        @DeleteMapping("/{id}")
+        @DeleteMapping("/admin/books/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<BookRegisterResponse> deleteBook(@PathVariable Long id){
         BookRegisterResponse bookResponse = bookService.deleteBookById(id);

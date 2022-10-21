@@ -17,6 +17,7 @@ import java.io.File;
 @AllArgsConstructor
 public class BookRegisterRequest {
 
+
     @Size(min = 2,max = 80,message="Size is exceeded")
     @NotNull(message = "Please provide book name")
     private String name;

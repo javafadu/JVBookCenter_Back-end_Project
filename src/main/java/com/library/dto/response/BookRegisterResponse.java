@@ -1,9 +1,6 @@
 package com.library.dto.response;
 
-import com.library.domain.Author;
-import com.library.domain.Book;
-import com.library.domain.Category;
-import com.library.domain.Publisher;
+import com.library.domain.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.io.File;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,37 +21,26 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class BookRegisterResponse {
 
-
+    private Long id;
     private String name;
-
     private String isbn;
-
     private Integer pageCount;
-
     private Author bookAuthor;
-
     private Publisher bookPublisher;
-
     private Integer publishDate;
-
     private Category bookCategory;
-
     private String imageLink;
-
     private Boolean loanable = true;
-
     private String shelfCode;
-
     private Boolean active = true;
-
     private Boolean featured = false;
-
     private LocalDateTime createDate;
-
-    private Boolean builtIn =false;
+    private Boolean builtIn = false;
+    private List<Loan> loanedBooks = new ArrayList<>();
 
     public BookRegisterResponse(Book book){
 
+        this.id=book.getId();
         this.name=book.getName();
         this.isbn=book.getIsbn();
         this.pageCount=book.getPageCount();

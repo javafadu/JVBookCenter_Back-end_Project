@@ -64,9 +64,9 @@ public class BookService {
         bookRepository.save(book);
 
 
-        BookRegisterResponse bookRegisterResponse = new BookRegisterResponse();
 
-        bookRegisterResponse=bookMapper.BookToBookRegisterResponse(book);
+
+        BookRegisterResponse bookRegisterResponse = bookMapper.BookToBookRegisterResponse(book);
 
         return bookRegisterResponse;
 
@@ -142,6 +142,10 @@ public class BookService {
         boolean exists=loanRepository.existsByLoanedBooks(book);
         if (exists){
             throw new BadRequestException(ErrorMessage.BOOK_USED_BY_RESERVATION_MESSAGE);
+        }
+
+        if (book.getBuiltIn()){
+            throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
         }
 
         bookRepository.delete(book);

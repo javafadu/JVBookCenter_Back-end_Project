@@ -10,9 +10,11 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface BookMapper {
 
-    BookRegisterResponse BookToBookRegisterResponse(Book book);
+
 
     BookUpdateResponse BookToBookUpdateResponse(Book book);
+
+    BookRegisterResponse BookToBookRegisterResponse(Book book);
 
 
 
