@@ -2,8 +2,11 @@ package com.library.controller;
 
 
 import com.library.dto.request.UpdateUserRequest;
+import com.library.dto.response.BookRegisterResponse;
 import com.library.dto.response.LoanAuthResponseWithBook;
 import com.library.dto.response.UserResponse;
+import com.library.exception.BadRequestException;
+import com.library.exception.message.ErrorMessage;
 import com.library.service.LoanService;
 import com.library.service.UserService;
 import lombok.AllArgsConstructor;
@@ -92,6 +95,28 @@ public class UserController {
 
         return ResponseEntity.ok(authLoans);
     }
+
+
+    @GetMapping("/users/page")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF') ")
+    public ResponseEntity<Page<UserResponse>> getBooksWithPageAdmin (
+
+            @RequestParam(required = false, value = "q", defaultValue = "") String q,
+
+            @RequestParam(required = false, value = "page", defaultValue = "0") int page,
+            @RequestParam(required = false,value = "size", defaultValue = "20") int size,
+            @RequestParam(required = false,value = "sort", defaultValue = "createDate") String prop,
+            @RequestParam(required = false,value = "direction", defaultValue = "DESC") Sort.Direction direction) {
+
+
+
+        Pageable pageable = PageRequest.of(page,size,Sort.by(direction,prop));
+
+        Page<UserResponse> users = userService.findAllWithPageAdmin(q,pageable);
+
+        return ResponseEntity.ok(users);
+    }
+
 
 
 
