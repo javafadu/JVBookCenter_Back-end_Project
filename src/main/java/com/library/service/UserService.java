@@ -1,14 +1,13 @@
 package com.library.service;
 
-import com.library.domain.Loan;
+
 import com.library.domain.Role;
 import com.library.domain.User;
 import com.library.domain.enums.RoleType;
-import com.library.dto.UserDTO;
 import com.library.dto.mapper.UserMapper;
 import com.library.dto.request.RegisterRequest;
-
 import com.library.dto.request.UpdateUserRequest;
+import com.library.dto.response.BookRegisterResponse;
 import com.library.dto.response.UserRegisterResponse;
 import com.library.dto.response.UserResponse;
 import com.library.exception.BadRequestException;
@@ -24,8 +23,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -187,5 +184,20 @@ public class UserService {
       return userMapper.userToUserResponse(user);
 
     }
+
+    public Page<UserResponse> findAllWithPageAdmin(String q, Pageable pageable){
+
+        Page<UserResponse> users = userRepository.getAllUserWithQAdmin(q, pageable);
+
+
+        if (users==null){
+            throw new ResourceNotFoundException(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE);
+
+        }else
+
+            return users;
+
+    }
+
 
 }

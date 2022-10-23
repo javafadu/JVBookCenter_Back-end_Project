@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -32,6 +33,8 @@ public class UserResponse {
 
     private Boolean builtIn;
 
+    private LocalDateTime createDate;
+
     public UserResponse(User user) {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
@@ -41,5 +44,6 @@ public class UserResponse {
         this.email = user.getEmail();
         this.score = user.getScore();
         this.builtIn = user.getBuiltIn();
+        this.createDate=user.getCreateDate();
     }
 }
