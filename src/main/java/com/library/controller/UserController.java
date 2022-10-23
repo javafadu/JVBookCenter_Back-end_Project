@@ -2,11 +2,9 @@ package com.library.controller;
 
 
 import com.library.dto.request.UpdateUserRequest;
-import com.library.dto.response.BookRegisterResponse;
 import com.library.dto.response.LoanAuthResponseWithBook;
 import com.library.dto.response.UserResponse;
-import com.library.exception.BadRequestException;
-import com.library.exception.message.ErrorMessage;
+
 import com.library.service.LoanService;
 import com.library.service.UserService;
 import lombok.AllArgsConstructor;
@@ -31,49 +29,8 @@ public class UserController {
     private UserService userService;
     private LoanService loanService;
 
-
-    @GetMapping("/users")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
-    public ResponseEntity<Page<UserResponse>> getAllUsersByPage(@RequestParam("page") int page,
-                                                           @RequestParam("size") int size,
-                                                           @RequestParam("sort") String prop,
-                                                           @RequestParam ("direction") Direction direction) {
-
-        Pageable pageable= PageRequest.of(page, size, Sort.by(direction,prop));
-
-        Page<UserResponse> usersWithPage = userService.getUserPage(pageable);
-        return  ResponseEntity.ok(usersWithPage);
-    }
-
-    @GetMapping("/users/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
-    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id){
-        UserResponse user = userService.findById(id);
-        return ResponseEntity.ok(user);
-    }
-
-
-    @PutMapping("/users/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF') ")
-    public ResponseEntity<UserResponse> updateUser (HttpServletRequest httpServletRequest,@Valid @PathVariable Long id, @RequestBody UpdateUserRequest updateUserRequest){
-        Long updaterId =(Long) httpServletRequest.getAttribute("id");
-
-        UserResponse userResponse= userService.userUpdate(updaterId, id, updateUserRequest);
-
-        return ResponseEntity.ok(userResponse);
-
-    }
-
-    @DeleteMapping("/users/{id}")
-    @PreAuthorize("hasRole('ADMIN') ")
-    public ResponseEntity<UserResponse> deleteUser ( @PathVariable Long id){
-
-        UserResponse userResponse= userService.deleteUser(id);
-
-        return ResponseEntity.ok(userResponse);
-
-    }
-
+    // 4- GET Auth User Information
+    // endpoint: [{server_url}/user
     @GetMapping("/user")
     @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF') or hasRole('MEMBER')")
     public ResponseEntity<UserResponse> getAuthUser(HttpServletRequest httpServletRequest){
@@ -82,6 +39,8 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    // 5- GET AUTH User Loans
+    // endpoint: [{server_url}/user/loans
     @GetMapping("/user/loans")
     @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF') or hasRole('MEMBER')")
     public ResponseEntity<Page<LoanAuthResponseWithBook>> getAuthLoansWithPage (HttpServletRequest httpServletRequest,
@@ -95,6 +54,87 @@ public class UserController {
 
         return ResponseEntity.ok(authLoans);
     }
+
+
+    // 6- GET All User with Paging by ADMIN or STAFF
+    // endpoint: [{server_url}/users
+    @GetMapping("/users")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+    public ResponseEntity<Page<UserResponse>> getAllUsersByPage(
+
+            @RequestParam(required = false, value = "q", defaultValue = "") String q,
+            @RequestParam(required = false, value = "page", defaultValue = "0") int page,
+            @RequestParam(required = false,value = "size", defaultValue = "5") int size,
+            @RequestParam(required = false,value = "sort", defaultValue = "firstName") String prop,
+            @RequestParam(required = false,value = "direction", defaultValue = "ASC") Sort.Direction direction) {
+
+        Pageable pageable= PageRequest.of(page, size, Sort.by(direction,prop));
+
+        Page<UserResponse> usersWithPage = userService.getUserPage(q, pageable);
+        return  ResponseEntity.ok(usersWithPage);
+    }
+
+    // 7- GET a USER with ID by ADMIN or STAFF
+    // endpoint: [{server_url}/users/{id}
+    @GetMapping("/users/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id){
+        UserResponse user = userService.findById(id);
+        return ResponseEntity.ok(user);
+    }
+
+    // 8- Update A User by ADMIN or STAFF
+    // endpoint: [{server_url}/users/{id}
+    /* json Bodu
+
+    {
+    "firstName": "Walter",
+    "lastName": "White",
+    "address": "301 Milam St, Houston, TX 77002, United States",
+    "phone": "713-600-2267",
+    "birthDate":"01/30/1980",
+    "email": "walter@mail.com0",
+    "score": 0,
+    "builtIn": true,
+    "roles": [
+                {
+                    "id": 3,
+                    "name": "ROLE_MEMBER"
+                },
+                {
+                    "id": 1,
+                    "name": "ROLE_ADMIN"
+                }
+            ]
+    }
+
+     */
+    @PutMapping("/users/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF') ")
+    public ResponseEntity<UserResponse> updateUser (HttpServletRequest httpServletRequest,@Valid @PathVariable Long id, @RequestBody UpdateUserRequest updateUserRequest){
+        Long updaterId =(Long) httpServletRequest.getAttribute("id");
+
+        UserResponse userResponse= userService.userUpdate(updaterId, id, updateUserRequest);
+
+        return ResponseEntity.ok(userResponse);
+
+    }
+
+    // 9- Delete A User by ADMIN or STAFF
+    // endpoint: [{server_url}/users/{id}
+    @DeleteMapping("/users/{id}")
+    @PreAuthorize("hasRole('ADMIN') ")
+    public ResponseEntity<UserResponse> deleteUser ( @PathVariable Long id){
+
+        UserResponse userResponse= userService.deleteUser(id);
+
+        return ResponseEntity.ok(userResponse);
+
+    }
+
+
+
+
 
 
     @GetMapping("/users/page")

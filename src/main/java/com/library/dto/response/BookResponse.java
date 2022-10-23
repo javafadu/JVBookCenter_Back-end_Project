@@ -6,20 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import java.io.File;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookRegisterResponse {
+public class BookResponse {
 
     private Long id;
     private String name;
@@ -36,9 +30,9 @@ public class BookRegisterResponse {
     private Boolean featured = false;
     private LocalDateTime createDate;
     private Boolean builtIn = false;
-    private List<Loan> loanedBooks = new ArrayList<>();
+    // private List<Loan> loanedBooks = new ArrayList<>();
 
-    public BookRegisterResponse(Book book){
+    public BookResponse(Book book){
 
         this.id=book.getId();
         this.name=book.getName();

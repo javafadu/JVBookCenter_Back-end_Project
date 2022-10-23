@@ -7,7 +7,6 @@ import com.library.domain.enums.RoleType;
 import com.library.dto.mapper.UserMapper;
 import com.library.dto.request.RegisterRequest;
 import com.library.dto.request.UpdateUserRequest;
-import com.library.dto.response.BookRegisterResponse;
 import com.library.dto.response.UserRegisterResponse;
 import com.library.dto.response.UserResponse;
 import com.library.exception.BadRequestException;
@@ -23,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -43,11 +43,11 @@ public class UserService {
     // 1- ADD ROLE SERVICE
     public List<String> addRoles() {
         // create a blank list to be added already exist roles in DB
-        List<String> existRolesList= new ArrayList<>();
+        List<String> existRolesList = new ArrayList<>();
 
-        for (RoleType each: RoleType.values()
+        for (RoleType each : RoleType.values()
         ) {
-            if(!roleRepository.existsByName(each)) {
+            if (!roleRepository.existsByName(each)) {
                 Role role = new Role();
                 role.setName(each);
                 roleRepository.save(role);
@@ -60,55 +60,69 @@ public class UserService {
     }
 
 
+    // 1- REGISTER a USER (UserJWTController)
+    public UserRegisterResponse register(RegisterRequest registerRequest) {
 
-    public UserRegisterResponse register(RegisterRequest registerRequest){
-        if (userRepository.existsByEmail(registerRequest.getEmail())){
+        // Check1: e-mail if exist or not
+        if (userRepository.existsByEmail(registerRequest.getEmail())) {
             throw new RuntimeException(String.format(ErrorMessage.EMAIL_ALREADY_EXIST, registerRequest.getEmail()));
         }
-
+        // encode the string password as crypted
         String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
 
+        // Check2: First registration role of user is Member, so it should be added into the tbl_roles
+        // before registration and assign it to role of the registering user
         Role role = roleRepository.findByName(RoleType.ROLE_MEMBER).orElseThrow(() -> new RuntimeException(
-                String.format(ErrorMessage.ROLE_NOT_FOUND_MESSAGE,RoleType.ROLE_MEMBER.name())));
+                String.format(ErrorMessage.ROLE_NOT_FOUND_MESSAGE, RoleType.ROLE_MEMBER.name())));
 
         Set<Role> roles = new HashSet<>();
 
         roles.add(role);
 
 
-
+        // Creation Date should be now
         LocalDateTime today = LocalDateTime.now();
 
         User user = new User();
 
         user.setFirstName(registerRequest.getFirstName());
         user.setLastName(registerRequest.getLastName());
+        user.setScore(0); // default 0
         user.setAddress(registerRequest.getAddress());
         user.setPhone(registerRequest.getPhone());
         user.setBirthDate(registerRequest.getBirthDate());
         user.setEmail(registerRequest.getEmail());
         user.setPassword(encodedPassword);
         user.setCreateDate(today);
-        user.setScore(0);
+        user.setRoles(roles);
 
         userRepository.save(user);
 
-        return userMapper.userToUserRegisterResponse(user);
+        // to get userId we need a query
+        User registeredUser = userRepository.findByEmail(registerRequest.getEmail()).orElseThrow(() -> new ResourceNotFoundException(String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE, registerRequest.getEmail())));
+
+        return userMapper.userToUserRegisterResponse(registeredUser);
     }
 
     public User getUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE, id)));
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE, id)));
     }
 
-    public List<UserResponse> getAllUsers(){
-        List<User> users= userRepository.findAll();
+    public List<UserResponse> getAllUsers() {
+        List<User> users = userRepository.findAll();
         return userMapper.map(users);
     }
 
-    public Page<UserResponse> getUserPage(Pageable pageable){
-        Page<UserResponse> users= userRepository.findAllWithPage(pageable);
+    public Page<UserResponse> getUserPage(String q, Pageable pageable) {
 
-        return users;
+        Page<UserResponse> usersWithPage = null;
+        if (!q.isEmpty()) {
+            usersWithPage = userRepository.getAllUserWithQAdmin(q, pageable);
+        } else {
+            usersWithPage = userRepository.findAllWithPage(pageable);
+        }
+
+        return usersWithPage;
     }
 
     public UserResponse findById(Long id) {
@@ -121,43 +135,50 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponse userUpdate(Long updaterId,Long id, UpdateUserRequest updateUserRequest){
-       // Id'sini aldigimiz kullanici varmi yok mu kontrol.
+    public UserResponse userUpdate(Long updaterId, Long id, UpdateUserRequest updateUserRequest) {
+        // Check1: control if the user exist or not with the requsted id
         User user = userRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id )));
+                () -> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
 
-        User updaterUser= userRepository.findById(updaterId).orElseThrow(
-                () -> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,updaterId )));
+        // get updater user info
+        User updaterUser = userRepository.findById(updaterId).orElseThrow(
+                () -> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, updaterId)));
 
-        //Update etme yetkisi kontroll edildi.
-         if (!updaterUser.getRoles().contains("ROLE_ADMIN")){
-             if (user.getRoles().contains("ROLE_STAFF") || user.getRoles().contains("ROLE_ADMIN") ) throw new BadRequestException("Employee can only update members");
-         }
-         // BuiltIn kontrollu
-        if (user.getBuiltIn()){
-            throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
+        // Check2: control the updater is authorized or not for updating the requested user
+        if (!updaterUser.getRoles().contains("ROLE_ADMIN")) {
+            if (user.getRoles().contains("ROLE_STAFF") || user.getRoles().contains("ROLE_ADMIN"))
+                throw new BadRequestException("Employee can only update members");
+        }
+        // Check3: BuiltIn control ->  only Admin can update if the builtIn is true of user
+        if (user.getBuiltIn()) {
+            if (!updaterUser.getRoles().contains("ROLE_ADMIN")) {
+                throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
+            }
         }
 
         Boolean emailExists = userRepository.existsByEmail(updateUserRequest.getEmail());
 
-        if (emailExists && !updateUserRequest.getEmail().equals(user.getEmail())){
+        // Check4: if the new email is belongs to another user in db
+        if (emailExists && !updateUserRequest.getEmail().equals(user.getEmail())) {
             throw new ConflictException(String.format(ErrorMessage.EMAIL_ALREADY_EXIST, user.getEmail()));
         }
 
         user.setId(id);
-        if (updateUserRequest.getFirstName()==null) {
-            user.setFirstName(user.getFirstName());
-        } else {
-            user.setFirstName(updateUserRequest.getFirstName());
-        }
-
-        user.setLastName(updaterUser.getLastName());
-        user.setScore(updateUserRequest.getScore());
+        user.setFirstName(updateUserRequest.getFirstName());
+        user.setLastName(updateUserRequest.getLastName());
         user.setAddress(updateUserRequest.getAddress());
         user.setPhone(updateUserRequest.getPhone());
         user.setBirthDate(updateUserRequest.getBirthDate());
         user.setEmail(updateUserRequest.getEmail());
-        if (updateUserRequest.getPassword()!= null){
+        user.setScore(updateUserRequest.getScore());
+        user.setRoles(updateUserRequest.getRoles());
+        if (!updaterUser.getRoles().contains("ROLE_ADMIN")){
+            user.setBuiltIn(updateUserRequest.getBuiltIn());
+        }
+
+
+
+        if (updateUserRequest.getPassword() != null) {
             user.setPassword(updateUserRequest.getPassword());
         }
 
@@ -169,31 +190,32 @@ public class UserService {
 
     public UserResponse deleteUser(Long id) {
 
-        User user = userRepository.findById(id).orElseThrow(()->new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
 
-        if(loanRepository.existsByUserLoan(user)){
-            throw new ConflictException("This User has  loaned books so You can not delete it");
+        // Check1: if user is exist or not
+        if (loanRepository.existsByUserLoan(user)) {
+            throw new ConflictException(String.format(ErrorMessage.USER_NOT_DELETED_LOAN_MESSAGE));
         }
 
-        // BuiltIn kontrollu
-        if (user.getBuiltIn()){
+        // Check2 : if user is builtIn, it can not be deleted by anyone
+        if (user.getBuiltIn()) {
             throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
         }
 
         userRepository.delete(user);
-      return userMapper.userToUserResponse(user);
+        return userMapper.userToUserResponse(user);
 
     }
 
-    public Page<UserResponse> findAllWithPageAdmin(String q, Pageable pageable){
+    public Page<UserResponse> findAllWithPageAdmin(String q, Pageable pageable) {
 
         Page<UserResponse> users = userRepository.getAllUserWithQAdmin(q, pageable);
 
 
-        if (users==null){
+        if (users == null) {
             throw new ResourceNotFoundException(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE);
 
-        }else
+        } else
 
             return users;
 

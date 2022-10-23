@@ -1,8 +1,7 @@
 package com.library.controller;
 
 
-import com.library.domain.Author;
-import com.library.domain.Publisher;
+
 import com.library.dto.PublisherDTO;
 import com.library.service.PublisherService;
 import lombok.AllArgsConstructor;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController

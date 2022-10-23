@@ -1,12 +1,10 @@
 package com.library.controller;
 
 
-import com.library.domain.User;
+
 import com.library.dto.request.LoginRequest;
 import com.library.dto.request.RegisterRequest;
-import com.library.dto.response.LResponse;
 import com.library.dto.response.LoginResponse;
-import com.library.dto.response.ResponseMessages;
 import com.library.dto.response.UserRegisterResponse;
 import com.library.security.jwt.JwtUtils;
 import com.library.service.UserService;
@@ -37,7 +35,7 @@ public class UserJWTController {
 
 
     // 1- ADD ROLES from enum to DB, before registering a user.
-    // http://localhost:8080/addroles
+    // endpoint: [{server_url}/addroles
     @GetMapping("/addroles")
     public ResponseEntity<Map<String,String>> addRoles() {
 
@@ -51,6 +49,8 @@ public class UserJWTController {
     }
 
 
+    // 2- Register a Publisher
+    // endpoint: [{server_url}/register
     @PostMapping("/register")
     public ResponseEntity<UserRegisterResponse> register(@Valid @RequestBody RegisterRequest registerRequest){
 
@@ -59,6 +59,15 @@ public class UserJWTController {
         return new ResponseEntity<>(userRegisterResponse, HttpStatus.CREATED);
     }
 
+    // 3- Login
+    // endpoint: [{server_url}/login
+    /* json Body
+    {
+    "email": "walter@mail.com",
+    "password": "12345"
+    }
+
+     */
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> authenticate(@Valid @RequestBody LoginRequest loginRequest) {
 

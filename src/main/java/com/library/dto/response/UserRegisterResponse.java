@@ -1,16 +1,15 @@
 package com.library.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+
+import com.library.domain.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -18,9 +17,13 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class UserRegisterResponse {
 
+    private Long id;
+
     private String firstName;
 
     private String lastName;
+
+    private Integer score;
 
     private String address;
 
@@ -30,9 +33,10 @@ public class UserRegisterResponse {
 
     private String email;
 
-    private Integer score;
+    private LocalDateTime createDate;
 
     private Boolean builtIn;
 
+    private Set<Role> roles;
 
 }

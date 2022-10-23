@@ -1,7 +1,7 @@
 package com.library.repository;
 
 import com.library.domain.User;
-import com.library.dto.response.BookRegisterResponse;
+
 import com.library.dto.response.UserResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+
     Optional<User> findByEmail(String email);
     Boolean existsByEmail(String email);
 
@@ -19,7 +20,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Page<UserResponse> findAllWithPage (Pageable pageable);
 
 
-    @Query("SELECT new com.library.dto.response.UserResponse(b)  FROM User b where  b.firstName like %?1% OR b.lastName like %?1% OR b.email like %?1% or b.phone like %?1%")
+    @Query("SELECT new com.library.dto.response.UserResponse(u)  FROM User u where  u.firstName like %?1% OR u.lastName like %?1% OR u.email like %?1% or u.phone like %?1%")
     Page<UserResponse> getAllUserWithQAdmin(String q, Pageable pageable);
 
 
