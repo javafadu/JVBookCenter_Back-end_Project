@@ -1,7 +1,7 @@
 package com.library.controller;
 
 
-import com.library.domain.Loan;
+
 import com.library.dto.request.LoanSaveRequest;
 import com.library.dto.request.LoanUpdateRequest;
 import com.library.dto.response.*;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
+
 
 
 @RestController

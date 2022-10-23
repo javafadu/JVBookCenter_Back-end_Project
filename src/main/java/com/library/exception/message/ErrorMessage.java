@@ -34,7 +34,7 @@ public class ErrorMessage {
 
     public final static String BOOK_USED_BY_RESERVATION_MESSAGE="Book couldn't be deleted. Book is used by a loan";
 
-    public final static String USER_USED_BY_LOAN_MESSAGE="User couldn't be deleted. User is used by a loan";
+    public final static String USER_NOT_DELETED_LOAN_MESSAGE="User couldn't be deleted. User has loan / loans in the system";
     public static final String AUTHOR_NOT_FOUND_MESSAGE ="Author with id %d not found" ;
     public static final String AUTHOR_HAS_RELATED_RECORDS_MESSAGE = "Author is can not be deleted. The Author has related records in books.";
     public static final String LOAN_NOT_FOUND_MESSAGE = "Selected Loan Is Not Found";
@@ -42,8 +42,8 @@ public class ErrorMessage {
     public static final String EXPIRED_BOOK_NOT_FOUND_MESSAGE = "There are no expired book";
     public static final String BUILTIN_DELETE_ERROR_MESSAGE = "The item to be deleted (with id %d) has a built-in feature, it cannot be deleted.";
     public static final String NO_DATA_IN_DB_TABLE_MESSAGE = "There is no data in %s table";
-    public static final String PUBLISHER_HAS_RELATED_RECORDS_MESSAGE = "Publisher is can not be deleted. The Publisher has related records in books.";
+    public static final String PUBLISHER_HAS_RELATED_RECORDS_MESSAGE = "Publisher has registered books so it can not be deleted.";
     public static final String GET_ALL_BOOKS_PARAMETERS_NULL_MESSAGE = "At least one of the fields (q, category, author, publisher) is required";
-
+    public static final String USER_HAS_NO_LOAN_MESSAGE = "User with id %d has no loan yet";
 
 }

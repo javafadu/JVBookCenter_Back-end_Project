@@ -6,8 +6,7 @@ import com.library.domain.Category;
 import com.library.dto.BookDTO;
 import com.library.dto.mapper.BookMapper;
 import com.library.dto.request.BookRegisterRequest;
-import com.library.dto.response.BookRegisterResponse;
-import com.library.dto.response.BookUpdateResponse;
+import com.library.dto.response.BookResponse;
 import com.library.exception.BadRequestException;
 import com.library.exception.message.ErrorMessage;
 import com.library.repository.*;
@@ -35,7 +34,7 @@ public class BookService {
     private BookMapper bookMapper;
 
 
-    public BookRegisterResponse saveBook(BookRegisterRequest bookRegisterRequest) {
+    public BookResponse saveBook(BookRegisterRequest bookRegisterRequest) {
 
 
         Book book = new Book();
@@ -70,7 +69,7 @@ public class BookService {
 
 
 
-        BookRegisterResponse bookRegisterResponse = bookMapper.BookToBookRegisterResponse(book);
+        BookResponse bookRegisterResponse = bookMapper.BookToBookResponse(book);
 
         return bookRegisterResponse;
 
@@ -86,16 +85,16 @@ public class BookService {
     }
 
 
-    public BookRegisterResponse findBookById(Long id){
+    public BookResponse findBookById(Long id){
         Book book =bookRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
-        BookRegisterResponse bookResponse = bookMapper.BookToBookRegisterResponse(book);
+        BookResponse bookResponse = bookMapper.BookToBookResponse(book);
         return bookResponse;
 
     }
 
-    public Page<BookRegisterResponse> findAllWithPage(String q, Long cat, Long author, Long publisher, Pageable pageable){
+    public Page<BookResponse> findAllWithPage(String q, Long cat, Long author, Long publisher, Pageable pageable){
 
-        Page<BookRegisterResponse> booksPage = null;
+        Page<BookResponse> booksPage = null;
         if(!q.isEmpty()) {
             booksPage = bookRepository.getAllBooksWithQ(q,pageable);
         } else if (cat!=null) {
@@ -113,9 +112,9 @@ public class BookService {
 
 
 
-    public Page<BookRegisterResponse> findAllWithPageAdmin(String q, Long cat, Long author, Long publisher, Pageable pageable){
+    public Page<BookResponse> findAllWithPageAdmin(String q, Long cat, Long author, Long publisher, Pageable pageable){
 
-        Page<BookRegisterResponse> booksPage = null;
+        Page<BookResponse> booksPage = null;
         if(!q.isEmpty()) {
             booksPage = bookRepository.getAllBooksWithQAdmin(q,pageable);
         } else if (cat!=null) {
@@ -133,7 +132,7 @@ public class BookService {
 
 
     @Transactional
-    public BookUpdateResponse updateBook(Long id, BookDTO bookDTO){
+    public BookResponse updateBook(Long id, BookDTO bookDTO){
 
         Book foundBook =bookRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
         if (foundBook.getBuiltIn()){
@@ -156,19 +155,19 @@ public class BookService {
 
         book.setBookCategory(categoryOfBook);
         book.setImageLink("images/books/"+bookDTO.getBookCategory()+"/"+bookDTO.getImageLink());
-        book.setLoanable(foundBook.getLoanable());
+        book.setLoanable(bookDTO.getLoanable());
         book.setShelfCode(bookDTO.getShelfCode());
         book.setActive(bookDTO.getActive());
         book.setFeatured(bookDTO.getFeatured());
-        book.setCreateDate(foundBook.getCreateDate());
-        book.setBuiltIn(foundBook.getBuiltIn());
+        book.setCreateDate(bookDTO.getCreateDate());
+        book.setBuiltIn(bookDTO.getBuiltIn());
 
         bookRepository.save(book);
 
 
-        BookUpdateResponse bookUpdateResponse = bookMapper.BookToBookUpdateResponse(book);
+        BookResponse bookResponse = bookMapper.BookToBookResponse(book);
 
-        return bookUpdateResponse;
+        return bookResponse;
 
     }
 
@@ -176,11 +175,11 @@ public class BookService {
 
 
 
-    public BookRegisterResponse deleteBookById(Long id){
+    public BookResponse deleteBookById(Long id){
 
         Book book =getBookById(id);
 
-        BookRegisterResponse bookRegisterResponse= bookMapper.BookToBookRegisterResponse(book);
+        BookResponse bookResponse= bookMapper.BookToBookResponse(book);
 
         boolean exists=loanRepository.existsByLoanedBooks(book);
         if (exists){
@@ -192,7 +191,7 @@ public class BookService {
         }
 
         bookRepository.delete(book);
-        return bookRegisterResponse;
+        return bookResponse;
     }
 
     public void updateBookLoanable(Long id) {

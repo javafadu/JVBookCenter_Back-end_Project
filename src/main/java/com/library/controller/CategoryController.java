@@ -1,7 +1,7 @@
 package com.library.controller;
 
 
-import com.library.domain.Category;
+
 import com.library.dto.CategoryDTO;
 import com.library.service.CategoryService;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

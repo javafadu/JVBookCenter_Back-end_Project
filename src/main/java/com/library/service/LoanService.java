@@ -124,7 +124,7 @@ public class LoanService {
         User user= userService.getUserById(userId);
         Page<LoanAuthResponseWithBook> authLoansWithPage = loanRepository.getAuthUserLoansWithPage(userId,pageable);
 
-        if(authLoansWithPage.isEmpty()) throw new ResourceNotFoundException("Not found");
+        if(authLoansWithPage.isEmpty()) throw new ResourceNotFoundException(String.format(ErrorMessage.USER_HAS_NO_LOAN_MESSAGE,userId));
 
         return authLoansWithPage;
     }

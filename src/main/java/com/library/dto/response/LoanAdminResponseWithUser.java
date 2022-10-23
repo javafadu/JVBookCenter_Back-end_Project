@@ -1,7 +1,7 @@
 package com.library.dto.response;
 
 
-import com.library.domain.Book;
+
 import com.library.domain.Loan;
 import com.library.domain.User;
 import lombok.AllArgsConstructor;
