@@ -19,7 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(()->new ResourceNotFoundException
-                        (String.format(ErrorMessage.ROLE_NOT_FOUND_MESSAGE,email)));
+                        (String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE,email)));
         return new UserDetailsImpl(user);
         // returning new object from UserDetailsImpl class (there is a hidden constructor there)
 

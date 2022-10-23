@@ -179,7 +179,7 @@ public class UserService {
 
 
         if (updateUserRequest.getPassword() != null) {
-            user.setPassword(updateUserRequest.getPassword());
+            user.setPassword(passwordEncoder.encode(updateUserRequest.getPassword()));
         }
 
         userRepository.save(user);

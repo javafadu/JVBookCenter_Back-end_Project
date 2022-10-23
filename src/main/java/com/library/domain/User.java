@@ -53,12 +53,14 @@ public class User {
 	private String email;
 
 	@Column(nullable=false)
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
 
 	@Column(nullable=false)
 	private LocalDateTime createDate;
 
 	@Column
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String resetPasswordCode;
 
 	@Column(nullable=false)
