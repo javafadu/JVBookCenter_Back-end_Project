@@ -4,6 +4,7 @@ package com.library.dto.response;
 
 import com.library.domain.Loan;
 import com.library.domain.User;
+import com.library.dto.mapper.UserMapper;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoanAdminResponseWithUser {
-
 
     private Long id;
     private Long userId;

@@ -146,7 +146,7 @@ public class LoanService {
 
         Page<LoanAdminResponseWithBook> userLoansWithPage = loanRepository.getUserLoansWithPage(userId,pageable);
 
-        if(userLoansWithPage.isEmpty()) throw new ResourceNotFoundException("Not found");
+        if(userLoansWithPage.isEmpty()) throw new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,userId));
 
         return userLoansWithPage;
     }
@@ -157,7 +157,7 @@ public class LoanService {
 
         Page<LoanAdminResponseWithUser> bookLoansWithPage = loanRepository.getBookLoansWithPage(bookId,pageable);
 
-        if(bookLoansWithPage.isEmpty()) throw new ResourceNotFoundException("Not found");
+        if(bookLoansWithPage.isEmpty()) throw new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,bookId));
 
         return bookLoansWithPage;
     }
@@ -167,7 +167,7 @@ public class LoanService {
 
         LoanAdminResponseWithUserAndBook loanDetails = loanRepository.getLoanDetails(loanId);
 
-        if(loanDetails==null) throw new ResourceNotFoundException("Not found");
+        if(loanDetails==null) throw new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,loanId));
 
         return loanDetails;
 
