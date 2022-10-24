@@ -70,7 +70,7 @@ public class CategoryService {
         Category deletingCategory = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format(ErrorMessage.AUTHOR_NOT_FOUND_MESSAGE, id)));
         // check Does the category have any registered books?
         if (!deletingCategory.getCategoryBooks().isEmpty()) {
-            throw new RuntimeException(String.format(ErrorMessage.AUTHOR_HAS_RELATED_RECORDS_MESSAGE));
+            throw new RuntimeException(String.format(ErrorMessage.CATEGORY_HAS_RELATED_RECORDS_MESSAGE));
         }
         // check the category is builtIn or not
         if(deletingCategory.getBuiltIn()) throw new RuntimeException(String.format(ErrorMessage.BUILTIN_DELETE_ERROR_MESSAGE,id));
