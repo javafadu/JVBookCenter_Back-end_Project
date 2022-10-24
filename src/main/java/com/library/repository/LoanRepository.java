@@ -11,15 +11,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+
 
 @Repository
 public interface LoanRepository extends JpaRepository<Loan, Long> {
 
     boolean existsByLoanedBooks(Book book);
     boolean existsByUserLoan(User user);
+
 
 
     // All unreturned loaned book numbers all
@@ -66,7 +67,7 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
 
 
     @Query("SELECT l.loanedBooks.id, l.loanedBooks.name, l.loanedBooks.isbn, COUNT(l.loanedBooks.id) as sumLoan FROM Loan AS l GROUP BY l.loanedBooks.id, l.loanedBooks.name, l.loanedBooks.isbn ORDER BY sumLoan DESC ")
-    List<Object[]> mostPopularBooks(Integer amount, Pageable pageable);
+    Page<Object[]> mostPopularBooks(Integer amount, Pageable pageable);
 
 
     @Query("SELECT new com.library.dto.response.ReportBookResponse(l) FROM Loan AS l WHERE l.returnDate IS NULL ")
@@ -76,5 +77,5 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
     Page<ReportBookResponse> expiredBooks(@Param("today") LocalDateTime today, Pageable pageable);
 
     @Query("SELECT l.userLoan.id, l.userLoan.firstName,l.userLoan.lastName, COUNT(l.userLoan.id) as sumLoan FROM Loan AS l GROUP BY l.userLoan.id, l.userLoan.firstName,l.userLoan.lastName ORDER BY sumLoan DESC ")
-    List<Object[]> mostBorrowers(Pageable pageable);
+    Page<Object[]> mostBorrowers(Pageable pageable);
 }

@@ -32,7 +32,7 @@ public class ReportController {
 
     @GetMapping("/most-popular-books")
     @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
-    public ResponseEntity<List<MostPopularBooksReponse>> mostPopularBooks (
+    public ResponseEntity<Page<Object[]>> mostPopularBooks (
             @RequestParam(required = true) Integer amount,
             @RequestParam(required = false) Integer page,
                     @RequestParam(required = false) Integer size
@@ -41,7 +41,8 @@ public class ReportController {
         Pageable pageable = PageRequest.of(page,size);
 
 
-        List<MostPopularBooksReponse> mostPopularBooks = reportService.mostPopularBooks(amount, pageable);
+
+        Page<Object[]> mostPopularBooks = reportService.mostPopularBooks(amount, pageable);
         return ResponseEntity.ok(mostPopularBooks);
     }
 
@@ -79,7 +80,7 @@ public class ReportController {
 
     @GetMapping("/most-borrowers")
     @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
-    public ResponseEntity<List<Object[]>> mostBorrowers (
+    public ResponseEntity<Page<Object[]>> mostBorrowers (
 
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size
@@ -88,7 +89,7 @@ public class ReportController {
         Pageable pageable = PageRequest.of(page,size);
 
 
-        List<Object[]> mostBorrowers = reportService.mostBorrowers(pageable);
+        Page<Object[]> mostBorrowers = reportService.mostBorrowers(pageable);
         return ResponseEntity.ok(mostBorrowers);
     }
 
