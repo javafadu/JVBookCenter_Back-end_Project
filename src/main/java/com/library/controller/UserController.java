@@ -1,8 +1,11 @@
 package com.library.controller;
 
 
+import com.library.dto.request.RegisterRequest;
 import com.library.dto.request.UpdateUserRequest;
+import com.library.dto.request.UserCreateRequest;
 import com.library.dto.response.LoanAuthResponseWithBook;
+import com.library.dto.response.UserRegisterResponse;
 import com.library.dto.response.UserResponse;
 
 import com.library.service.LoanService;
@@ -13,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -136,7 +140,8 @@ public class UserController {
 
 
 
-
+    // 10- Get All Users by ADMIN or STAFF
+    // endpoint: [{server_url}/users
     @GetMapping("/users/page")
     @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF') ")
     public ResponseEntity<Page<UserResponse>> getBooksWithPageAdmin (
@@ -158,6 +163,16 @@ public class UserController {
     }
 
 
+    // 11- Create a user by ADMIN or STAFF
+    // endpoint: [{server_url}/users
+    @PostMapping("/users")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF') ")
+    public ResponseEntity<UserRegisterResponse> register(@Valid @RequestBody UserCreateRequest userCreateRequest){
+
+        UserRegisterResponse userRegisterResponse = userService.userCreate(userCreateRequest);
+
+        return new ResponseEntity<>(userRegisterResponse, HttpStatus.CREATED);
+    }
 
 
 }

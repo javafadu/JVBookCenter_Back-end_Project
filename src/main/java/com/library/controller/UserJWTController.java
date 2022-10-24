@@ -49,8 +49,21 @@ public class UserJWTController {
     }
 
 
-    // 2- Register a Publisher
+    // 2- Register a User
     // endpoint: [{server_url}/register
+    /*
+
+    {
+    "firstName": "Admin",
+    "lastName": "Admin",
+    "address": "New York, United States",
+    "phone": "555-500-2233",
+    "birthDate":"01/30/1980",
+    "email": "admin@mail.com",
+    "password": "12345"
+    }
+
+     */
     @PostMapping("/register")
     public ResponseEntity<UserRegisterResponse> register(@Valid @RequestBody RegisterRequest registerRequest){
 
