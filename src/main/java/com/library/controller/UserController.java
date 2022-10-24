@@ -68,9 +68,9 @@ public class UserController {
 
             @RequestParam(required = false, value = "q", defaultValue = "") String q,
             @RequestParam(required = false, value = "page", defaultValue = "0") int page,
-            @RequestParam(required = false,value = "size", defaultValue = "5") int size,
-            @RequestParam(required = false,value = "sort", defaultValue = "firstName") String prop,
-            @RequestParam(required = false,value = "direction", defaultValue = "ASC") Sort.Direction direction) {
+            @RequestParam(required = false,value = "size", defaultValue = "20") int size,
+            @RequestParam(required = false,value = "sort", defaultValue = "createDate") String prop,
+            @RequestParam(required = false,value = "direction", defaultValue = "DESC") Sort.Direction direction) {
 
         Pageable pageable= PageRequest.of(page, size, Sort.by(direction,prop));
 
@@ -139,32 +139,33 @@ public class UserController {
 
 
 
-
-    // 10- Get All Users by ADMIN or STAFF
-    // endpoint: [{server_url}/users
-    @GetMapping("/users/page")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF') ")
-    public ResponseEntity<Page<UserResponse>> getBooksWithPageAdmin (
-
-            @RequestParam(required = false, value = "q", defaultValue = "") String q,
-
-            @RequestParam(required = false, value = "page", defaultValue = "0") int page,
-            @RequestParam(required = false,value = "size", defaultValue = "20") int size,
-            @RequestParam(required = false,value = "sort", defaultValue = "createDate") String prop,
-            @RequestParam(required = false,value = "direction", defaultValue = "DESC") Sort.Direction direction) {
-
-
-
-        Pageable pageable = PageRequest.of(page,size,Sort.by(direction,prop));
-
-        Page<UserResponse> users = userService.findAllWithPageAdmin(q,pageable);
-
-        return ResponseEntity.ok(users);
-    }
-
-
     // 11- Create a user by ADMIN or STAFF
     // endpoint: [{server_url}/users
+    /*
+
+        {
+    "firstName": "John",
+    "lastName": "Coffee",
+    "address": "New York, United States",
+    "phone": "555-500-2233",
+    "birthDate":"01/30/1982",
+    "email": "john@mail.com",
+    "password": "12345",
+    "roles": [
+                {
+                    "id": 3,
+                    "name": "ROLE_MEMBER"
+                },
+                {
+                    "id": 1,
+                    "name": "ROLE_ADMIN"
+                }
+            ]
+
+     }
+
+
+     */
     @PostMapping("/users")
     @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF') ")
     public ResponseEntity<UserRegisterResponse> register(@Valid @RequestBody UserCreateRequest userCreateRequest){
