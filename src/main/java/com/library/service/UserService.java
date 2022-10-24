@@ -178,7 +178,6 @@ public class UserService {
         }
 
 
-
         if (updateUserRequest.getPassword() != null) {
             user.setPassword(passwordEncoder.encode(updateUserRequest.getPassword()));
         }
@@ -205,20 +204,6 @@ public class UserService {
 
         userRepository.delete(user);
         return userMapper.userToUserResponse(user);
-
-    }
-
-    public Page<UserResponse> findAllWithPageAdmin(String q, Pageable pageable) {
-
-        Page<UserResponse> users = userRepository.getAllUserWithQAdmin(q, pageable);
-
-
-        if (users == null) {
-            throw new ResourceNotFoundException(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE);
-
-        } else
-
-            return users;
 
     }
 
