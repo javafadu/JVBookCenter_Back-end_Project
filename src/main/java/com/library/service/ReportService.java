@@ -7,12 +7,15 @@ import com.library.exception.message.ErrorMessage;
 import com.library.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -45,8 +48,14 @@ public class ReportService {
 
     }
 
-    public List mostPopularBooks(Integer amount, Pageable pageable) {
-       List<Object[]> popularBooks = loanRepository.mostPopularBooks(amount, pageable);
+    public Page<Object[]> mostPopularBooks(Integer amount, Pageable pageable) {
+      Page<Object[]> popularBooks = loanRepository.mostPopularBooks(amount,pageable);
+
+              // new PageImpl<> (loanRepository.mostPopularBooks(amount, pageable).stream().limit(amount).collect(Collectors.toList()));
+
+      loanRepository.mostPopularBooks(amount,pageable).getTotalPages();
+
+
        //TODO pageable.stream yaparak limitleyebiliyoruz.
 
         return popularBooks;
@@ -67,8 +76,8 @@ public class ReportService {
         return expiredBooks;
     }
 
-    public List<Object[]> mostBorrowers(Pageable pageable) {
-        List<Object[]> mostBorrowers = loanRepository.mostBorrowers(pageable);
+    public Page<Object[]> mostBorrowers(Pageable pageable) {
+        Page<Object[]> mostBorrowers = loanRepository.mostBorrowers(pageable);
 
         return mostBorrowers;
     }
