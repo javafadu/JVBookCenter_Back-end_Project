@@ -17,7 +17,7 @@ public class ErrorMessage {
 
     public final static String THERE_ARE_EXPIRED_BOOKS_FOR_THIS_USER="There are %d book/books by %s that are not returned in time";
 
-    public final static String CATEGORY_HAS_RELATED_RECORDS_MESSAGE="Category is can not be deleted. The Category has related records in books.";
+    public final static String CATEGORY_HAS_RELATED_RECORDS_MESSAGE="There is/are registered book in this category so it can not be deleted";
     public final static String HAS_NOT_RIGHT_TO_LOAN_BOOK="%s user has not right to loan a new book ";
 
     public final static String NOT_PERMITTED_METHOD_MESSAGE="You dont have any permission to change this value";
@@ -36,7 +36,7 @@ public class ErrorMessage {
 
     public final static String USER_NOT_DELETED_LOAN_MESSAGE="User couldn't be deleted. User has loan / loans in the system";
     public static final String AUTHOR_NOT_FOUND_MESSAGE ="Author with id %d not found" ;
-    public static final String AUTHOR_HAS_RELATED_RECORDS_MESSAGE = "Author is can not be deleted. The Author has related records in books.";
+    public static final String AUTHOR_HAS_RELATED_RECORDS_MESSAGE = "Author has registered books so it can not be deleted.";
     public static final String LOAN_NOT_FOUND_MESSAGE = "Selected Loan Is Not Found";
     public static final String UNRETURNED_BOOK_NOT_FOUND_MESSAGE = "There are no unreturned book";
     public static final String EXPIRED_BOOK_NOT_FOUND_MESSAGE = "There are no expired book";
