@@ -7,6 +7,7 @@ import com.library.domain.enums.RoleType;
 import com.library.dto.mapper.UserMapper;
 import com.library.dto.request.RegisterRequest;
 import com.library.dto.request.UpdateUserRequest;
+import com.library.dto.request.UserCreateRequest;
 import com.library.dto.response.UserRegisterResponse;
 import com.library.dto.response.UserResponse;
 import com.library.exception.BadRequestException;
@@ -219,6 +220,44 @@ public class UserService {
 
             return users;
 
+    }
+
+
+    // 1- REGISTER a USER (UserJWTController)
+    public UserRegisterResponse userCreate(UserCreateRequest userCreateRequest) {
+
+        // Check1: e-mail if exist or not
+        if (userRepository.existsByEmail(userCreateRequest.getEmail())) {
+            throw new RuntimeException(String.format(ErrorMessage.EMAIL_ALREADY_EXIST, userCreateRequest.getEmail()));
+        }
+        // encode the string password as crypted
+        String encodedPassword = passwordEncoder.encode(userCreateRequest.getPassword());
+
+
+
+
+        // Creation Date should be now
+        LocalDateTime today = LocalDateTime.now();
+
+        User user = new User();
+
+        user.setFirstName(userCreateRequest.getFirstName());
+        user.setLastName(userCreateRequest.getLastName());
+        user.setScore(0); // default 0
+        user.setAddress(userCreateRequest.getAddress());
+        user.setPhone(userCreateRequest.getPhone());
+        user.setBirthDate(userCreateRequest.getBirthDate());
+        user.setEmail(userCreateRequest.getEmail());
+        user.setPassword(encodedPassword);
+        user.setCreateDate(today);
+        user.setRoles(userCreateRequest.getRoles());
+
+        userRepository.save(user);
+
+        // to get userId we need a query
+        User registeredUser = userRepository.findByEmail(userCreateRequest.getEmail()).orElseThrow(() -> new ResourceNotFoundException(String.format(ErrorMessage.USER_NOT_FOUND_MESSAGE, userCreateRequest.getEmail())));
+
+        return userMapper.userToUserRegisterResponse(registeredUser);
     }
 
 
