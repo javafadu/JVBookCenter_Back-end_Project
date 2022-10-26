@@ -50,7 +50,7 @@ public class BookService {
         book.setBookAuthor(authorOfBook);
         book.setBookPublisher(publisherService.getPublisherById(bookRegisterRequest.getBookPublisher()));
 
-        Category categoryOfBook = categoryRepository.findById(bookRegisterRequest.getBookAuthor()).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,bookRegisterRequest.getBookAuthor())));
+        Category categoryOfBook = categoryRepository.findById(bookRegisterRequest.getBookCategory()).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,bookRegisterRequest.getBookAuthor())));
 
         book.setBookCategory(categoryOfBook);
 
