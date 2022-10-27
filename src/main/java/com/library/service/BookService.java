@@ -55,7 +55,7 @@ public class BookService {
         book.setBookCategory(categoryOfBook);
 
 
-        book.setImageLink("images/books/"+bookRegisterRequest.getBookCategory()+"/"+bookRegisterRequest.getImageLink());
+        book.setImageLink("assets/img/books/"+bookRegisterRequest.getBookCategory()+"/"+bookRegisterRequest.getImageLink());
         book.setLoanable(true);
         book.setShelfCode(bookRegisterRequest.getShelfCode());
         book.setActive(true);
