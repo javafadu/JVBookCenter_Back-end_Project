@@ -92,4 +92,9 @@ public class ReportService {
     public List<Object[]> topPubishers(int top) {
         return loanRepository.getTopPublishers().stream().limit(top).collect(Collectors.toList());
     }
+
+    public List<Object[]> topAuthors(int top) {
+        return loanRepository.getTopAuthors().stream().limit(top).collect(Collectors.toList());
+    }
+
 }
