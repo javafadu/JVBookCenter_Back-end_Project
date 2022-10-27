@@ -78,4 +78,17 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
 
     @Query("SELECT l.userLoan.id, l.userLoan.firstName,l.userLoan.lastName, COUNT(l.userLoan.id) as sumLoan FROM Loan AS l GROUP BY l.userLoan.id, l.userLoan.firstName,l.userLoan.lastName ORDER BY sumLoan DESC ")
     Page<Object[]> mostBorrowers(Pageable pageable);
+
+    // PUBLIC REPORTS
+    @Query("SELECT l.loanedBooks.id, l.loanedBooks.name, l.loanedBooks.isbn, COUNT(l.loanedBooks.id) as sumLoan FROM Loan AS l GROUP BY l.loanedBooks.id, l.loanedBooks.name, l.loanedBooks.isbn ORDER BY sumLoan DESC ")
+    List<Object[]> getTopBooks();
+
+    @Query("SELECT l.loanedBooks.bookCategory.id, l.loanedBooks.bookCategory.name, COUNT(l.loanedBooks.bookCategory.id) as sumLoan FROM Loan AS l GROUP BY l.loanedBooks.bookCategory.id, l.loanedBooks.bookCategory.name ORDER BY sumLoan DESC ")
+    List<Object[]> getTopCategories();
+
+    @Query("SELECT l.loanedBooks.bookPublisher.id, l.loanedBooks.bookPublisher.name, COUNT(l.loanedBooks.bookPublisher.id) as sumLoan FROM Loan AS l GROUP BY l.loanedBooks.bookPublisher.id, l.loanedBooks.bookPublisher.name ORDER BY sumLoan DESC ")
+    List<Object[]> getTopPublishers();
+
+
+
 }
