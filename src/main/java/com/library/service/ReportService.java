@@ -7,12 +7,9 @@ import com.library.exception.message.ErrorMessage;
 import com.library.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -80,5 +77,19 @@ public class ReportService {
         Page<Object[]> mostBorrowers = loanRepository.mostBorrowers(pageable);
 
         return mostBorrowers;
+    }
+
+    // PUBLIC REPORTS - PermitAll
+    public List<Object[]> topBooks(int top) {
+        return loanRepository.getTopBooks().stream().limit(top).collect(Collectors.toList());
+    }
+
+
+    public List<Object[]> topCategories(int top) {
+        return loanRepository.getTopCategories().stream().limit(top).collect(Collectors.toList());
+    }
+
+    public List<Object[]> topPubishers(int top) {
+        return loanRepository.getTopPublishers().stream().limit(top).collect(Collectors.toList());
     }
 }
