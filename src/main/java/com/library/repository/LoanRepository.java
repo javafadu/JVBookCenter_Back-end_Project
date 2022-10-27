@@ -86,6 +86,7 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
     @Query("SELECT l.loanedBooks.bookCategory.id, l.loanedBooks.bookCategory.name, COUNT(l.loanedBooks.bookCategory.id) as sumLoan FROM Loan AS l GROUP BY l.loanedBooks.bookCategory.id, l.loanedBooks.bookCategory.name ORDER BY sumLoan DESC ")
     List<Object[]> getTopCategories();
 
+
     @Query("SELECT l.loanedBooks.bookPublisher.id, l.loanedBooks.bookPublisher.name, COUNT(l.loanedBooks.bookPublisher.id) as sumLoan FROM Loan AS l GROUP BY l.loanedBooks.bookPublisher.id, l.loanedBooks.bookPublisher.name ORDER BY sumLoan DESC ")
     List<Object[]> getTopPublishers();
 
