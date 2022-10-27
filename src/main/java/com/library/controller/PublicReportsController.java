@@ -45,4 +45,14 @@ public class PublicReportsController {
         return ResponseEntity.ok(topPublishers);
     }
 
+
+    @GetMapping("/top-authors")
+    public ResponseEntity<List<Object[]>> topAuthors (
+            @RequestParam(required = false, value = "top", defaultValue = "5") int top
+    ) {
+
+        List<Object[]> topAuthors = reportService.topAuthors(top);
+        return ResponseEntity.ok(topAuthors);
+    }
+
 }
