@@ -48,7 +48,7 @@ public class BookController {
      */
     @PostMapping()
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<BookResponse> createBook(@Valid @RequestBody BookRegisterRequest bookRegisterRequest)  {
+    public ResponseEntity<BookResponse> createBook(@Valid @RequestBody BookRegisterRequest bookRegisterRequest) {
 
         BookResponse bookRegisterResponse = bookService.saveBook(bookRegisterRequest);
 
@@ -72,27 +72,25 @@ public class BookController {
     // 3- GET filtered Books with Paging by anyone (only active)
     // endpoint: [{server_url}/books
     @GetMapping()
-    public ResponseEntity<Page<BookResponse>> getBooksWithPage (
+    public ResponseEntity<Page<BookResponse>> getBooksWithPage(
 
-                                                                        @RequestParam(required = false, value = "q", defaultValue = "") String q,
-                                                                        @RequestParam(required = false, value = "cat", defaultValue = "") Long cat,
-                                                                        @RequestParam(required = false, value = "author", defaultValue = "") Long author,
-                                                                        @RequestParam(required = false, value = "publisher", defaultValue = "") Long publisher,
+            @RequestParam(required = false, value = "q", defaultValue = "") String q,
+            @RequestParam(required = false, value = "cat", defaultValue = "") Long cat,
+            @RequestParam(required = false, value = "author", defaultValue = "") Long author,
+            @RequestParam(required = false, value = "publisher", defaultValue = "") Long publisher,
 
-                                                                             @RequestParam(required = false, value = "page", defaultValue = "0") int page,
-                                                                             @RequestParam(required = false,value = "size", defaultValue = "5") int size,
-                                                                             @RequestParam(required = false,value = "sort", defaultValue = "name") String prop,
-                                                                             @RequestParam(required = false,value = "direction", defaultValue = "ASC") Sort.Direction direction) {
+            @RequestParam(required = false, value = "page", defaultValue = "0") int page,
+            @RequestParam(required = false, value = "size", defaultValue = "5") int size,
+            @RequestParam(required = false, value = "sort", defaultValue = "name") String prop,
+            @RequestParam(required = false, value = "direction", defaultValue = "ASC") Sort.Direction direction) {
 
 
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, prop));
 
-        Pageable pageable = PageRequest.of(page,size,Sort.by(direction,prop));
-
-        if(q.isEmpty() && cat==null && author==null && publisher==null)
-        {
+        if (q.isEmpty() && cat == null && author == null && publisher == null) {
             throw new BadRequestException(String.format(ErrorMessage.GET_ALL_BOOKS_PARAMETERS_NULL_MESSAGE));
         }
-             Page<BookResponse> books = bookService.findAllWithPage(q,cat,author,publisher,pageable);
+        Page<BookResponse> books = bookService.findAllWithPage(q, cat, author, publisher, pageable);
 
         return ResponseEntity.ok(books);
     }
@@ -102,7 +100,7 @@ public class BookController {
     // endpoint: [{server_url}/books
     @GetMapping("/pages")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Page<BookResponse>> getBooksWithPageAdmin (
+    public ResponseEntity<Page<BookResponse>> getBooksWithPageAdmin(
 
             @RequestParam(required = false, value = "q", defaultValue = "") String q,
             @RequestParam(required = false, value = "cat", defaultValue = "") Long cat,
@@ -110,19 +108,17 @@ public class BookController {
             @RequestParam(required = false, value = "publisher", defaultValue = "") Long publisher,
 
             @RequestParam(required = false, value = "page", defaultValue = "0") int page,
-            @RequestParam(required = false,value = "size", defaultValue = "5") int size,
-            @RequestParam(required = false,value = "sort", defaultValue = "name") String prop,
-            @RequestParam(required = false,value = "direction", defaultValue = "ASC") Sort.Direction direction) {
+            @RequestParam(required = false, value = "size", defaultValue = "5") int size,
+            @RequestParam(required = false, value = "sort", defaultValue = "name") String prop,
+            @RequestParam(required = false, value = "direction", defaultValue = "ASC") Sort.Direction direction) {
 
 
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, prop));
 
-        Pageable pageable = PageRequest.of(page,size,Sort.by(direction,prop));
-
-        if(q.isEmpty() && cat==null && author==null && publisher==null)
-        {
+        if (q.isEmpty() && cat == null && author == null && publisher == null) {
             throw new BadRequestException(String.format(ErrorMessage.GET_ALL_BOOKS_PARAMETERS_NULL_MESSAGE));
         }
-        Page<BookResponse> books = bookService.findAllWithPageAdmin(q,cat,author,publisher,pageable);
+        Page<BookResponse> books = bookService.findAllWithPageAdmin(q, cat, author, publisher, pageable);
 
         return ResponseEntity.ok(books);
     }
@@ -154,9 +150,9 @@ public class BookController {
     @PreAuthorize("hasRole('ADMIN')")
 
     public ResponseEntity<BookResponse> updateBook(@PathVariable("id") Long id,
-                                                         @RequestBody BookDTO bookDTO) {
+                                                   @RequestBody BookDTO bookDTO) {
 
-        BookResponse bookResponse = bookService.updateBook(id,bookDTO);
+        BookResponse bookResponse = bookService.updateBook(id, bookDTO);
 
 
         return new ResponseEntity<>(bookResponse, HttpStatus.CREATED);
@@ -166,12 +162,26 @@ public class BookController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<BookResponse> deleteBook(@PathVariable Long id){
-            BookResponse bookResponse = bookService.deleteBookById(id);
+    public ResponseEntity<BookResponse> deleteBook(@PathVariable Long id) {
+        BookResponse bookResponse = bookService.deleteBookById(id);
 
         return new ResponseEntity<>(bookResponse, HttpStatus.CREATED);
     }
 
 
+    @GetMapping("/featured-books")
+    public ResponseEntity<Page<BookResponse>> getBooksWithPageAdmin(
+            @RequestParam(required = false, value = "page", defaultValue = "0") int page,
+            @RequestParam(required = false, value = "size", defaultValue = "10") int size,
+            @RequestParam(required = false, value = "sort", defaultValue = "name") String prop,
+            @RequestParam(required = false, value = "direction", defaultValue = "ASC") Sort.Direction direction) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, prop));
+
+        Page<BookResponse> featuredBooks = bookService.getFeaturedBooks(pageable);
+
+        return new ResponseEntity<>(featuredBooks, HttpStatus.CREATED);
+
+    }
 
 }

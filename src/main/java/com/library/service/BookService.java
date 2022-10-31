@@ -8,6 +8,7 @@ import com.library.dto.mapper.BookMapper;
 import com.library.dto.request.BookRegisterRequest;
 import com.library.dto.response.BookResponse;
 import com.library.exception.BadRequestException;
+import com.library.exception.ResourceNotFoundException;
 import com.library.exception.message.ErrorMessage;
 import com.library.repository.*;
 import lombok.AllArgsConstructor;
@@ -199,6 +200,16 @@ public class BookService {
         Book bookUpdated = getBookById(id);
         bookUpdated.setLoanable(!bookUpdated.getLoanable());
         bookRepository.save(bookUpdated);
+
+    }
+
+
+    public Page<BookResponse> getFeaturedBooks(Pageable pageable){
+
+       Page<BookResponse> featuredBooks = bookRepository.findAllByFeaturedIsTrue(pageable);
+       if(featuredBooks==null) throw new ResourceNotFoundException(String.format(ErrorMessage.NO_FEATURED_BOOK_MESSAGE));
+
+       return featuredBooks;
 
     }
 
