@@ -20,7 +20,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Page<UserResponse> findAllWithPage (Pageable pageable);
 
 
-    @Query("SELECT new com.library.dto.response.UserResponse(u)  FROM User u where  u.firstName like %?1% OR u.lastName like %?1% OR u.email like %?1% or u.phone like %?1%")
+    @Query("SELECT new com.library.dto.response.UserResponse(u)  FROM User u where  lower(u.firstName) like %?1% OR lower(u.lastName) like %?1% OR lower(u.email) like %?1% or u.phone like %?1%")
     Page<UserResponse> getAllUserWithQAdmin(String q, Pageable pageable);
 
 

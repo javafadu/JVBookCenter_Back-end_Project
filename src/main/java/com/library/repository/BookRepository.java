@@ -16,7 +16,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     // Get All Books with parameters:
 
-    @Query("SELECT new com.library.dto.response.BookResponse(b)  FROM Book b where b.active=TRUE and (b.name like %?1% OR b.bookAuthor.name like %?1% OR b.isbn like %?1% or b.bookPublisher.name like %?1%)")
+    @Query("SELECT new com.library.dto.response.BookResponse(b)  FROM Book b where b.active=TRUE and (lower(b.name) like %?1% OR lower(b.bookAuthor.name) like %?1% OR b.isbn like %?1% or lower(b.bookPublisher.name) like %?1%)")
     Page<BookResponse> getAllBooksWithQ(String q, Pageable pageable);
 
     @Query("SELECT new com.library.dto.response.BookResponse(b)  FROM Book b where b.active=TRUE and b.bookCategory.id=?1")
@@ -30,7 +30,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     // active true and false for admin
 
-    @Query("SELECT new com.library.dto.response.BookResponse(b)  FROM Book b where  b.name like %?1% OR b.bookAuthor.name like %?1% OR b.isbn like %?1% or b.bookPublisher.name like %?1%")
+    @Query("SELECT new com.library.dto.response.BookResponse(b)  FROM Book b where lower(b.name) like %?1% OR lower(b.bookAuthor.name) like %?1% OR b.isbn like %?1% or lower(b.bookPublisher.name) like %?1% ")
     Page<BookResponse> getAllBooksWithQAdmin(String q, Pageable pageable);
 
     @Query("SELECT new com.library.dto.response.BookResponse(b)  FROM Book b where  b.bookCategory.id=?1")

@@ -87,10 +87,12 @@ public class BookController {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, prop));
 
+        String qLower = q.toLowerCase();
+
         if (q.isEmpty() && cat == null && author == null && publisher == null) {
             throw new BadRequestException(String.format(ErrorMessage.GET_ALL_BOOKS_PARAMETERS_NULL_MESSAGE));
         }
-        Page<BookResponse> books = bookService.findAllWithPage(q, cat, author, publisher, pageable);
+        Page<BookResponse> books = bookService.findAllWithPage(qLower, cat, author, publisher, pageable);
 
         return ResponseEntity.ok(books);
     }
@@ -118,7 +120,10 @@ public class BookController {
         if (q.isEmpty() && cat == null && author == null && publisher == null) {
             throw new BadRequestException(String.format(ErrorMessage.GET_ALL_BOOKS_PARAMETERS_NULL_MESSAGE));
         }
-        Page<BookResponse> books = bookService.findAllWithPageAdmin(q, cat, author, publisher, pageable);
+
+        String qLower = q.toLowerCase();
+
+        Page<BookResponse> books = bookService.findAllWithPageAdmin(qLower, cat, author, publisher, pageable);
 
         return ResponseEntity.ok(books);
     }

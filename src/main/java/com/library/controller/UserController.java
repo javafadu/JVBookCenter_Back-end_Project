@@ -74,7 +74,9 @@ public class UserController {
 
         Pageable pageable= PageRequest.of(page, size, Sort.by(direction,prop));
 
-        Page<UserResponse> usersWithPage = userService.getUserPage(q, pageable);
+        String qLower = q.toLowerCase();
+
+        Page<UserResponse> usersWithPage = userService.getUserPage(qLower, pageable);
         return  ResponseEntity.ok(usersWithPage);
     }
 
