@@ -178,4 +178,43 @@ public class UserController {
     }
 
 
+
+    // 12- Update User Info by authenticated user
+    // endpoint: [{server_url}/users
+    /* json Bodu
+
+    {
+    "firstName": "Walter",
+    "lastName": "White",
+    "address": "301 Milam St, Houston, TX 77002, United States",
+    "phone": "713-600-2267",
+    "birthDate":"01/30/1980",
+    "email": "walter@mail.com0",
+    "score": 0,
+    "builtIn": true,
+    "roles": [
+                {
+                    "id": 3,
+                    "name": "ROLE_MEMBER"
+                },
+                {
+                    "id": 1,
+                    "name": "ROLE_ADMIN"
+                }
+            ]
+    }
+
+     */
+    @PutMapping("/user")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF') ")
+    public ResponseEntity<UserResponse> updateAuthUser (HttpServletRequest httpServletRequest,@Valid @RequestBody UpdateUserRequest updateUserRequest){
+        Long userId =(Long) httpServletRequest.getAttribute("id");
+
+        UserResponse userResponse= userService.userAuthUpdate(userId, updateUserRequest);
+
+        return ResponseEntity.ok(userResponse);
+
+    }
+
+
 }

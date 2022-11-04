@@ -246,4 +246,44 @@ public class UserService {
     }
 
 
+    // Update Authenticated User (Update Own Information)
+    public UserResponse userAuthUpdate(Long id, UpdateUserRequest updateUserRequest) {
+
+        // Check1: control if the user exist or not with the requsted id
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
+
+
+        // Check3: BuiltIn control ->  only Admin can update if the builtIn is true of user
+        if (user.getBuiltIn()) {
+            if (!user.getRoles().contains("ROLE_ADMIN")) {
+                throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
+            }
+        }
+
+        Boolean emailExists = userRepository.existsByEmail(updateUserRequest.getEmail());
+
+        // Check4: if the new email is belongs to another user in db
+        if (emailExists && !updateUserRequest.getEmail().equals(user.getEmail())) {
+            throw new ConflictException(String.format(ErrorMessage.EMAIL_ALREADY_EXIST, user.getEmail()));
+        }
+
+        user.setId(id);
+        user.setFirstName(updateUserRequest.getFirstName());
+        user.setLastName(updateUserRequest.getLastName());
+        user.setAddress(updateUserRequest.getAddress());
+        user.setPhone(updateUserRequest.getPhone());
+        user.setBirthDate(updateUserRequest.getBirthDate());
+        user.setEmail(updateUserRequest.getEmail());
+
+
+        if (updateUserRequest.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(updateUserRequest.getPassword()));
+        }
+
+        userRepository.save(user);
+
+        return userMapper.userToUserResponse(user);
+
+    }
 }
