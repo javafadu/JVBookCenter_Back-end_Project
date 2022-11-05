@@ -39,7 +39,6 @@ public class RegisterRequest {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =
             "yyyy-MM-dd", timezone = "Turkey")
-    @NotNull(message = "Please provide birthdate")
     private LocalDate birthDate;
 
     @Email()

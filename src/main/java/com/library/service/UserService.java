@@ -259,20 +259,16 @@ public class UserService {
             }
         }
 
-        Boolean emailExists = userRepository.existsByEmail(updateUserRequest.getEmail());
 
-        // Check4: if the new email is belongs to another user in db
-        if (emailExists && !updateUserRequest.getEmail().equals(user.getEmail())) {
-            throw new ConflictException(String.format(ErrorMessage.EMAIL_ALREADY_EXIST, user.getEmail()));
-        }
 
         user.setId(id);
         user.setFirstName(updateUserRequest.getFirstName());
         user.setLastName(updateUserRequest.getLastName());
         user.setAddress(updateUserRequest.getAddress());
         user.setPhone(updateUserRequest.getPhone());
-        user.setBirthDate(updateUserRequest.getBirthDate());
-        user.setEmail(updateUserRequest.getEmail());
+        if(updateUserRequest.getBirthDate() !=null) {
+            user.setBirthDate(updateUserRequest.getBirthDate());
+        }
 
 
         if (updateUserRequest.getPassword() != null) {

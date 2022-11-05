@@ -39,12 +39,10 @@ public class UpdateUserRequest {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =
             "yyyy-MM-dd", timezone = "Turkey")
-    @NotNull(message = "Please provide birth date")
     private LocalDate birthDate;
 
     @Email()
     @Size(min = 10, max = 80, message = "Your email '${validatedValue}' must be between {min} and {max} chars long")
-    @NotNull(message = "Please provide email address")
     private String email;
 
     private Integer score;
