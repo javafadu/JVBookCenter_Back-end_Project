@@ -2,11 +2,10 @@ package com.library.controller;
 
 
 import com.library.dto.request.RegisterRequest;
+import com.library.dto.request.UpdatePasswordRequest;
 import com.library.dto.request.UpdateUserRequest;
 import com.library.dto.request.UserCreateRequest;
-import com.library.dto.response.LoanAuthResponseWithBook;
-import com.library.dto.response.UserRegisterResponse;
-import com.library.dto.response.UserResponse;
+import com.library.dto.response.*;
 
 import com.library.service.LoanService;
 import com.library.service.UserService;
@@ -206,7 +205,7 @@ public class UserController {
 
      */
     @PutMapping("/user")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF') ")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF') or hasRole('MEMBER')")
     public ResponseEntity<UserResponse> updateAuthUser (HttpServletRequest httpServletRequest,@Valid @RequestBody UpdateUserRequest updateUserRequest){
         Long userId =(Long) httpServletRequest.getAttribute("id");
 
@@ -214,6 +213,28 @@ public class UserController {
 
         return ResponseEntity.ok(userResponse);
 
+    }
+
+    // 12- Update User Password by authenticated user
+    // http://localhost:8080/user/auth
+    /*
+
+    {
+    "newPassword":"testup",
+    "oldPassword":"test1"
+    }
+     */
+    @PatchMapping("/auth")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF') or hasRole('MEMBER')")
+    public ResponseEntity<LResponse> updateAuthPassword(HttpServletRequest httpServletRequest, @RequestBody UpdatePasswordRequest passwordRequest) {
+        Long id = (Long) httpServletRequest.getAttribute("id");
+        userService.updateAuthPassword(id,passwordRequest);
+
+        LResponse response = new LResponse();
+        response.setMessage(ResponseMessages.PASSWORD_CHANGED_MESSAGE);
+        response.setSuccess(true);
+
+        return ResponseEntity.ok(response);
     }
 
 

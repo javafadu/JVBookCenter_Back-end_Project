@@ -6,6 +6,7 @@ import com.library.domain.User;
 import com.library.domain.enums.RoleType;
 import com.library.dto.mapper.UserMapper;
 import com.library.dto.request.RegisterRequest;
+import com.library.dto.request.UpdatePasswordRequest;
 import com.library.dto.request.UpdateUserRequest;
 import com.library.dto.request.UserCreateRequest;
 import com.library.dto.response.UserRegisterResponse;
@@ -25,10 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @AllArgsConstructor
@@ -284,6 +282,29 @@ public class UserService {
         userRepository.save(user);
 
         return userMapper.userToUserResponse(user);
+
+    }
+
+    // Update authenticated user password
+    public void updateAuthPassword(Long id, UpdatePasswordRequest passwordRequest) {
+
+        Optional<User> userOpt = userRepository.findById(id);
+        User user = userOpt.get();
+
+
+        if (user.getBuiltIn()) {
+            throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
+        }
+
+
+        if (!passwordEncoder.matches(passwordRequest.getOldPassword(), user.getPassword())) {
+            throw new BadRequestException(ErrorMessage.PASSWORD_NOT_MATCHED);
+        }
+
+        String hashedPassword = passwordEncoder.encode(passwordRequest.getNewPassword());
+        user.setPassword(hashedPassword);
+
+        userRepository.save(user);
 
     }
 }
