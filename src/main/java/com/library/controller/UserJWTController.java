@@ -6,6 +6,8 @@ import com.library.dto.request.LoginRequest;
 import com.library.dto.request.RegisterRequest;
 import com.library.dto.response.LoginResponse;
 import com.library.dto.response.UserRegisterResponse;
+import com.library.exception.BadRequestException;
+import com.library.exception.message.ErrorMessage;
 import com.library.security.jwt.JwtUtils;
 import com.library.service.UserService;
 import lombok.AllArgsConstructor;
@@ -89,6 +91,7 @@ public class UserJWTController {
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
         Authentication authentication = authManager.authenticate(authToken);
+
 
         // STEP2 : no exception in Step2, means successfully login, generate Jwt Token
         String token = jwtUtils.generateJwtToken(authentication);

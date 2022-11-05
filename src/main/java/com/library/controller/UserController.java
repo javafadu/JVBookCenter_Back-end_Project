@@ -189,18 +189,9 @@ public class UserController {
     "phone": "713-600-2267",
     "birthDate":"01/30/1980",
     "email": "walter@mail.com0",
-    "score": 0,
-    "builtIn": true,
-    "roles": [
-                {
-                    "id": 3,
-                    "name": "ROLE_MEMBER"
-                },
-                {
-                    "id": 1,
-                    "name": "ROLE_ADMIN"
-                }
-            ]
+
+
+
     }
 
      */

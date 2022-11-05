@@ -48,7 +48,7 @@ public class BookDTO {
     private Boolean featured = false;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =
-            "MM/dd/yyyy HH:mm:ss", timezone = "Turkey")
+            "yyyy-MM-dd HH:mm:ss", timezone = "Turkey")
     private LocalDateTime createDate;
 
     private Boolean builtIn = false;

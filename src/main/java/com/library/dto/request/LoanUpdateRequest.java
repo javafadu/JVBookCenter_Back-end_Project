@@ -23,12 +23,12 @@ public class LoanUpdateRequest {
         private String notes;
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =
-                "MM/dd/yyyy HH:mm:ss", timezone = "Turkey")
+                "yyyy-MM-dd HH:mm:ss", timezone = "Turkey")
         @NotNull(message="Please provide the pick up time of the reservation")
         private LocalDateTime expireDate;
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =
-                "MM/dd/yyyy HH:mm:ss", timezone = "Turkey")
+                "yyyy-MM-dd HH:mm:ss", timezone = "Turkey")
         @NotNull(message="Please provide the pick up time of the reservation")
         private LocalDateTime returnDate;
 

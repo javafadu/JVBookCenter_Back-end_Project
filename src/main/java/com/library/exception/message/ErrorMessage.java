@@ -46,5 +46,6 @@ public class ErrorMessage {
     public static final String GET_ALL_BOOKS_PARAMETERS_NULL_MESSAGE = "At least one of the fields (q, category, author, publisher) is required";
     public static final String USER_HAS_NO_LOAN_MESSAGE = "User with id %d has no loan yet";
     public static final String NO_FEATURED_BOOK_MESSAGE = "There is no featured book in the system";
+    public static final String LOGIN_ERROR_MESSAGE = "Username or password is incorrect";
 
 }

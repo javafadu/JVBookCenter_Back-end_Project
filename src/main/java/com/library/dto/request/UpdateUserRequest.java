@@ -38,7 +38,7 @@ public class UpdateUserRequest {
     private String phone;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =
-            "MM/dd/yyyy", timezone = "Turkey")
+            "yyyy-MM-dd", timezone = "Turkey")
     @NotNull(message = "Please provide birth date")
     private LocalDate birthDate;
 
