@@ -200,7 +200,7 @@ public class LoanService {
             // increase or decrease user score
             LocalDateTime  addedReturnDate = loanUpdateRequest.getReturnDate();
             LocalDateTime  addedExpireDate = loanUpdateRequest.getExpireDate();
-            int diff = addedExpireDate.compareTo(addedExpireDate);
+            int diff = addedExpireDate.compareTo(addedReturnDate);
             if(diff>0) {
                 user.setId(user.getId());
                 user.setScore(user.getScore()+1);
