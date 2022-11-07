@@ -3,12 +3,14 @@ package com.library.dto.response;
 
 import com.library.domain.Role;
 import com.library.domain.User;
+import com.library.domain.enums.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -38,7 +40,29 @@ public class UserResponse {
 
     private Boolean builtIn;
 
-    private Set<Role> roles;
+    private Set<String> roles;
+
+    // Converting Set<Role> roles in DB to Set<String> roles as dto
+    public void setRoles(Set<Role> roles) {
+        Set<String> rolesStr = new HashSet<>();
+
+        for (Role r:roles
+        ) {
+            if(r.getName().equals(RoleType.ROLE_MEMBER)) {
+                rolesStr.add("Member");
+            } else if (r.getName().equals(RoleType.ROLE_STAFF)) {
+                rolesStr.add("Staff");
+            } else if (r.getName().equals(RoleType.ROLE_ADMIN)) {
+                rolesStr.add("Administrator");
+            } else {
+                rolesStr.add("Anonymous");
+            }
+        }
+
+        this.roles=rolesStr;
+
+    }
+
 
     public UserResponse(User user) {
         this.id = user.getId();
@@ -51,6 +75,6 @@ public class UserResponse {
         this.score = user.getScore();
         this.builtIn = user.getBuiltIn();
         this.createDate=user.getCreateDate();
-        this.roles=user.getRoles();
+        this.roles=getRoles();
     }
 }
