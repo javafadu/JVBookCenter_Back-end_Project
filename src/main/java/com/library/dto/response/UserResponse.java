@@ -75,6 +75,7 @@ public class UserResponse {
         this.score = user.getScore();
         this.builtIn = user.getBuiltIn();
         this.createDate=user.getCreateDate();
-        this.roles=getRoles();
+        this.roles=getRoles();  // bu sekilde yapinca calisiyor. Set<Role> leri Set<String> e
+        // yukardaki methodan dan donusturuyor.
     }
 }
