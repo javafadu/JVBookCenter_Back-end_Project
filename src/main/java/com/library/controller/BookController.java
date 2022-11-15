@@ -154,7 +154,7 @@ public class BookController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
 
-    public ResponseEntity<BookResponse> updateBook(@PathVariable("id") Long id,
+    public ResponseEntity<BookResponse> updateBook(@PathVariable Long id,
                                                    @RequestBody BookDTO bookDTO) {
 
         BookResponse bookResponse = bookService.updateBook(id, bookDTO);
