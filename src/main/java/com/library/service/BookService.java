@@ -155,12 +155,15 @@ public class BookService {
         Category categoryOfBook = categoryRepository.findById(bookDTO.getBookAuthor()).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,bookDTO.getBookAuthor())));
 
         book.setBookCategory(categoryOfBook);
-        book.setImageLink("images/books/"+bookDTO.getBookCategory()+"/"+bookDTO.getImageLink());
+        book.setImageLink("assets/img/books/"+bookDTO.getImageLink());
         book.setLoanable(bookDTO.getLoanable());
         book.setShelfCode(bookDTO.getShelfCode());
         book.setActive(bookDTO.getActive());
         book.setFeatured(bookDTO.getFeatured());
-        book.setCreateDate(bookDTO.getCreateDate());
+
+        if (bookDTO.getCreateDate() != null) {
+            book.setCreateDate(bookDTO.getCreateDate());
+        }
         book.setBuiltIn(bookDTO.getBuiltIn());
 
         bookRepository.save(book);
