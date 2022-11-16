@@ -163,6 +163,8 @@ public class BookService {
 
         if (bookDTO.getCreateDate() != null) {
             book.setCreateDate(bookDTO.getCreateDate());
+        } else {
+            book.setCreateDate(foundBook.getCreateDate());
         }
         book.setBuiltIn(bookDTO.getBuiltIn());
 
