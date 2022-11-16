@@ -152,7 +152,7 @@ public class BookService {
         book.setBookPublisher(publisherService.getPublisherById(bookDTO.getBookPublisher()));
         book.setPublishDate(bookDTO.getPublishDate());
 
-        Category categoryOfBook = categoryRepository.findById(bookDTO.getBookAuthor()).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,bookDTO.getBookAuthor())));
+        Category categoryOfBook = categoryRepository.findById(bookDTO.getBookCategory()).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,bookDTO.getBookAuthor())));
 
         book.setBookCategory(categoryOfBook);
         book.setImageLink(bookDTO.getImageLink());
