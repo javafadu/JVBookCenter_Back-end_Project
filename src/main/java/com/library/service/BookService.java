@@ -125,6 +125,8 @@ public class BookService {
         }
         else if (publisher!=null) {
             booksPage = bookRepository.getAllBooksWithPublisherAdmin(publisher,pageable);
+        } else {
+            booksPage=bookRepository.getAllBooksWithPageByAdmin(pageable);
         }
 
         return booksPage;
