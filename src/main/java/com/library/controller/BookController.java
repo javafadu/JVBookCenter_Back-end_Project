@@ -117,9 +117,6 @@ public class BookController {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, prop));
 
-        if (q.isEmpty() && cat == null && author == null && publisher == null) {
-            throw new BadRequestException(String.format(ErrorMessage.GET_ALL_BOOKS_PARAMETERS_NULL_MESSAGE));
-        }
 
         String qLower = q.toLowerCase();
 
