@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface AuthorRepository extends JpaRepository<Author, Long> {
 
 @Query("SELECT new com.library.dto.AuthorDTO(author) FROM Author author")
-    Page<AuthorDTO> findAllAuthorsWithPage(Pageable page);
+    Page<AuthorDTO> findAllAuthorsWithPage(Pageable pageable);
 
 
 @Query("SELECT new com.library.dto.AuthorDTO(a)  FROM Author a where  lower(a.name) like %?1% ")

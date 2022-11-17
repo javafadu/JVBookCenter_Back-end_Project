@@ -64,11 +64,11 @@ public class AuthorController {
     public ResponseEntity<Page<AuthorDTO>> getAllAuthorsByPage(
             @RequestParam(required = false, value = "q", defaultValue = "") String q,
             @RequestParam(required = false, value = "page", defaultValue = "0") int page,
-            @RequestParam(required = false,value = "size", defaultValue = "20") int size,
-            @RequestParam(required = false,value = "sort", defaultValue = "name") String prop,
-            @RequestParam(required = false,value = "type", defaultValue = "ASC") Sort.Direction direction
-    ){
-        Pageable pageable = PageRequest.of(page,size,Sort.by(direction,prop));
+            @RequestParam(required = false, value = "size", defaultValue = "20") int size,
+            @RequestParam(required = false, value = "sort", defaultValue = "name") String prop,
+            @RequestParam(required = false, value = "direction", defaultValue = "ASC") Sort.Direction direction)
+    {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, prop));
         String qLower = q.toLowerCase();
         Page<AuthorDTO> authorDTOPage = authorService.getAuthorPage(qLower, pageable);
         return ResponseEntity.ok(authorDTOPage);
