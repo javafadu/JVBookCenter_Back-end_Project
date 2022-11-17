@@ -74,7 +74,7 @@ public class AuthorController {
         return ResponseEntity.ok(authorDTOPage);
     }
 
-    // 5- DELETE an Author with an id
+    // 5- DELETE a LOAN with an id
     // endpoint: [{server_url}/authors/{id}
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
