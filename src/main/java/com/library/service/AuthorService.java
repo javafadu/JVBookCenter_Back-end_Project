@@ -5,6 +5,7 @@ import com.library.domain.Category;
 import com.library.dto.AuthorDTO;
 import com.library.dto.CategoryDTO;
 import com.library.dto.mapper.AuthorMapper;
+import com.library.exception.ResourceNotFoundException;
 import com.library.exception.message.ErrorMessage;
 import com.library.repository.AuthorRepository;
 import lombok.AllArgsConstructor;
@@ -54,8 +55,19 @@ public class AuthorService {
         return authorMapper.authorToAuthorDTO(deletingAuthor);
     }
 
-    public Page<AuthorDTO> getAuthorPage(Pageable pageable) {
-        Page<AuthorDTO> authors = authorRepository.findAllAuthorsWithPage(pageable);
+    public Page<AuthorDTO> getAuthorPage(String q, Pageable pageable) {
+
+        Page<AuthorDTO> authors = null;
+
+        if (!q.isEmpty()) {
+            authors = authorRepository.getAllAuthersWithQAdmin(q, pageable);
+        } else {
+            authors = authorRepository.findAllAuthorsWithPage(pageable);
+        }
+
+        if(authors.isEmpty()) throw new ResourceNotFoundException(String.format(ErrorMessage.NO_DATA_IN_DB_TABLE_MESSAGE,"Authors"));
+
+
 
         return authors;
     }

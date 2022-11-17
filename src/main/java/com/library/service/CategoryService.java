@@ -48,8 +48,18 @@ public class CategoryService {
         return categoryMapper.categoryToCategoryDTO(category);
     }
 
-    public Page<CategoryDTO> getCategoryPage(Pageable pageable) {
-        Page<CategoryDTO> categories = categoryRepository.findAllCategoryWithPage(pageable);
+    public Page<CategoryDTO> getCategoryPage(String q, Pageable pageable) {
+        Page<CategoryDTO> categories = null;
+
+        if (!q.isEmpty()) {
+            categories = categoryRepository.getAllCategoriesWithQAdmin(q,pageable);
+        } else {
+            categories = categoryRepository.findAllCategoryWithPage(pageable);
+        }
+
+        if(categories.isEmpty()) throw new ResourceNotFoundException(String.format(ErrorMessage.NO_DATA_IN_DB_TABLE_MESSAGE,"Categories"));
+
+
         return categories;
     }
 

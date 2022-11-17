@@ -20,4 +20,9 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query("SELECT new com.library.dto.CategoryDTO(category) FROM Category category")
     Page<CategoryDTO> findAllCategoryWithPage(Pageable page);
 
+    @Query("SELECT new com.library.dto.CategoryDTO(c)  FROM Category c where  lower(c.name) like %?1% ")
+    Page<CategoryDTO> getAllCategoriesWithQAdmin(String q, Pageable pageable);
+
 }
+
+

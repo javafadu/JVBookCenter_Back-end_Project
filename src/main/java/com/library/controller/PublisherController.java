@@ -37,13 +37,14 @@ public class PublisherController {
     // endpoint: [{server_url}/publishers
     @GetMapping()
     public ResponseEntity<Page<PublisherDTO>> getPublishersWithPage (
+            @RequestParam(required = false, value = "q", defaultValue = "") String q,
                                                                              @RequestParam(required = false, value = "page", defaultValue = "0") int page,
                                                                              @RequestParam(required = false,value = "size", defaultValue = "3") int size,
                                                                              @RequestParam(required = false,value = "sort", defaultValue = "name") String prop,
                                                                              @RequestParam(required = false,value = "direction", defaultValue = "DESC") Sort.Direction direction) {
         Pageable pageable = PageRequest.of(page,size,Sort.by(direction,prop));
-
-        Page<PublisherDTO> publisherDTO =  publisherService.getPublisherWithPages(pageable);
+        String qLower = q.toLowerCase();
+        Page<PublisherDTO> publisherDTO =  publisherService.getPublisherWithPages(qLower, pageable);
 
         return ResponseEntity.ok(publisherDTO);
     }

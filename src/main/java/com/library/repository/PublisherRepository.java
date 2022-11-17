@@ -1,6 +1,7 @@
 package com.library.repository;
 
 import com.library.domain.Publisher;
+import com.library.dto.AuthorDTO;
 import com.library.dto.PublisherDTO;
 
 import org.springframework.data.domain.Page;
@@ -20,6 +21,11 @@ public interface PublisherRepository extends JpaRepository<Publisher, Long> {
 
     @Query(" SELECT new com.library.dto.PublisherDTO(p) FROM Publisher p WHERE p.id=?1 ")
     PublisherDTO getPublisherwithId(Long id);
+
+    @Query("SELECT new com.library.dto.PublisherDTO(p)  FROM Publisher p where  lower(p.name) like %?1% ")
+    Page<PublisherDTO> getAllPublishersWithQAdmin(String q, Pageable pageable);
+
+
 
 
 }
