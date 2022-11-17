@@ -35,9 +35,17 @@ public class PublisherService {
 
 
 
-    public Page<PublisherDTO> getPublisherWithPages(Pageable pageable){
+    public Page<PublisherDTO> getPublisherWithPages(String q, Pageable pageable){
 
-        Page<PublisherDTO> publisherWithPage = publisherRepository.getPublishersWithPage(pageable);
+        Page<PublisherDTO> publisherWithPage = null;
+
+        if (!q.isEmpty()) {
+            publisherWithPage = publisherRepository.getAllPublishersWithQAdmin(q,pageable);
+        } else {
+            publisherWithPage = publisherRepository.getPublishersWithPage(pageable);
+        }
+
+
 
         if(publisherWithPage.isEmpty()) throw new ResourceNotFoundException(String.format(ErrorMessage.NO_DATA_IN_DB_TABLE_MESSAGE,"Publishers"));
 

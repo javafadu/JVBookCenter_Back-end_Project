@@ -50,12 +50,15 @@ public class CategoryController {
     // 4- Get all Categories with paging
     // endpoint: [{server_url}/categories
     @GetMapping
-    public ResponseEntity<Page<CategoryDTO>> getAllCategoriesByPage(@RequestParam(required = false, value = "page", defaultValue = "0") int page,
-                                                                    @RequestParam(required = false, value = "size", defaultValue = "20") int size,
-                                                                    @RequestParam(required = false, value = "sort", defaultValue = "name") String prop,
-                                                                    @RequestParam(required = false, value = "direction", defaultValue = "ASC") Sort.Direction direction) {
+    public ResponseEntity<Page<CategoryDTO>> getAllCategoriesByPage(
+            @RequestParam(required = false, value = "q", defaultValue = "") String q,
+            @RequestParam(required = false, value = "page", defaultValue = "0") int page,
+            @RequestParam(required = false, value = "size", defaultValue = "20") int size,
+            @RequestParam(required = false, value = "sort", defaultValue = "name") String prop,
+            @RequestParam(required = false, value = "direction", defaultValue = "ASC") Sort.Direction direction) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, prop));
-        Page<CategoryDTO> categoryDTOPage = categoryService.getCategoryPage(pageable);
+        String qLower = q.toLowerCase();
+        Page<CategoryDTO> categoryDTOPage = categoryService.getCategoryPage(qLower, pageable);
         return ResponseEntity.ok(categoryDTOPage);
     }
 
