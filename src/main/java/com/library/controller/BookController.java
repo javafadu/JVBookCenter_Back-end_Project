@@ -101,7 +101,7 @@ public class BookController {
     // 4- GET filtered Books with Paging by Admin (active and passive)
     // endpoint: [{server_url}/books
     @GetMapping("/pages")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
     public ResponseEntity<Page<BookResponse>> getBooksWithPageAdmin(
 
             @RequestParam(required = false, value = "q", defaultValue = "") String q,
