@@ -6,6 +6,7 @@ import com.library.dto.response.UserRegisterResponse;
 import com.library.dto.response.UserResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -18,6 +19,8 @@ public interface UserMapper {
     UserResponse userToUserResponse(User user);
     @Mapping(target="roles",ignore=true)
     User userDTOToUser(UserDTO userDTO);
+
+
 
 
 }

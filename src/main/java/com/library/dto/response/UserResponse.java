@@ -11,7 +11,9 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -41,6 +43,7 @@ public class UserResponse {
     private Boolean builtIn;
 
     private Set<String> roles;
+
 
     // Converting Set<Role> roles in DB to Set<String> roles as dto
     public void setRoles(Set<Role> roles) {
