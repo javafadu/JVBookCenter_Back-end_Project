@@ -1,5 +1,5 @@
 # libraryapp
-This is a Java Spring Boot Project. 
+This is a Java Spring Boot Project. <br>
 Spring Boot + JWT + PostgreSQL and JPA for storing and fetching user credentials
 ## Entities :
 
