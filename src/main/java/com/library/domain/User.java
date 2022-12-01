@@ -79,4 +79,115 @@ public class User {
 	private Set<Role> roles=new HashSet<>();
 
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public Integer getScore() {
+		return score;
+	}
+
+	public void setScore(Integer score) {
+		this.score = score;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public LocalDate getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(LocalDate birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public LocalDateTime getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(LocalDateTime createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getResetPasswordCode() {
+		return resetPasswordCode;
+	}
+
+	public void setResetPasswordCode(String resetPasswordCode) {
+		this.resetPasswordCode = resetPasswordCode;
+	}
+
+	public Boolean getBuiltIn() {
+		return builtIn;
+	}
+
+	public void setBuiltIn(Boolean builtIn) {
+		this.builtIn = builtIn;
+	}
+
+	public List<Loan> getUserBooks() {
+		return userBooks;
+	}
+
+	public void setUserBooks(List<Loan> userBooks) {
+		this.userBooks = userBooks;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
 }

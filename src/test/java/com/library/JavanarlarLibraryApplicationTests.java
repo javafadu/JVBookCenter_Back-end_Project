@@ -9,8 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class JavanarlarLibraryApplicationTests {
 
-    @Autowired
-    UserService userService;
 
     // user register test
     @Test

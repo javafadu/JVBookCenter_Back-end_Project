@@ -1,8 +1,5 @@
 package com.library;
 
-import com.library.service.UserService;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +12,6 @@ public class JavanarlarLibraryApplication {
 
 
     public static void main(String[] args) {
-
         SpringApplication.run(JavanarlarLibraryApplication.class, args);
 
     }
