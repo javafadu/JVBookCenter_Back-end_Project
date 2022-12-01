@@ -8,16 +8,16 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://ec2-34-242-8-97.eu-west-1.compute.amazonaws.com/dc9iah6bd1ibbg
-    username: pgsnvcuxzmwrtt
-    password: c3c7adcfa8deb874a509f78f565886ee02483e87b66aa71ceba180be979836c7
+    url: jdbc:postgresql://localhost:5432/library-app
+    username: demo_user
+    password: 12345
     driver-class-name: org.postgresql.Driver
 
   jpa:
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       format-sql: true
 

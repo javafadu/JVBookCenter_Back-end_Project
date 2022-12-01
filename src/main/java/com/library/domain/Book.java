@@ -12,6 +12,7 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -50,8 +51,11 @@ public class Book {
     @JoinColumn(name = "categoryId", nullable = false)
     private Category bookCategory;
 
-    @Column
-    private String imageLink;
+
+    @ManyToMany(fetch=FetchType.LAZY)
+    @JoinTable(name="tbl_book_image", joinColumns = @JoinColumn(name="book_id"),
+            inverseJoinColumns = @JoinColumn(name="imfile_id"))
+    private Set<ImageFile> image;
 
     @Column(nullable = false)
     private Boolean loanable = true;
