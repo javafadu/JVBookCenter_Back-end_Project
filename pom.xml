@@ -21,6 +21,7 @@
         <spring-boot.version>2.7.4</spring-boot.version>
         <jjwt.version>0.9.1</jjwt.version>
         <springdoc.openapi.version>1.6.9</springdoc.openapi.version>
+        <apache.poi.version>4.1.0</apache.poi.version>
 
     </properties>
     <dependencies>
@@ -96,6 +97,12 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>${springdoc.openapi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${apache.poi.version}</version>
         </dependency>
 
 
