@@ -94,7 +94,7 @@ public class BookService {
         return bookRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
     }
 
-
+    @Transactional
     public BookResponse findBookById(Long id){
         Book book =bookRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
         BookResponse bookResponse = bookMapper.bookToBookResponse(book);
