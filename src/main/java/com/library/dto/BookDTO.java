@@ -60,7 +60,24 @@ public class BookDTO {
     private List<Loan> loanedBooks = new ArrayList<>();
 
 
+    public BookDTO(Book book) {
+        this.id=book.getId();
+        this.name=book.getName();
+        this.isbn=book.getIsbn();
+        this.pageCount=book.getPageCount();
+        this.bookAuthor=book.getBookAuthor().getId();
+        this.bookPublisher=book.getBookPublisher().getId();
+        this.publishDate=book.getPublishDate();
+        this.bookCategory=book.getBookCategory().getId();
+        this.image=getImageId(book.getImage());
+        this.loanable=book.getLoanable();
+        this.shelfCode=book.getShelfCode();
+        this.active=book.getActive();
+        this.featured=book.getFeatured();
+        this.createDate=book.getCreateDate();
+        this.builtIn=book.getBuiltIn();
 
+    }
 
     public Set<String> getImageId(Set<ImageFile> images){
         Set<String> imgStrSet=new HashSet<>();
