@@ -230,7 +230,7 @@ public class BookService {
 
     public Page<BookResponse> getFeaturedBooks(Pageable pageable){
 
-       Page<BookResponse> featuredBooks = bookRepository.findAllByFeaturedIsTrue(pageable);
+       Page<BookResponse> featuredBooks = bookRepository.findAllFeaturedIsTrue(pageable);
        if(featuredBooks==null) throw new ResourceNotFoundException(String.format(ErrorMessage.NO_FEATURED_BOOK_MESSAGE));
 
        return featuredBooks;

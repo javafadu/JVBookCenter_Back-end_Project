@@ -45,7 +45,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("SELECT new com.library.dto.response.BookResponse(b)  FROM Book b")
     Page<BookResponse> getAllBooksWithPageByAdmin(Pageable pageable);
 
-    Page<BookResponse> findAllByFeaturedIsTrue(Pageable pageable);
+    @Query("SELECT new com.library.dto.response.BookResponse(b)  FROM Book b where b.featured=true")
+    Page<BookResponse> findAllFeaturedIsTrue(Pageable pageable);
 
 
    }
