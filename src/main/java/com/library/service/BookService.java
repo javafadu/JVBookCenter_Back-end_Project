@@ -102,6 +102,7 @@ public class BookService {
 
     }
 
+    @Transactional
     public Page<BookResponse> findAllWithPage(String q, Long cat, Long author, Long publisher, Pageable pageable){
 
         Page<BookResponse> booksPage = null;
@@ -122,6 +123,7 @@ public class BookService {
 
 
 
+    @Transactional
     public Page<BookResponse> findAllWithPageAdmin(String q, Long cat, Long author, Long publisher, Pageable pageable){
 
         Page<BookResponse> booksPage = null;
