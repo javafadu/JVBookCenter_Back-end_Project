@@ -182,7 +182,7 @@ public class BookController {
 
         Page<BookResponse> featuredBooks = bookService.getFeaturedBooks(pageable);
 
-        return new ResponseEntity<>(featuredBooks, HttpStatus.CREATED);
+        return  ResponseEntity.ok(featuredBooks);
 
     }
 

@@ -29,9 +29,6 @@ public interface BookMapper {
         return imgs;
     }
 
-    // @Mapping(target="loanedBooks", ignore = true)
-    @Mapping(source="image", target="image", qualifiedByName="getImageAsString")
-    BookResponse BookToBookResponse(Book book);
 
 
 }
