@@ -79,7 +79,7 @@ public class BookService {
 
 
 
-        BookResponse bookRegisterResponse = bookMapper.BookToBookResponse(book);
+        BookResponse bookRegisterResponse = bookMapper.bookToBookResponse(book);
 
         return bookRegisterResponse;
 
@@ -97,7 +97,7 @@ public class BookService {
 
     public BookResponse findBookById(Long id){
         Book book =bookRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
-        BookResponse bookResponse = bookMapper.BookToBookResponse(book);
+        BookResponse bookResponse = bookMapper.bookToBookResponse(book);
         return bookResponse;
 
     }
@@ -190,7 +190,7 @@ public class BookService {
         bookRepository.save(book);
 
 
-        BookResponse bookResponse = bookMapper.BookToBookResponse(book);
+        BookResponse bookResponse = bookMapper.bookToBookResponse(book);
 
         return bookResponse;
 
@@ -204,7 +204,7 @@ public class BookService {
 
         Book book =getBookById(id);
 
-        BookResponse bookResponse= bookMapper.BookToBookResponse(book);
+        BookResponse bookResponse= bookMapper.bookToBookResponse(book);
 
         boolean exists=loanRepository.existsByLoanedBooks(book);
         if (exists){
