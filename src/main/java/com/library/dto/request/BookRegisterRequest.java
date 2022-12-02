@@ -41,7 +41,6 @@ public class BookRegisterRequest {
     @NotNull(message = "Please provide A Category id")
     private Long bookCategory;
 
-    private String imageLink;
 
 
     @NotNull(message = "Please provide shelf Code")
