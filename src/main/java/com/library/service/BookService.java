@@ -227,7 +227,7 @@ public class BookService {
 
     }
 
-
+    @Transactional
     public Page<BookResponse> getFeaturedBooks(Pageable pageable){
 
        Page<BookResponse> featuredBooks = bookRepository.findAllFeaturedIsTrue(pageable);
