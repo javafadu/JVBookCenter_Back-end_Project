@@ -3,6 +3,7 @@ package com.library.service;
 import com.library.domain.Author;
 import com.library.domain.Book;
 import com.library.domain.Category;
+import com.library.domain.ImageFile;
 import com.library.dto.BookDTO;
 import com.library.dto.mapper.BookMapper;
 import com.library.dto.request.BookRegisterRequest;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @Service
@@ -33,12 +36,18 @@ public class BookService {
     private CategoryRepository categoryRepository;
     private LoanRepository loanRepository;
     private BookMapper bookMapper;
+    private ImageFileRepository imageFileRepository;
 
 
-    public BookResponse saveBook(BookRegisterRequest bookRegisterRequest) {
+    public BookResponse saveBook(BookRegisterRequest bookRegisterRequest, String imageId) {
 
+        ImageFile imFile=    imageFileRepository.findById(imageId).
+                orElseThrow(()->new ResourceNotFoundException
+                        (String.format(ErrorMessage.IMAGE_NOT_FOUND_MESSAGE, imageId)));
 
         Book book = new Book();
+        Set<ImageFile> imFiles=new HashSet<>();
+        imFiles.add(imFile);
 
 
         book.setName(bookRegisterRequest.getName());
@@ -56,7 +65,7 @@ public class BookService {
         book.setBookCategory(categoryOfBook);
 
 
-        book.setImageLink("assets/img/books/"+bookRegisterRequest.getImageLink());
+        book.setImage(imFiles);
         book.setLoanable(true);
         book.setShelfCode(bookRegisterRequest.getShelfCode());
         book.setActive(true);
@@ -135,12 +144,20 @@ public class BookService {
 
 
     @Transactional
-    public BookResponse updateBook(Long id, BookDTO bookDTO){
-
+    public BookResponse updateBook(Long id, BookDTO bookDTO, String imageId){
+        // check the id if exists or not. If it is not exist throw exception
+        // if exist, get it by id and assign to foundBook
         Book foundBook =bookRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
         if (foundBook.getBuiltIn()){
             throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
         }
+        // check the imageId if exists or not. If it is not exist throw exception
+        // if exist, get it by id and assign to imFile
+        ImageFile imFile=imageFileRepository.findById(imageId).
+                orElseThrow(()-> new ResourceNotFoundException (String.format(ErrorMessage.IMAGE_NOT_FOUND_MESSAGE, imageId)));
+
+        Set<ImageFile> imgs= foundBook.getImage();
+        imgs.add(imFile);
 
         Book book=new Book();
         book.setId(foundBook.getId());
@@ -157,7 +174,7 @@ public class BookService {
         Category categoryOfBook = categoryRepository.findById(bookDTO.getBookCategory()).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,bookDTO.getBookAuthor())));
 
         book.setBookCategory(categoryOfBook);
-        book.setImageLink(bookDTO.getImageLink());
+        book.setImage(imgs);
         book.setLoanable(bookDTO.getLoanable());
         book.setShelfCode(bookDTO.getShelfCode());
         book.setActive(bookDTO.getActive());

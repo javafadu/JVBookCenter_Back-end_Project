@@ -57,6 +57,7 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name="imfile_id"))
     private Set<ImageFile> image;
 
+
     @Column(nullable = false)
     private Boolean loanable = true;
 

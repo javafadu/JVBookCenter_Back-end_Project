@@ -15,7 +15,10 @@ import javax.validation.constraints.Size;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Getter
@@ -37,7 +40,8 @@ public class BookDTO {
     private Integer publishDate;
 
     private Long bookCategory;
-    private String imageLink;
+
+    private Set<String> image;
 
     private Boolean loanable = true;
 
@@ -56,6 +60,13 @@ public class BookDTO {
     private List<Loan> loanedBooks = new ArrayList<>();
 
 
+
+
+    public Set<String> getImageId(Set<ImageFile> images){
+        Set<String> imgStrSet=new HashSet<>();
+        imgStrSet=images.stream().map(image->image.getId().toString()).collect(Collectors.toSet());
+        return imgStrSet;
+    }
 
 
 }

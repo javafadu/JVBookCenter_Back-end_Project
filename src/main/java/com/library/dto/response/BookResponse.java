@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Getter
@@ -23,7 +26,7 @@ public class BookResponse {
     private Publisher bookPublisher;
     private Integer publishDate;
     private Category bookCategory;
-    private String imageLink;
+    private Set<String> image;
     private Boolean loanable = true;
     private String shelfCode;
     private Boolean active = true;
@@ -42,7 +45,7 @@ public class BookResponse {
         this.bookPublisher=book.getBookPublisher();
         this.publishDate=book.getPublishDate();
         this.bookCategory=book.getBookCategory();
-        this.imageLink=book.getImageLink();
+        this.image=getImageId(book.getImage());
         this.loanable=book.getLoanable();
         this.shelfCode=book.getShelfCode();
         this.active=book.getActive();
@@ -51,6 +54,12 @@ public class BookResponse {
         this.builtIn=book.getBuiltIn();
 
 
+    }
+
+    public Set<String> getImageId(Set<ImageFile> images){
+        Set<String> imgStrSet=new HashSet<>();
+        imgStrSet=images.stream().map(image->image.getId().toString()).collect(Collectors.toSet());
+        return imgStrSet;
     }
 
 

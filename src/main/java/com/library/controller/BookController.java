@@ -31,7 +31,7 @@ public class BookController {
     private BookService bookService;
 
     // 1- CREATE a Book
-    // endpoint: [{server_url}/books
+    // endpoint: [{server_url}/books/add/{imageId}
     /* Json body:
     {
     "name": "Animal Farm",
@@ -41,16 +41,15 @@ public class BookController {
     "bookPublisher": 4,
     "publishDate": 1945,
     "bookCategory": 4,
-    "imageLink" : "AnimalFarm.jpg",
     "shelfCode": "PL-001",
     "featured": false
     }
      */
-    @PostMapping()
+    @PostMapping("/add/{imageId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<BookResponse> createBook(@Valid @RequestBody BookRegisterRequest bookRegisterRequest) {
+    public ResponseEntity<BookResponse> createBook(@PathVariable String imageId, @Valid @RequestBody BookRegisterRequest bookRegisterRequest) {
 
-        BookResponse bookRegisterResponse = bookService.saveBook(bookRegisterRequest);
+        BookResponse bookRegisterResponse = bookService.saveBook(bookRegisterRequest, imageId);
 
 
         return new ResponseEntity<>(bookRegisterResponse, HttpStatus.CREATED);
@@ -152,9 +151,10 @@ public class BookController {
     @PreAuthorize("hasRole('ADMIN')")
 
     public ResponseEntity<BookResponse> updateBook(@PathVariable Long id,
+                                                   @RequestParam("imageId") String imageId,
                                                    @RequestBody BookDTO bookDTO) {
 
-        BookResponse bookResponse = bookService.updateBook(id, bookDTO);
+        BookResponse bookResponse = bookService.updateBook(id, bookDTO, imageId);
 
 
         return new ResponseEntity<>(bookResponse, HttpStatus.CREATED);
