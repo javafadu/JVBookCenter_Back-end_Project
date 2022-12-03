@@ -52,6 +52,7 @@ public class Book {
     private Category bookCategory;
 
 
+    @JsonIgnore
     @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name="tbl_book_image", joinColumns = @JoinColumn(name="book_id"),
             inverseJoinColumns = @JoinColumn(name="imfile_id"))

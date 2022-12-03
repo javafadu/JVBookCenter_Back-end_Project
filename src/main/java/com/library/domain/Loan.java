@@ -29,7 +29,7 @@ public class Loan {
     private User userLoan;
 
 
-    @JsonIgnore
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="bookId", nullable=false)
     private Book loanedBooks;
