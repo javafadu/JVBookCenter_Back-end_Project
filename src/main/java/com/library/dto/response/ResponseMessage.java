@@ -18,6 +18,10 @@ public class ResponseMessage {
 
     public final static String CAR_AVAILABLE_MESSAGE="Car Availibility calculated";
 
+    public final static String IMAGE_DELETE_RESPONSE_MESSAGE="Image File Is Deleted";
+
+
+
 
 
 }

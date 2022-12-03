@@ -83,18 +83,11 @@ public class ImageFileController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')") // admin tarafindan getirilebilsin
-    public ResponseEntity<Map<String,String>> deleteImageWithId(@PathVariable String id) {
-        Map<String,String> deleteImageMap = new HashMap<>();
-
-        String deletedImage = imageFileService.deleteImage(id);
-
-        deleteImageMap.put("message", "Image Successfully Deleted");
-        deleteImageMap.put("status", "true");
-
-        return new ResponseEntity<>(deleteImageMap, HttpStatus.OK);
-
-
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<LResponse> deleteImageFile(@PathVariable String id){
+        imageFileService.removeById(id);
+        LResponse response=new LResponse(true,ResponseMessage.IMAGE_DELETE_RESPONSE_MESSAGE);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 

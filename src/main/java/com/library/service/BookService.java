@@ -150,9 +150,6 @@ public class BookService {
         // check the id if exists or not. If it is not exist throw exception
         // if exist, get it by id and assign to foundBook
         Book foundBook =bookRepository.findById(id).orElseThrow(()-> new RuntimeException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
-        if (foundBook.getBuiltIn()){
-            throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
-        }
         // check the imageId if exists or not. If it is not exist throw exception
         // if exist, get it by id and assign to imFile
         ImageFile imFile=imageFileRepository.findById(imageId).

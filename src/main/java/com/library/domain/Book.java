@@ -51,10 +51,8 @@ public class Book {
     @JoinColumn(name = "categoryId", nullable = false)
     private Category bookCategory;
 
-    @JsonIgnore
-    @ManyToMany(fetch=FetchType.LAZY)
-    @JoinTable(name="tbl_book_image", joinColumns = @JoinColumn(name="book_id"),
-            inverseJoinColumns = @JoinColumn(name="imfile_id"))
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name="book_id")
     private Set<ImageFile> image;
 
 

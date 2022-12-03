@@ -68,12 +68,8 @@ public class ImageFileService {
     }
 
 
-    public String deleteImage(String id) {
-
-       imageFileRepository.findById(id).orElseThrow(() -> new RuntimeException(
-               String.format(ErrorMessage.IMAGE_NOT_FOUND_MESSAGE, id)));
-
-       imageFileRepository.deleteById(id);
-        return id;
+    public void removeById(String id) {
+        ImageFile imFile=getImageById(id);
+        imageFileRepository.delete(imFile);
     }
 }
