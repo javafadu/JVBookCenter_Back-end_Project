@@ -147,14 +147,14 @@ public class BookController {
 
 
      */
-    @PutMapping("/{id}")
+    @PutMapping()
     @PreAuthorize("hasRole('ADMIN')")
 
-    public ResponseEntity<BookResponse> updateBook(@PathVariable Long id,
+    public ResponseEntity<BookResponse> updateBook(@RequestParam("bookId") Long bookId,
                                                    @RequestParam("imageId") String imageId,
                                                    @RequestBody BookDTO bookDTO) {
 
-        BookResponse bookResponse = bookService.updateBook(id, bookDTO, imageId);
+        BookResponse bookResponse = bookService.updateBook(bookId, bookDTO, imageId);
 
 
         return new ResponseEntity<>(bookResponse, HttpStatus.CREATED);
