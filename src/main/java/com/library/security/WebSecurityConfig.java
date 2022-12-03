@@ -23,7 +23,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @AllArgsConstructor // constructor injection yapabilmek icin bunu ekliyoruz.
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
