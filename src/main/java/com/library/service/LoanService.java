@@ -119,7 +119,7 @@ public class LoanService {
     }
 
     // 2- GET ALL OWN LOANS (Page) of any USER with userId, pageable
-    @Transactional(readOnly = true)
+    @Transactional
     public Page<LoanAuthResponseWithBook> getLoansAuthWithPages(Long userId, Pageable pageable ) {
         User user= userService.getUserById(userId);
         Page<LoanAuthResponseWithBook> authLoansWithPage = loanRepository.getAuthUserLoansWithPage(userId,pageable);
