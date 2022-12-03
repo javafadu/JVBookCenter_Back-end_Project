@@ -51,7 +51,6 @@ public class Book {
     @JoinColumn(name = "categoryId", nullable = false)
     private Category bookCategory;
 
-
     @JsonIgnore
     @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name="tbl_book_image", joinColumns = @JoinColumn(name="book_id"),
