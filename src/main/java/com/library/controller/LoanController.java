@@ -24,6 +24,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/loans")
 @AllArgsConstructor
+@CrossOrigin
 public class LoanController {
 
 

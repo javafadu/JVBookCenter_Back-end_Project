@@ -2,6 +2,8 @@ package com.library.security;
 
 import com.library.security.jwt.AuthTokenFilter;
 import lombok.AllArgsConstructor;
+import org.apache.catalina.filters.CorsFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -17,9 +19,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @AllArgsConstructor // constructor injection yapabilmek icin bunu ekliyoruz.
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
