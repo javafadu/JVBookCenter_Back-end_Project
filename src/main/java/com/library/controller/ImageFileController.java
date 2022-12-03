@@ -3,6 +3,7 @@ package com.library.controller;
 import com.library.domain.ImageFile;
 import com.library.dto.ImageFileDTO;
 import com.library.dto.response.ImageSavedResponse;
+import com.library.dto.response.LResponse;
 import com.library.dto.response.ResponseMessage;
 import com.library.service.ImageFileService;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController // Rest api lerimi yerlestirecegim
 @RequestMapping("/files") // base path belirledik
@@ -78,6 +81,23 @@ public class ImageFileController {
 
         return ResponseEntity.status(HttpStatus.OK).body(imageList);
     }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')") // admin tarafindan getirilebilsin
+    public ResponseEntity<Map<String,String>> deleteImageWithId(@PathVariable String id) {
+        Map<String,String> deleteImageMap = new HashMap<>();
+
+        String deletedImage = imageFileService.deleteImage(id);
+
+        deleteImageMap.put("message", "Image Successfully Deleted");
+        deleteImageMap.put("status", "true");
+
+        return new ResponseEntity<>(deleteImageMap, HttpStatus.OK);
+
+
+    }
+
+
 
 
 

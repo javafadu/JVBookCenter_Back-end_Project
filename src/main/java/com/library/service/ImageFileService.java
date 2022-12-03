@@ -15,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -67,4 +68,12 @@ public class ImageFileService {
     }
 
 
+    public String deleteImage(String id) {
+
+       imageFileRepository.findById(id).orElseThrow(() -> new RuntimeException(
+               String.format(ErrorMessage.IMAGE_NOT_FOUND_MESSAGE, id)));
+
+       imageFileRepository.deleteById(id);
+        return id;
+    }
 }
