@@ -198,7 +198,7 @@ public class BookService {
 
 
 
-
+    @Transactional
     public BookResponse deleteBookById(Long id){
 
         Book book =getBookById(id);
