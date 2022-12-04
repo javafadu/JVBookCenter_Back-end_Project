@@ -51,6 +51,7 @@ public class Book {
     @JoinColumn(name = "categoryId", nullable = false)
     private Category bookCategory;
 
+    @JsonIgnore
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name="book_id")
     private Set<ImageFile> image;
