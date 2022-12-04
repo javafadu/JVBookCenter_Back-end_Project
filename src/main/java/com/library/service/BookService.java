@@ -218,6 +218,7 @@ public class BookService {
         return bookResponse;
     }
 
+    @Transactional
     public void updateBookLoanable(Long id) {
 
         Book bookUpdated = getBookById(id);

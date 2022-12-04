@@ -19,7 +19,7 @@ public class LoanSaveResponse {
 
     private Long userId;
 
-    private Book loanedBook;
+    private String bookName;
 
     private LocalDateTime loanDate;
 
@@ -32,4 +32,13 @@ public class LoanSaveResponse {
     private String resultMessage;
 
 
+    public LoanSaveResponse(Book book) {
+        this.userId = userId;
+        this.bookName = book.getName();
+        this.loanDate = loanDate;
+        this.expireDate = expireDate;
+        this.returnDate = returnDate;
+        this.notes = notes;
+        this.resultMessage = resultMessage;
+    }
 }

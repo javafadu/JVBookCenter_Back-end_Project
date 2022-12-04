@@ -34,6 +34,7 @@ public class LoanService {
 
 
     // 1- SAVE LOAN WITH a bookId FOR A MEMBER (userId)
+    @Transactional
     public LoanSaveResponse saveLoan(LoanSaveRequest loanSaveRequest) {
 
         // CONTROLS
@@ -103,7 +104,7 @@ public class LoanService {
         } else {
             loanSaveResponse.setResultMessage(book.getName() + " has been reserved by " + user.getFirstName() + " " + user.getLastName());
             loanSaveResponse.setLoanDate(today);
-            loanSaveResponse.setLoanedBook(book);
+            loanSaveResponse.setBookName(book.getName());
             loanSaveResponse.setNotes(loanSaveRequest.getNotes());
             loanSaveResponse.setExpireDate(today.plusDays(expireDays));
             loanSaveResponse.setUserId(loanSaveRequest.getUserId());
@@ -163,6 +164,7 @@ public class LoanService {
     }
 
     // 6- GET loan details including user and book object
+    @Transactional
     public LoanAdminResponseWithUserAndBook getLoanDetailsWithPage(Long loanId) {
 
         LoanAdminResponseWithUserAndBook loanDetails = loanRepository.getLoanDetails(loanId);
@@ -174,6 +176,7 @@ public class LoanService {
     }
 
     // 7- Update a loan
+    @Transactional
     public LoanUpdateResponse updateLoan(Long loanId, LoanUpdateRequest loanUpdateRequest) {
         // CONTROLS
         // return date is not null
@@ -235,6 +238,7 @@ public class LoanService {
     }
 
     // GET BOOK OBJECT from Related Loan
+    @Transactional
     public Book getBookInfoInLoan (Long id) {
         Loan loan = loanRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
 
@@ -246,6 +250,7 @@ public class LoanService {
     }
 
     // GET USER OBJECT from Related Loan
+    @Transactional
     public User getUserInfoInLoan (Long id) {
         Loan loan = loanRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
 
